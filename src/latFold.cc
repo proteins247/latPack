@@ -100,7 +100,7 @@ static const std::string seedInfo =
 	"seed for random number generator "
 	"[uses biu::RNG_ARS4x32, a counter-based generator from the Random123 library]";
 static const std::string runsInfo =
-	"number of folding simulations to perform; Note, for each run the random number generator initialized with 'seed'+runNumber";
+	"number of folding simulations to perform";
 static const std::string latticeInfo =
 	"which lattice to use: CUB, SQR or FCC";
 static const std::string ofileInfo =
