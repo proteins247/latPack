@@ -1,0 +1,232 @@
+========== BEGIN OF TEST =================
+ test class : LatticeProtein_Ipnt
+==========================================
+seqShared = false
+=> creating biu::LatticeDescriptorCUB() = ld
+=> creating biu::LatticeModel(ld) = lm
+=> creating biu::Alphabet(HP,1) = alph
+=> creating biu::EnergyMatrix(0.0,2,2) = E
+-1 0 
+0 0 
+
+=> creating biu::ContactEnergyFunction( alph, E, lm) = f
+=> PHPHHPH = seqStr
+=> FRUULU  = relMoveStr
+=> FRULFD  = absMoveStr
+=> creating biu::LatticeProtein_Ipnt(lm,f,alph.getSequence(seqStr),seqShared,relMoveStr,false) = lp
+->(*(lp.getLatticeModel()) == lm)  = true
+->(*(getEnergyFunction()) == f)  = true
+->(alph.getString(lp.getSequence()) == seqStr)  = true
+->(lm.getString(lp.getStructure()) == relMoveStr)  = true
+->getStringRepresentation()  = FRULFD(PHPHHPH)
+->getEnergy()  = -2
+->getMoveStrAbs()  = FRULFD
+->(lp.getMoveStrAbs() == absMoveStr)  = true
+->lm.getString(lp.getMoveSeqAbs()) == absMoveStr  = true
+->getMoveStrRel()  = FRUULU
+->(lm.getString(lp.getMoveSeqRel()) == lp.getMoveStrRel()  = true
+->(lm.getString(lm.relMovesToAbsMoves(lp.getMoveSeqRel())) == absMoveStr)  = true
+->get3Ddata().size()  = 7
+->getDRMSD(*this)  = 0
+->isSelfAvoiding()  = true
+->isConnected()  = true
+->isValid()  = true
+->lp2 = lp
+-> lp2 == lp ? true
+-> lp2 != lp ? false
+lp2.getStringRepresentation() = FRULFD(PHPHHPH)
+lp2.setMoveStrAbs(moveString)
+lp2.getStringRepresentation() = FFFFFF(PHPHHPH)
+lp2.getLength() = 7
+LatticeProtein_Ipnt lp_ipnt(&lm,&f,&seq,seqShared,"FFLFFF",false);
+lp_ipnt = lp;
+-> lp_ipnt == lp ? true
+-> lp_ipnt != lp ? false
+LatticeProtein_Ipnt lp_ipnt2(&lm,&f,&seq,seqShared,relMoveStr,false);
+lp_ipnt2 = *(dynamic_cast<LatticeProtein_I*>(&lp2));
+-> lp_ipnt2 == lp2 ? true
+-> lp_ipnt2 != lp2 ? false
+LatticeProtein_Ipnt* lp_fromString = lp.fromString("RRRRRR(PPPPPPP)")
+lp_fromString->getStringRepresentation() = RRRRRR(PPPPPPP)
+
+seqShared = true
+=> creating biu::LatticeDescriptorCUB() = ld
+=> creating biu::LatticeModel(ld) = lm
+=> creating biu::Alphabet(HP,1) = alph
+=> creating biu::EnergyMatrix(0.0,2,2) = E
+-1 0 
+0 0 
+
+=> creating biu::ContactEnergyFunction( alph, E, lm) = f
+=> PHPHHPH = seqStr
+=> FRUULU  = relMoveStr
+=> FRULFD  = absMoveStr
+=> creating biu::LatticeProtein_Ipnt(lm,f,alph.getSequence(seqStr),seqShared,relMoveStr,false) = lp
+->(*(lp.getLatticeModel()) == lm)  = true
+->(*(getEnergyFunction()) == f)  = true
+->(alph.getString(lp.getSequence()) == seqStr)  = true
+->(lm.getString(lp.getStructure()) == relMoveStr)  = true
+->getStringRepresentation()  = FRULFD(PHPHHPH)
+->getEnergy()  = -2
+->getMoveStrAbs()  = FRULFD
+->(lp.getMoveStrAbs() == absMoveStr)  = true
+->lm.getString(lp.getMoveSeqAbs()) == absMoveStr  = true
+->getMoveStrRel()  = FRUULU
+->(lm.getString(lp.getMoveSeqRel()) == lp.getMoveStrRel()  = true
+->(lm.getString(lm.relMovesToAbsMoves(lp.getMoveSeqRel())) == absMoveStr)  = true
+->get3Ddata().size()  = 7
+->getDRMSD(*this)  = 0
+->isSelfAvoiding()  = true
+->isConnected()  = true
+->isValid()  = true
+->lp2 = lp
+-> lp2 == lp ? true
+-> lp2 != lp ? false
+lp2.getStringRepresentation() = FRULFD(PHPHHPH)
+lp2.setMoveStrAbs(moveString)
+lp2.getStringRepresentation() = FFFFFF(PHPHHPH)
+lp2.getLength() = 7
+LatticeProtein_Ipnt lp_ipnt(&lm,&f,&seq,seqShared,"FFLFFF",false);
+lp_ipnt = lp;
+-> lp_ipnt == lp ? true
+-> lp_ipnt != lp ? false
+LatticeProtein_Ipnt lp_ipnt2(&lm,&f,&seq,seqShared,relMoveStr,false);
+lp_ipnt2 = *(dynamic_cast<LatticeProtein_I*>(&lp2));
+-> lp_ipnt2 == lp2 ? true
+-> lp_ipnt2 != lp2 ? false
+LatticeProtein_Ipnt* lp_fromString = lp.fromString("RRRRRR(PPPPPPP)")
+lp_fromString->getStringRepresentation() = RRRRRR(PPPPPPP)
+
+using FCC:
+seqShared = false
+=> creating biu::LatticeDescriptorFCC() = ld
+=> creating biu::LatticeModel(ld) = lm
+=> creating biu::Alphabet(HP,1) = alph
+=> creating biu::EnergyMatrix(0.0,2,2) = E
+-1 0 
+0 0 
+
+=> creating biu::ContactEnergyFunction( alph, E, lm) = f
+=> PHPHHPH = seqStr
+=> LULULULULULU  = absMoveStr
+=> creating biu::LatticeProtein_Ipnt(lm,f,alph.getSequence(seqStr),seqShared,relMoveStr,true) = lp
+->(*(lp.getLatticeModel()) == lm)  = true
+->(*(getEnergyFunction()) == f)  = true
+->(alph.getString(lp.getSequence()) == seqStr)  = true
+->printing coordinates:
+  0  0  0
+  0  1  1
+  0  2  2
+  0  3  3
+  0  4  4
+  0  5  5
+  0  6  6
+->(lm.getString(lp.getStructure()) == absMoveStr)  = false
+->getStringRepresentation()  = LULULULULULU(PHPHHPH)
+->getEnergy()  = 0
+->getMoveStrAbs()  = LULULULULULU
+->(lp.getMoveStrAbs() == absMoveStr)  = true
+->lm.getString(lp.getMoveSeqAbs()) == absMoveStr  = true
+->getMoveStrRel()  = FLFLFLFLFLFL
+->(lm.getString(lp.getMoveSeqRel()) == lp.getMoveStrRel()  = true
+lm.getString(lp.getMoveSeqAbs()) = LULULULULULU
+lm.getString(lp.getMoveSeqRel()) = FLFLFLFLFLFL
+lm.getString(lm.relMovesToAbsMoves(lp.getMoveSeqRel()) = FLFLFLFLFLFL
+absMoveStr = LULULULULULU
+->(lm.getString(lm.relMovesToAbsMoves(lp.getMoveSeqRel())) == absMoveStr)  = false
+->get3Ddata().size()  = 7
+->getDRMSD(*this)  = 0
+->isSelfAvoiding()  = true
+->isConnected()  = true
+->isValid()  = true
+->lp2 = lp
+-> lp2 == lp ? true
+-> lp2 != lp ? false
+lp2.getStringRepresentation() = LULULULULULU(PHPHHPH)
+lp2.setMoveStrAbs(moveString)
+lp2.getStringRepresentation() = FLFLFLFLFLFL(PHPHHPH)
+lp2.getLength() = 7
+LatticeProtein_Ipnt lp_ipnt(&lm,&f,&seq,seqShared,"FLFLFLFLFLFL",false);
+lp_ipnt = lp;
+-> lp_ipnt == lp ? true
+-> lp_ipnt != lp ? false
+LatticeProtein_Ipnt lp_ipnt2(&lm,&f,&seq,seqShared,relMoveStr,false);
+lp_ipnt2 = *(dynamic_cast<LatticeProtein_I*>(&lp2));
+-> lp_ipnt2 == lp2 ? true
+-> lp_ipnt2 != lp2 ? false
+LatticeProtein_Ipnt* lp_fromString = lp.fromString("RRRRRR(PPPPPPP)")
+lp_fromString->getStringRepresentation() = FRFRFRFRFRFR(PPPPPPP)
+
+seqShared = true
+=> creating biu::LatticeDescriptorFCC() = ld
+=> creating biu::LatticeModel(ld) = lm
+=> creating biu::Alphabet(HP,1) = alph
+=> creating biu::EnergyMatrix(0.0,2,2) = E
+-1 0 
+0 0 
+
+=> creating biu::ContactEnergyFunction( alph, E, lm) = f
+=> PHPHHPH = seqStr
+=> LULULULULULU  = absMoveStr
+=> creating biu::LatticeProtein_Ipnt(lm,f,alph.getSequence(seqStr),seqShared,relMoveStr,true) = lp
+->(*(lp.getLatticeModel()) == lm)  = true
+->(*(getEnergyFunction()) == f)  = true
+->(alph.getString(lp.getSequence()) == seqStr)  = true
+->printing coordinates:
+  0  0  0
+  0  1  1
+  0  2  2
+  0  3  3
+  0  4  4
+  0  5  5
+  0  6  6
+->(lm.getString(lp.getStructure()) == absMoveStr)  = false
+->getStringRepresentation()  = LULULULULULU(PHPHHPH)
+->getEnergy()  = 0
+->getMoveStrAbs()  = LULULULULULU
+->(lp.getMoveStrAbs() == absMoveStr)  = true
+->lm.getString(lp.getMoveSeqAbs()) == absMoveStr  = true
+->getMoveStrRel()  = FLFLFLFLFLFL
+->(lm.getString(lp.getMoveSeqRel()) == lp.getMoveStrRel()  = true
+lm.getString(lp.getMoveSeqAbs()) = LULULULULULU
+lm.getString(lp.getMoveSeqRel()) = FLFLFLFLFLFL
+lm.getString(lm.relMovesToAbsMoves(lp.getMoveSeqRel()) = FLFLFLFLFLFL
+absMoveStr = LULULULULULU
+->(lm.getString(lm.relMovesToAbsMoves(lp.getMoveSeqRel())) == absMoveStr)  = false
+->get3Ddata().size()  = 7
+->getDRMSD(*this)  = 0
+->isSelfAvoiding()  = true
+->isConnected()  = true
+->isValid()  = true
+->lp2 = lp
+-> lp2 == lp ? true
+-> lp2 != lp ? false
+lp2.getStringRepresentation() = LULULULULULU(PHPHHPH)
+lp2.setMoveStrAbs(moveString)
+lp2.getStringRepresentation() = FLFLFLFLFLFL(PHPHHPH)
+lp2.getLength() = 7
+LatticeProtein_Ipnt lp_ipnt(&lm,&f,&seq,seqShared,"FLFLFLFLFLFL",false);
+lp_ipnt = lp;
+-> lp_ipnt == lp ? true
+-> lp_ipnt != lp ? false
+LatticeProtein_Ipnt lp_ipnt2(&lm,&f,&seq,seqShared,relMoveStr,false);
+lp_ipnt2 = *(dynamic_cast<LatticeProtein_I*>(&lp2));
+-> lp_ipnt2 == lp2 ? true
+-> lp_ipnt2 != lp2 ? false
+LatticeProtein_Ipnt* lp_fromString = lp.fromString("RRRRRR(PPPPPPP)")
+lp_fromString->getStringRepresentation() = FRFRFRFRFRFR(PPPPPPP)
+testing getEnergy with FCC:
+=> creating biu::LatticeDescriptorFCC() = ld
+=> creating biu::LatticeModel(ld) = lm
+=> creating biu::Alphabet(HP,1) = alph
+=> creating biu::EnergyMatrix(0.0,2,2) = E
+-1 0 
+0 0 
+
+=> creating biu::ContactEnergyFunction( alph, E, lm) = f
+=> HHHH = seqStr
+=> FLFRBR  = absMoveStr
+=> creating biu::LatticeProtein_Ipnt(lm,f,alph.getSequence(seqStr),seqShared,absoveStr,true) = lp
+lp.getEnergy() = -1
+============= END OF TEST ================
+

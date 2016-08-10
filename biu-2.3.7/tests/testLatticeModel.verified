@@ -1,0 +1,30 @@
+========== BEGIN OF TEST =================
+ test class : LatticeModel
+==========================================
+=> creating biu::LatticeDescriptorCUB() = ld
+=> creating biu::LatticeModel(ld)
+->getDescriptor()->getName()  = cub
+->areNeighbored(IntPoint(0,0,0), IntPoint(2,2,2))  = false
+->areNeighbored(IntPoint(0,0,0), IntPoint(0,0,1))  = true
+-> FFLUURBLDD = moveStr
+->(getString(lm.parseMoveString(moveStr)) == moveStr)  = true
+-> IPointVec(...) = points
+->(absMovesToPoints(lm.pointsToAbsMoves(points)) == points)  = true
+->(relMovesToPoints(lm.pointsToRelMoves(points)) == points)  = false
+->(relMovesToPoints(lm.pointsToRelMoves(points), toFill)
+toFill =
+0  0  0
+1  0  0
+2  0  0
+2  -1  0
+2  -2  0
+->getString(MoveSequence(1,getAbsMove(IntPoint(0,0,0), IntPoint(0,0,1))))  = U
+->getAllNeighPoints(IntPoint(0,0,0)).size()  = 6
+-> test of return values of getAllNeighPoints  = ok
+->applyAbsMove(IntPoint(2,2,2), lm.parseMoveString(U)[0])  = (2  2  3)
+->(lm.getString( lm.absMovesToRelMoves( lm.relMovesToAbsMoves( lm.parseMoveString( moveStr)))) == moveStr)  = true
+LatticeModel lm2 = LatticeModel(lm);
+->applyAbsMove(IntPoint(2,2,2), lm2.parseMoveString(U)[0])  = (2  2  3)
+(lm==lm2) = true
+============= END OF TEST ================
+

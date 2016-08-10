@@ -1,0 +1,41 @@
+========== BEGIN OF TEST =================
+ test class : Graph_UD
+==========================================
+=> creating biu::Graph_UD(5)
+->nodes() = 5
+->edges() = 0
+->connectComponents = 5
+->addEdge(0,4)
+->addEdge(0,3)
+->addEdge(4,3)
+->addEdge(2,1)
+->printDOT(cout) : 
+graph G {
+ 0; 1; 2; 3; 4;
+ 0--3;
+ 0--4;
+ 1--2;
+ 3--4;
+}
+->edges() = 4
+->connectComponents = 2
+  labels =   0(0)  1(1)  2(1)  3(0)  4(0)
+->setNodeNumber(4)
+->nodes() = 4
+->edges() = 2
+->printDOT(cout) : 
+graph G {
+ 0; 1; 2; 3;
+ 0--3;
+ 1--2;
+}
+graph.remEdge(0,3)
+->printDOT(cout) : 
+graph G {
+ 0; 1; 2; 3;
+ 1--2;
+}
+graph.isEdge(2,1) = 1
+graph.degree(1) = 1
+============= END OF TEST ================
+

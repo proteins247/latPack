@@ -1,0 +1,16 @@
+========== BEGIN OF TEST ==================
+ test function : RNG_ARS4x32
+===========================================
+=> creating RNG_ARS4x32()
+-> getMaxRN() = 4294967295
+==> testing rng & seed
+-> setSeed(1)
+-> test passed for 10 random numbers
+==> testing rng & seed
+-> setSeed(50)
+-> test passed for 10 random numbers
+==> testing rng & seed
+-> setSeed(123456)
+-> test passed for 10 random numbers
+============= END OF TEST =================
+

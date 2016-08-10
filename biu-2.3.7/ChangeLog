@@ -1,0 +1,400 @@
+
+
+version 2.3.7
+
+2016-08-08 Martin Mann
+	* configure.ac 
+	  * bugfix : double call of AM_INIT_AUTOMAKE -> reduced to one
+	  * CXXFLAGS : -march=native : for biu/Random123 compilation
+	+ biu/Random123 : RNG lib v1.09 by D. E. Shaw Research. 
+	  See LICENSE-1.09 for further details
+	  (thanks to Victor Zhao for suggestion)
+	* RandomNumberGenerator :
+	  + RNG_ARS4x32 : RNG based on Random123 ARS4x32 random number generator
+	    (thanks to Victor Zhao)
+	+ tests/testRNG_ARS4x32 : test for new RNG
+
+2010-08-15 Martin Mann
+	* configure.ac : adaptions
+	  + AM_INIT_AUTOMAKE([subdir-objects])
+	  + AM_PROG_CC_C_O
+	  - AM_PROG_CC
+
+version 2.3.6
+
+2010-04-02 Martin Mann
+	* LimitedHash:
+	  * BUGFIX : iterator template definition was not correct causing compiler
+	    errors (thanks to Jiabin Huang)
+
+version 2.3.5
+
+2010-01-12 Daniel Maticzka
+	* PullMoveSet:
+	  + triangular pull moves: this is the new default for all move sets
+	    having "triangles" (right now: FCC)
+
+version 2.3.4
+
+2009-11-08 Martin Mann
+	* LatticeDescriptor:
+	  + isPossibleRing : checks whether or not a selfavoiding ring of a given
+	    size is possible within the lattice or not
+	* LatticeDescriptor* : implementation of new method
+	* PullMoveSet : uses new method for assertion check
+
+2009-11-03 Martin Mann
+	* LatticeDescriptor:
+	  + isLatticeNode : checks whether or not a given IntPoint is a valid
+	    (via base vectors reachable) lattice node
+	* LatticeDescriptor* : implementation of new method
+
+version 2.3.3
+
+2009-10-16 Martin Mann
+	* test output : LatticeDescriptorSQR : automorphism data change considered
+
+2009-10-07 Martin Mann
+	* LatticeDescriptor :
+	  + getAllSymmetricSequences : generates all symmetric move sequences for
+	    a given move sequence according to the automorphisms of the lattice
+	* LatticeDescriptorSQR : BUGFIX : automorphism data was not correct
+	* tests : LatticeDescriptor tests extended
+
+2009-09-28 Martin Mann
+	* BUGFIX : PullMoveSet : was not returning valid structures only
+	* tests : LatticeUtilProtein.hh : supports for ASCII output of 2D-square
+	  structure coordinates
+
+2009-09-25 Martn Mann
+	* PullMoveSet : source code revisited and cleaned
+	* testPullMoveSet : 
+	  * BUGFIX : now working for SQR lattice
+	  + additional output and checks
+	* tests :
+	  + new Makefile structure : allows for separate run of single tests via a
+	    call 'make testXXX.diff'
+	  + added debug mode compilation for tests to get asserts checked
+	  + includes updated to "biu/.."
+	
+2009-09-15 Martin Mann
+	* LatticeProtein_I : clone() is now a const function
+
+version 2.3.2
+
+2009-08-18 Martin Mann
+	* assert replaced with assertbiu statements
+
+2009-08-06 Martin Mann
+	* all source files : added cvs tag information
+
+2009-08-03 Martin Mann
+	* MatrixSparse : second version that stores data columnwise
+
+2009-07-22 Martin Mann
+	* MatrixSparse : bugfix and tests extended
+
+2009-07-21 Martin Mann
+	+ MatrixSparse : sparse matrix implementation based on hashes/maps 
+
+version 2.3.1
+
+2009-06-30 Martin Mann
+	* LatticeDescriptor and LatticeDescriptorXXX : 
+	  + virtual function : getBaseScale : calculates the base vector 
+	    multiplicator to scale all neighbor vectors to a given length
+
+2009-05-26 Martin Mann
+	* configure.ac
+	  + check for host_os to set windows specific linker flags
+
+2009-05-13 Martin Mann
+	* LatticeFrame : 
+	  * indexed neighborhood vectors are now stored and not 
+	    generated on demand --> now access via constant reference
+	- IndexSet : replaced by LatticeFrame::index_set 
+	- IndexVec : replaced by LatticeFrame::index_vec 
+
+2009-04-22 Martin Mann
+	* includes updated to "biu/.."
+	* header defines changed to "BIU_.."
+
+version 2.3.0
+
+2009-03-24 Martin Mann
+	* configure : now checking for std::unordered_map etc to set HashMap defines
+	* HashMap :
+	  + more defines what hash or map is available
+	  + hash_string function useful for gnu::hash_map use
+	* LimitedHash, Alphabet, OptionParser, LatticeNeighborhood
+	  * updated for utilization of new HashMap information
+
+2009-03-23 Martin Mann
+	+ LimitedHash : a hash implementation that respects a given upper bound K 
+	  on stored elements and that keeps at least the K/2 last inserted ones. 
+
+2009-03-06 Martin Mann
+	* Point : + multiplication and division with constant without assignment
+
+2009-01-16 Martin Mann
+	* Timer : include updated to be compatible to g++ 4
+	
+2009-01-14 Martin Mann
+	* acinclude.m4 : small changes to be compatible to newer autotools
+	
+version 2.2.0 Martin Mann
+
+2008-12-17 Daniel Maticzka
+	* minor fixes to ensure ISO-C compliance
+	* minor fixes regarding comparison of signed & unsigned
+
+2008-11-21 Martin Mann
+	* tests/Makefile.am : configure DEFINES enabled
+	* now configure checks for availablity of GNU hash_map and if present 
+	  it is used instead of std::map 
+	  + creates now "src/biu/HashMap.hh" where the define and includes will be
+
+2008-11-19 Martin Mann
+	+ RNAStructure_TB : new RNA structure implementation supporting single moves
+	  and shift moves by Salem Dekelbab
+	  + getNextSingleMove() : calculates the next valid InDel move
+
+2008-11-18 Martin Mann
+	* AllowedBasePairs : replaced with more efficient matrix based 
+	  implementation by Salem Dekelbab
+
+version 2.1.0 Martin Mann
+
+2008-10-22 Martin Mann
+	* Graph_UD : DOT output fixed (missing semicolons)
+
+2008-10-17 Martin Mann
+	* Alphabet 
+	  + compressS(string) : direct compression of string to CSequence
+	  + decompressS(..)  : direct decompression INTO a string
+	 
+2008-10-15 Daniel Maticzka
+	* added proper includes to make compile with gcc-4.3
+	* LatticeProtein_Ipnt: added braces to remove compiler warning
+
+2008-10-06 Martin Mann
+	* Alphabet : 
+	  * (de)compress : the compressed CSequences will now generate the same
+	    lexicographically order than the source Sequences. Now the first
+	    position is encoded with the highest compression base and thus the 
+	    order is ensured.
+
+2008-08-29 Martin Mann
+	* LatticeDescriptorSQR : changed L <--> R moves
+	* LatticeDescriptorCUB : changed L <--> R moves
+
+2008-08-20 Martin Mann
+	* Graph_UD : access to adjacent nodes added (via iterator)
+
+version 2.0.1 Martin Mann
+
+2008-07-09 Martin Mann
+	* IntervalEnergyFunction : bugfix : wrong spelling
+
+version 2.0.0 Martin Mann
+
+2008-06-23 Martin Mann
+	!!! NOTE : INCOMPATIBLE CHANGES TO VERSION 1.7.0 !!!
+	* DistanceEnergyFunction : extended interface for internal distance 
+	  calculation
+	* ContactEnergyFunction : now subclass of DistanceEnergyFunction and 
+	  slightly changed interface
+	- ContactEnergyFunction.hh : content now part of DistanceEnergyFunction.hh
+	* LatticeProtein : uses now a DistanceEnergyFunction
+	* LatticeProtein_I : -- " --
+	* LatticeProtein_Ipnt : -- " --
+	* OffLatticeProtein : conversion to LatticeProtein interface changed
+	* Alphabet : additional asserts
+	* tests updated
+
+2008-06-19 Martin Mann
+	* Matrix : additional asserts and reference member access function 'at'
+
+2008-06-19 version 1.7.0 Martin Mann
+
+2008-06-18 Martin Mann
+	+ DistanceEnergyFunction : abstract interface for distance based energy
+	  functions
+	+ IntervalEnergyFunction : is a DistanceEnergyFunction that allows to use
+	  different energy tables for specified successive distance intervals.
+	  Inside of an interval there is no distance dependency.
+	* configure.ac : check for 'pkg-config' program added to ensure that it is
+	  only used for library version check if present
+
+2008-05-27 version 1.6.1 Daniel Maticzka
+
+2008-05-23 Daniel Maticzka
+	* LatticeProtein_I & Lattice_Protein_Ipnt : new function fromString() to
+		generate new LatticeProteins from string representation
+
+2008-05-21 Martin Mann
+	* Alphabet : data type changed : unsigned int --> size_t
+	 
+2008-05-08 version 1.6.0 Martin Mann
+
+2008-04-30 Daniel Maticzka
+	* PivotMoveSet : always returns selfavoiding proteins
+
+2008-04-29 Daniel Maticzka
+	* PivotMoveSet : enabled, produced proteins not neccessarily selfavoiding
+
+2008-04-01 Daniel Maticzka
+	* LatticeProtein_Ipnt: additional tests using FCC
+
+2008-03-28 Daniel Maticzka
+	* LatticeModel: bugfix : relMovesToAbsMoves conversion didn't work with FCC
+	* PullMoveSet : works with FCC 
+	* LatticeModel : bugfix : relMovesToPoints conversion didn't work with FCC
+	* LatticeDescriptorFCC : bugfix : neighborhood test produced false positives
+	* LatticeModel : removed duplicate code in relMovesToPoints
+
+2008-03-23 Daniel Maticzka
+	* PullMoveSet : additional tests using FCC
+
+2008-03-17 Daniel Maticzka
+	* LatticeProtein_Ipnt : bugfix : comparison of seq-length & point-length
+	* LatticeProtein_Ipnt : additional tests using FCC
+
+2008-02-27 Martin Mann
+	* LatticeProtein_Ipnt : bugfix : comparison of seq-length & point-length
+	
+2008-02-20 version 1.5.1 Martin Mann
+
+2008-02-19 Martin Mann
+	* RNAStructure : check if structure is valid before doing the rnaBond init
+	
+2008-02-15 Daniel Maticzka
+	* PullMoveSet: fixed bug resulting in non selfavoiding proteins
+
+2008-02-12 version 1.5.0 Martin Mann
+
+2008-02-11 Daniel Maticzka
+	* moved all RNG related classes from ELL to BIU
+
+2008-02-08 Martin Mann
+	* bugfix : Matrix : resize : no initialisation was done but expected
+
+2008-02-07 Daniel Maticzka
+	* changed html documentation stylesheet for improved readability
+
+2008-02-07 Martin Mann
+	* LatticeDescriptor : new member function "areNeighbored" that allows for 
+	  specialised testing routines for different lattices.
+	* LatticeDescriptorSQR, LatticeDescriptorCUB, LatticeDescriptorFCC : new
+	  member "areNeighbored" overwritten with specialised algorithm
+	* LatticeModel : "areNeighbored" just calls same routine of 
+	  LatticeDescriptor instead LatticeNeighborhood.isElement
+	* RNAStructure : bugfix of 2 asserts
+	* documentation
+	* Matrix : resize : now copies old content and allows for initialisation of
+	  new matrix elements
+	* VirtualList : next interface slightly changed and important documentation
+	  added
+	   
+	
+2008-02-05 Daniel Maticzka
+	* LatticeMoveSet: removed getMoveNumber default parameter
+	* PullMoveSet : parameter moveIndex now const
+	* PullMoveSet : testing shared PullMoveDecoder
+
+2008-02-06 Martin Mann
+	* Matrix : constructor replaced : now init with T* array possible
+	* testVirtualList : random() function call replaced to get system 
+	  independent test
+	* Matrix : interface slightly changed (dependent classes and tests changed 
+	  too) and documentation completed
+
+2008-02-05 Martin Mann
+	* PullMoveSet : support for shared PullMoveDecoder added (tests updated)
+	 
+2008-02-05 version 1.4.5 Martin Mann
+	* RNAStructure : support for shared sequences and setter for structure added
+
+2008-01-30 Martin Mann
+	* Matrix : internal indices and parameters changed to size_t
+
+Daniel Maticzka
+	* PullMoveSet: added copy constructor and operator=
+	* additional documentation for new features
+	* LatticeProtein_I.icc -> LatticeProtein_I.cc, removed inlines
+	* LatticeProtein_Ipnt: getPointsRef calls updateProperties
+	* LatticeProtein: renamed getPointsConstRef -> getPointsRef
+	+ LatticeProtein_I: added definition for setMoveStrAbs
+	+ Latticeprotein_Ipnt: added implementation of setMoveStrAbs & tests
+
+2008-01-08 Martin Mann
+	* OptionParser: error handling for empty input for an argument
+
+2007-12-18 version 1.4.3 Martin Mann <mmann@informatik.uni-freiburg.de>
+
+
+	* PullMoveSet now returns NULL in case of invalid move
+	* every PullMoveSet::RelativeInt now has it's own direction
+	* changed Interface: MoveSet::undoLastMove(), 
+								LatticeProtein_I -> LatticeProtein
+
+2007-12-10 Daniel Maticzka <maticzkd@informatik.uni-freiburg.de>
+	* bugfix: PullMoveSet: straight pulls now local
+	* bugfix: PullMoveSet: fixed computation of lastPullPosition
+	+ PullMoveSet: added test for move reversibility
+	+ PullMoveSet: added test for move sequence "FFRLRRFF"
+
+2007-11-30 version 1.4.2 Daniel Maticzka <maticzkd@informatik.uni-freiburg.de>
+	* additional clone method for LatticeProtein_I implementations 
+
+2007-11-12 version 1.4.1 Daniel Maticzka <maticzkd@informatik.uni-freiburg.de>
+	* PullMoveSet: pull move implementation for lattice proteins
+	- PivotMoveSet: temporarily disabled
+
+2007-10-28 version 1.4.0  Martin Mann  <mmann@informatik.uni-freiburg.de>
+	* LatticeProtein subclassing introduced for more efficiency
+	* tests updated
+
+2007-10-22 version 1.3.0  Martin Mann  <mmann@informatik.uni-freiburg.de>
+	* Graph_UD class added : undirected graph class including connected 
+	  component detection
+
+2007-08-07 version 1.2.4  Martin Mann  <mmann@informatik.uni-freiburg.de>
+	* Alphabet : sequence (de)compression added
+
+2007-07-11 version 1.2.3  Martin Mann  <mmann@informatik.uni-freiburg.de>
+	* LatticeDescriptor : normalization of move sequences added
+	+ testLatticeDescriptorCUB added
+
+2007-07-11 version 1.2.2  Martin Mann  <mmann@informatik.uni-freiburg.de>
+	* bugfix : make install not complete for biu/util headers
+	* testContactEnergyFunction updated
+	
+2007-07-06 version 1.2.1  Daniel Maticzka   <maticzkd@informatik.uni-freiburg.de>
+    * moved following classes from ELL to BIU:
+      - AllowedBasePairs
+      - Alphabet
+      - BackboneStructure3D
+      - BioMolecule
+      - ContactEnergyFunction
+      - LatticeDescriptor
+      - LatticeDescriptorCUB
+      - LatticeDescriptorFCC
+      - LatticeDescriptorSQR
+      - LatticeFrame
+      - LatticeModel
+      - LatticeMoveSet
+	  - LatticeNeighborhood
+	  - LatticeProtein
+	  - NeighborVector
+	  - OffLatticeProtein
+	  - PivotMoveSet
+	  - Point
+	  - RNAStructure
+
+2007-03-15  version 1.1  Martin Mann  <mmann@informatik.uni-freiburg.de>
+	* OptionParser information output fixed
+	
+2006-07-13  Martin Mann  <mmann@informatik.uni-freiburg.de>
+
+	* automake added

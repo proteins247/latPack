@@ -1,0 +1,31 @@
+========== BEGIN OF TEST =================
+ test template class : Point3D
+==========================================
+=> creating biu::IntPoint(1  2  3) = p1
+=> creating biu::IntPoint(1  0  -1) = p2
+
+->(p1 == p1)  = true
+->(p1 == p2)  = false
+->(p1 != p1)  = false
+->(p1 != p2)  = true
+->(p1 +  p2)  = 2  2  2
+->(p1 -  p2)  = 0  -2  -4
+->(p1 += 1)   = 2  3  4
+->(p1 -= 1)   = 1  2  3
+->(p1 *= 2)   = 2  4  6
+->(p1 /= 2)   = 1  2  3
+->(p3 = p1)   = 1  2  3
+->(p1 < p2)   = false
+->(p1 > p2)   = true
+->(p2 < p1)   = true
+->(p2 > p1)   = false
+->(p2 += IntPoint(0,1,1))  = 1  1  0
+->(p2 -= IntPoint(0,1,0))  = 1  0  0
+->p2.vectorLength()  = 1
+->p2.distance(IntPoint(2,0,0))  = 1
+->p2.isEven()  = false
+->p1.isEven()  = true
+->(-p1)  = -1  -2  -3
+
+============= END OF TEST ================
+

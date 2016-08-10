@@ -1,0 +1,15 @@
+========== BEGIN OF TEST =================
+ test class : LatticeNeighborhood
+==========================================
+=> creating biu::MoveAlphabet(FBLR,1) = alph
+=> creating corresponding NeighSet = neighbors
+=> creating biu::LatticeNeighborhood(alph,neighbors)
+->size()  = 4
+->isElement(IntPoint(3,3,3))  = false
+-> test elements of neighbor in LatticeNeighborhood:
+->isElement(..) = all ok
+->getElement(IntPoint(..)) = all ok
+->getElement(Move(..)) = all ok
+-> all iterator elements of LatticeNeighborhood are inside neighbors  = true
+============= END OF TEST ================
+

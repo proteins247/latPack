@@ -1,0 +1,12 @@
+========== BEGIN OF TEST =================
+ test class : AllowedBasePairs
+==========================================
+=> creating biu::Alphabet(ACGU,1) = alph
+=> creating string with basepairs = {A-U, C-G, G-U} 
+ bpStr = 'AU,GU,CG'
+=> creating biu::AllowedBasePairs( alph, bpStr)
+->getAlphabet().getSize() = 4
+->allowedBasePair(C,A) = false
+->allowedBasePair(C,G) = true
+============= END OF TEST ================
+

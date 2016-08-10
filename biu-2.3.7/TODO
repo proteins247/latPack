@@ -1,0 +1,19 @@
+
+
+ - Specialized PullMoves for triangular lattices (possibly latticedescriptor 
+   interface has to be extended to allow check if triangular or not)
+
+ - SquareMatrix : resize verhindern (ueberschreiben)
+    statische create funktion ist eigentlich mit neuem Matrix interface obsolete
+
+tests ueberarbeiten und auf komplettes Interface ausweiten :
+
+ - testMatrix : so ziemlich alles :)
+ - testAllowedBasePairs : vergleiche
+ - testLatticeDescriptorFCC : fehlt komplett
+ - testPullMoveSet : CHECK ob ALLE nachbarn enthalten und ALLE richtig !
+
+
+
+ LatticeDescriptor
+  - normalize specialisation for SQR and CUB

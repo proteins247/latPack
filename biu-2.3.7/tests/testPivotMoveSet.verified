@@ -1,0 +1,92 @@
+========== BEGIN OF TEST ==================
+ test function : PivotMoveSet
+===========================================
+=> HHHH = seqStr
+=> FFF  = absMoveStr
+=> 0 = seqShared
+=> creating biu::LatticeProtein_Ipnt(lm,f,seqStr,seqShared,absMoveStr,isAbsoluteMove) = lp
+->getMoveStrRel = FFF
+pms.getMoveNumber(lp) = 10
+Move: 0
+pms.applyMoveInPlace(lp,0) = FDF selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FFF
+Move: 1
+pms.applyMoveInPlace(lp,1) = FRF selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FFF
+Move: 2
+pms.applyMoveInPlace(lp,2) = FUF selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FFF
+Move: 3
+pms.applyMoveInPlace(lp,3) = FFF selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FFF
+Move: 4
+pms.applyMoveInPlace(lp,4) = FLF selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FFF
+Move: 5
+pms.applyMoveInPlace(lp,5) = FFD selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FFF
+Move: 6
+pms.applyMoveInPlace(lp,6) = FFR selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FFF
+Move: 7
+pms.applyMoveInPlace(lp,7) = FFU selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FFF
+Move: 8
+pms.applyMoveInPlace(lp,8) = FFF selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FFF
+Move: 9
+pms.applyMoveInPlace(lp,9) = FFL selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FFF
+=> HPHPPHP = seqStr
+=> FRRBLB  = absMoveStr
+=> 0 = seqShared
+=> creating biu::LatticeProtein_Ipnt(lm,f,seqStr,seqShared,absMoveStr,isAbsoluteMove) = lp
+->getMoveStrRel = FRFRRL
+pms.getMoveNumber(lp) = 15
+Move: 0
+pms.applyMoveInPlace(lp,0) = FFFRRL selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FRFRRL
+Move: 1
+pms.applyMoveInPlace(lp,1) = FLFRRL selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FRFRRL
+Move: 2
+pms.applyMoveInPlace(lp,2) = FRFRRL selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FRFRRL
+Move: 3
+pms.applyMoveInPlace(lp,3) = FRLRRL selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FRFRRL
+Move: 4
+pms.applyMoveInPlace(lp,4) = FRFRRL selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FRFRRL
+Move: 5
+pms.applyMoveInPlace(lp,5) = FRFRRL selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FRFRRL
+Move: 6
+pms.applyMoveInPlace(lp,6) = FRFFRL selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FRFRRL
+Move: 7
+pms.applyMoveInPlace(lp,7) = FRFLRL selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FRFRRL
+Move: 8
+pms.applyMoveInPlace(lp,8) = FRFRRL selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FRFRRL
+Move: 9
+pms.applyMoveInPlace(lp,9) = FRFRFL selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FRFRRL
+Move: 10
+pms.applyMoveInPlace(lp,10) = FRFRLL selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FRFRRL
+Move: 11
+pms.applyMoveInPlace(lp,11) = FRFRRL selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FRFRRL
+Move: 12
+pms.applyMoveInPlace(lp,12) = FRFRRL selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FRFRRL
+Move: 13
+pms.applyMoveInPlace(lp,13) = FRFRRL selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FRFRRL
+Move: 14
+pms.applyMoveInPlace(lp,14) = FRFRRL selfavoiding
+pms.undoLastMove(lp)->getMoveStrRel() = FRFRRL
+============= END OF TEST =================
+

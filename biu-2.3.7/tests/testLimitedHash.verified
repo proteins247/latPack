@@ -1,0 +1,31 @@
+========== BEGIN OF TEST =================
+ test template class : LimitedHash
+==========================================
+
+ create biu::LimitedHash< size_t, size_t > hash(6)
+
+ hash.max_size() = 6
+
+ hash [begin,end] = 
+
+ hash.insert( 1, 2 ) 
+ hash [begin,end] = 1, 
+
+ hash[1] = 1
+ hash[2] = 2
+ hash.size() = 2
+ hash [begin,end] = 1, 2, 
+
+ hash[1] = 1
+ hash[2] = 2
+ hash[3] = 3
+ hash[4] = 4
+ hash[5] = 5
+ hash[6] = 6
+ hash.size() = 6
+ hash [begin,end] = 1, 2, 3, 4, 5, 6, 
+
+ hash[7] = 7
+ hash.size() = 4
+ hash [begin,end] = 4, 5, 6, 7, 
+

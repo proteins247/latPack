@@ -1,0 +1,60 @@
+========== BEGIN OF TEST =================
+ test class : RNAStructure_TB 
+==========================================
+=> creating biu::Alphabet(ACGU,1) = alph
+=> creating string with basepairs = {A-U, C-G, G-U} 
+ bpStr = 'AU,GU,CG'
+=> creating biu::AllowedBasePairs( alph, bpStr)
+-->RNAStructure_TB rna(ACGUGCUGUAAGUCCCGUUU,..(...)..(..(...).).)
+
+-->rna.getNextSingleMove(...) : 
+ next = (0,8)
+ next = (0,19)
+ next = (1,7)
+ next = (2,6)
+ next = (7,19)
+ next = (9,18)
+ next = (10,17)
+ next = (11,17)
+ next = (12,16)
+
+-->RNAStructure_TB rna(AGGCUUGUAGCUCAGGUGGUUAGAGCGCACCCCUGAUAAGGGUGAGGUCGGUGGUUCAAGUCCACUCAGGCCUACCA,(((..(((.((((.........)))))))..)))......(((.((((((((((.......)))))..)))))))).)
+
+-->rna.getNextSingleMove(...) : 
+ next = (0,33)
+ next = (1,32)
+ next = (2,31)
+ next = (5,28)
+ next = (6,27)
+ next = (7,26)
+ next = (9,25)
+ next = (10,24)
+ next = (11,23)
+ next = (12,22)
+ next = (13,19)
+ next = (13,20)
+ next = (14,19)
+ next = (14,20)
+ next = (15,19)
+ next = (15,20)
+ next = (16,21)
+ next = (36,76)
+ next = (40,75)
+ next = (41,74)
+ next = (42,73)
+ next = (44,72)
+ next = (45,71)
+ next = (46,70)
+ next = (47,69)
+ next = (48,68)
+ next = (49,65)
+ next = (50,64)
+ next = (51,63)
+ next = (52,62)
+ next = (53,61)
+ next = (54,58)
+ next = (54,59)
+ next = (55,59)
+
+============= END OF TEST ================
+

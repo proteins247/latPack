@@ -1,0 +1,226 @@
+========== BEGIN OF TEST =================
+ test class : LatticeDescriptor
+==========================================
+
+=> creating biu::LatticeDescriptorSQR()
+->getName()  = sqr
+-> moveStr = FLBR
+-> moveStr.size = 4
+->getSequence(moveStr).size()  = 4
+->getString(ld.getSequence(moveStr)) == moveStr = true
+->getBase().size() = 3
+->getNeighborhood().size()  = 4
+->getAutomorphisms().size()  = 8
+->normalizeSequence(FLBR) = FRBL
+->getAllSymmetricSequences(FLBR) + normalize : 
+  'FRBL' == 'FRBL'
+  'FLBR' == 'FRBL'
+  'RFLB' == 'FRBL'
+  'RBLF' == 'FRBL'
+  'BRFL' == 'FRBL'
+  'BLFR' == 'FRBL'
+  'LFRB' == 'FRBL'
+  'LBRF' == 'FRBL'
+->isLatticeNode(0  0  0) = true
+->isLatticeNode(0  0  0) = true
+->isLatticeNode(1  0  0) = true
+->isLatticeNode(2  0  0) = true
+->isLatticeNode(0  1  0) = true
+->isLatticeNode(0  2  0) = true
+->isLatticeNode(0  0  1) = false
+->isLatticeNode(0  0  2) = false
+->isLatticeNode(1  1  0) = true
+->isLatticeNode(2  2  0) = true
+->isLatticeNode(0  1  1) = false
+->isLatticeNode(0  2  2) = false
+->isLatticeNode(1  0  1) = false
+->isLatticeNode(2  0  2) = false
+->isLatticeNode(1  1  1) = false
+->isLatticeNode(2  2  2) = false
+->isPossibleRing(0) = false
+->isPossibleRing(1) = false
+->isPossibleRing(2) = false
+->isPossibleRing(3) = false
+->isPossibleRing(4) = true
+->isPossibleRing(5) = false
+->isPossibleRing(6) = true
+->isPossibleRing(7) = false
+->isPossibleRing(8) = true
+->isPossibleRing(9) = false
+
+=> creating biu::LatticeDescriptorCUB()
+->getName()  = cub
+-> moveStr = FLUBRD
+-> moveStr.size = 6
+->getSequence(moveStr).size()  = 6
+->getString(ld.getSequence(moveStr)) == moveStr = true
+->getBase().size() = 3
+->getNeighborhood().size()  = 6
+->getAutomorphisms().size()  = 48
+->normalizeSequence(FLUBRD) = FRUBLD
+->getAllSymmetricSequences(FLUBRD) + normalize : 
+  'FRUBLD' == 'FRUBLD'
+  'FRDBLU' == 'FRUBLD'
+  'FURBDL' == 'FRUBLD'
+  'FULBDR' == 'FRUBLD'
+  'FLUBRD' == 'FRUBLD'
+  'FLDBRU' == 'FRUBLD'
+  'FDRBUL' == 'FRUBLD'
+  'FDLBUR' == 'FRUBLD'
+  'RFULBD' == 'FRUBLD'
+  'RFDLBU' == 'FRUBLD'
+  'RUFLDB' == 'FRUBLD'
+  'RUBLDF' == 'FRUBLD'
+  'RBULFD' == 'FRUBLD'
+  'RBDLFU' == 'FRUBLD'
+  'RDFLUB' == 'FRUBLD'
+  'RDBLUF' == 'FRUBLD'
+  'UFRDBL' == 'FRUBLD'
+  'UFLDBR' == 'FRUBLD'
+  'URFDLB' == 'FRUBLD'
+  'URBDLF' == 'FRUBLD'
+  'UBRDFL' == 'FRUBLD'
+  'UBLDFR' == 'FRUBLD'
+  'ULFDRB' == 'FRUBLD'
+  'ULBDRF' == 'FRUBLD'
+  'BRUFLD' == 'FRUBLD'
+  'BRDFLU' == 'FRUBLD'
+  'BURFDL' == 'FRUBLD'
+  'BULFDR' == 'FRUBLD'
+  'BLUFRD' == 'FRUBLD'
+  'BLDFRU' == 'FRUBLD'
+  'BDRFUL' == 'FRUBLD'
+  'BDLFUR' == 'FRUBLD'
+  'LFURBD' == 'FRUBLD'
+  'LFDRBU' == 'FRUBLD'
+  'LUFRDB' == 'FRUBLD'
+  'LUBRDF' == 'FRUBLD'
+  'LBURFD' == 'FRUBLD'
+  'LBDRFU' == 'FRUBLD'
+  'LDFRUB' == 'FRUBLD'
+  'LDBRUF' == 'FRUBLD'
+  'DFRUBL' == 'FRUBLD'
+  'DFLUBR' == 'FRUBLD'
+  'DRFULB' == 'FRUBLD'
+  'DRBULF' == 'FRUBLD'
+  'DBRUFL' == 'FRUBLD'
+  'DBLUFR' == 'FRUBLD'
+  'DLFURB' == 'FRUBLD'
+  'DLBURF' == 'FRUBLD'
+->isLatticeNode(0  0  0) = true
+->isLatticeNode(0  0  0) = true
+->isLatticeNode(1  0  0) = true
+->isLatticeNode(2  0  0) = true
+->isLatticeNode(0  1  0) = true
+->isLatticeNode(0  2  0) = true
+->isLatticeNode(0  0  1) = true
+->isLatticeNode(0  0  2) = true
+->isLatticeNode(1  1  0) = true
+->isLatticeNode(2  2  0) = true
+->isLatticeNode(0  1  1) = true
+->isLatticeNode(0  2  2) = true
+->isLatticeNode(1  0  1) = true
+->isLatticeNode(2  0  2) = true
+->isLatticeNode(1  1  1) = true
+->isLatticeNode(2  2  2) = true
+->isPossibleRing(0) = false
+->isPossibleRing(1) = false
+->isPossibleRing(2) = false
+->isPossibleRing(3) = false
+->isPossibleRing(4) = true
+->isPossibleRing(5) = false
+->isPossibleRing(6) = true
+->isPossibleRing(7) = false
+->isPossibleRing(8) = true
+->isPossibleRing(9) = false
+
+=> creating biu::LatticeDescriptorFCC()
+->getName()  = fcc
+-> moveStr = FLFRFUFDBLBRBUBDLULDRDRD
+-> moveStr.size = 24
+->getSequence(moveStr).size()  = 12
+->getString(ld.getSequence(moveStr)) == moveStr = true
+->getBase().size() = 3
+->getNeighborhood().size()  = 12
+->getAutomorphisms().size()  = 48
+->normalizeSequence(FLFRFUFDBLBRBUBDLULDRDRD) = FLBLLULDFRBRRURDFUFDBDBD
+->getAllSymmetricSequences(FLFRFUFDBLBRBUBDLULDRDRD) + normalize : 
+  'FLBLLULDFRBRRURDFUFDBDBD' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'FLBLLDLUFRBRRDRUFDFUBUBU' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'FLFRFUFDBLBRBUBDLULDRDRD' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'FLFRFDFUBLBRBDBULDLURURU' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'LURUFUBULDRDFDBDFLBLBRBR' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'LURUBUFULDRDBDFDBLFLFRFR' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'LULDFLBLRURDFRBRFUBUBDBD' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'LULDBLFLRURDBRFRBUFUFDFD' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'FUBULURUFDBDLDRDFLFRBRBR' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'FUBURULUFDBDRDLDFRFLBLBL' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'FUFDFLFRBUBDBLBRLURURDRD' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'FUFDFRFLBUBDBRBLRULULDLD' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'BLFLLULDBRFRRURDBUBDFDFD' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'BLFLLDLUBRFRRDRUBDBUFUFU' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'BLBRBUBDFLFRFUFDLULDRDRD' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'BLBRBDBUFLFRFDFULDLURURU' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'RULUFUBURDLDFDBDFRBRBLBL' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'RULUBUFURDLDBDFDBRFRFLFL' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'RURDFRBRLULDFLBLFUBUBDBD' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'RURDBRFRLULDBLFLBUFUFDFD' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'BUFULURUBDFDLDRDBLBRFRFR' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'BUFURULUBDFDRDLDBRBLFLFL' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'BUBDBLBRFUFDFLFRLURURDRD' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'BUBDBRBLFUFDFRFLRULULDLD' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'FRFLFUFDBRBLBUBDRURDLDLD' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'FRFLFDFUBRBLBDBURDRULULU' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'FRBRRURDFLBLLULDFUFDBDBD' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'FRBRRDRUFLBLLDLUFDFUBUBU' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'LDLUFLBLRDRUFRBRFDBDBUBU' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'LDLUBLFLRDRUBRFRBDFDFUFU' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'LDRDFDBDLURUFUBUFLBLBRBR' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'LDRDBDFDLURUBUFUBLFLFRFR' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'FDFUFLFRBDBUBLBRLDRDRURU' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'FDFUFRFLBDBUBRBLRDLDLULU' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'FDBDLDRDFUBULURUFLFRBRBR' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'FDBDRDLDFUBURULUFRFLBLBL' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'BRBLBUBDFRFLFUFDRURDLDLD' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'BRBLBDBUFRFLFDFURDRULULU' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'BRFRRURDBLFLLULDBUBDFDFD' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'BRFRRDRUBLFLLDLUBDBUFUFU' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'RDRUFRBRLDLUFLBLFDBDBUBU' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'RDRUBRFRLDLUBLFLBDFDFUFU' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'RDLDFDBDRULUFUBUFRBRBLBL' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'RDLDBDFDRULUBUFUBRFRFLFL' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'BDBUBLBRFDFUFLFRLDRDRURU' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'BDBUBRBLFDFUFRFLRDLDLULU' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'BDFDLDRDBUFULURUBLBRFRFR' == 'FLBLLULDFRBRRURDFUFDBDBD'
+  'BDFDRDLDBUFURULUBRBLFLFL' == 'FLBLLULDFRBRRURDFUFDBDBD'
+->isLatticeNode(0  0  0) = true
+->isLatticeNode(0  0  0) = true
+->isLatticeNode(1  0  0) = false
+->isLatticeNode(2  0  0) = true
+->isLatticeNode(0  1  0) = false
+->isLatticeNode(0  2  0) = true
+->isLatticeNode(0  0  1) = false
+->isLatticeNode(0  0  2) = true
+->isLatticeNode(1  1  0) = true
+->isLatticeNode(2  2  0) = true
+->isLatticeNode(0  1  1) = true
+->isLatticeNode(0  2  2) = true
+->isLatticeNode(1  0  1) = true
+->isLatticeNode(2  0  2) = true
+->isLatticeNode(1  1  1) = false
+->isLatticeNode(2  2  2) = true
+->isPossibleRing(0) = false
+->isPossibleRing(1) = false
+->isPossibleRing(2) = false
+->isPossibleRing(3) = true
+->isPossibleRing(4) = true
+->isPossibleRing(5) = true
+->isPossibleRing(6) = true
+->isPossibleRing(7) = true
+->isPossibleRing(8) = true
+->isPossibleRing(9) = true
+
+-> (LatticeDescriptorCUB() == LatticeDescriptorCUB())  = true
+-> (LatticeDescriptorCUB() != LatticeDescriptorSQR())  = true
+============= END OF TEST ================
+

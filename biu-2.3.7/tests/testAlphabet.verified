@@ -1,0 +1,20 @@
+========== BEGIN OF TEST =================
+ test class : Alphabet
+==========================================
+=> creating biu::Alphabet(HPNX,1)
+->getAlphabetSize() = 4
+->getElementLength() = 1
+->isAlphabetString(HPNXY)  = false
+-> HPPPHPHPHNNNXXXPPHHXXX = str
+->isAlphabetString(str)  = true
+->getElement(H)  = 0
+->getString(getElement(H))  = H
+-> (getString(getSequence(str) == str)  = true
+->getIndex(X)  = 3
+->getIndex(getElement(X))  = 3
+->getString(getElement(getIndex(X)))  = X
+-> (getString(decompress(compress(getSequence(str)))) == str) = true
+-> (getString(decompress(compressS(str))) == str) = true
+-> (decompressS(compressS(str)) == str) = true
+============= END OF TEST ================
+

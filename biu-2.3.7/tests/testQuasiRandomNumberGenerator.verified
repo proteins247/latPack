@@ -1,0 +1,58 @@
+========== BEGIN OF TEST =================
+ test class : QuasiRandomNumberGenerator
+==========================================
+=> creating QuasiRandomNumberGenerator
+->qrng->getQuasiRN() = 0.5
+->qrng->getQuasiRN() = 0.75
+->qrng->getQuasiRN() = 0.25
+->qrng->getQuasiRN() = 0.375
+->qrng->getQuasiRN() = 0.875
+->qrng->getQuasiRN() = 0.625
+->qrng->getQuasiRN() = 0.125
+->qrng->getQuasiRN() = 0.1875
+->qrng->getQuasiRN() = 0.6875
+->qrng->getQuasiRN() = 0.9375
+* Check if two QRNG's can be used independently:
+=> creating QuasiRandomNumberGenerators qrng1 & qrng2
+qrng1->getQuasiRN() = 0.5
+qrng2->getQuasiRN() = 0.5
+qrng1->getQuasiRN() = 0.75
+qrng2->getQuasiRN() = 0.75
+qrng1->getQuasiRN() = 0.25
+qrng2->getQuasiRN() = 0.25
+qrng1->getQuasiRN() = 0.375
+qrng2->getQuasiRN() = 0.375
+qrng1->getQuasiRN() = 0.875
+qrng2->getQuasiRN() = 0.875
+qrng1->getQuasiRN() = 0.625
+qrng2->getQuasiRN() = 0.625
+qrng1->getQuasiRN() = 0.125
+qrng2->getQuasiRN() = 0.125
+qrng1->getQuasiRN() = 0.1875
+qrng2->getQuasiRN() = 0.1875
+qrng1->getQuasiRN() = 0.6875
+qrng2->getQuasiRN() = 0.6875
+qrng1->getQuasiRN() = 0.9375
+qrng2->getQuasiRN() = 0.9375
+qrng1->getQuasiRN() = 0.4375
+qrng2->getQuasiRN() = 0.4375
+qrng1->getQuasiRN() = 0.3125
+qrng2->getQuasiRN() = 0.3125
+qrng1->getQuasiRN() = 0.8125
+qrng2->getQuasiRN() = 0.8125
+qrng1->getQuasiRN() = 0.5625
+qrng2->getQuasiRN() = 0.5625
+qrng1->getQuasiRN() = 0.0625
+qrng2->getQuasiRN() = 0.0625
+qrng1->getQuasiRN() = 0.09375
+qrng2->getQuasiRN() = 0.09375
+qrng1->getQuasiRN() = 0.59375
+qrng2->getQuasiRN() = 0.59375
+qrng1->getQuasiRN() = 0.84375
+qrng2->getQuasiRN() = 0.84375
+qrng1->getQuasiRN() = 0.34375
+qrng2->getQuasiRN() = 0.34375
+qrng1->getQuasiRN() = 0.46875
+qrng2->getQuasiRN() = 0.46875
+============= END OF TEST ================
+

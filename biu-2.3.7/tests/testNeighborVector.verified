@@ -1,0 +1,22 @@
+========== BEGIN OF TEST =================
+ test class : NeighborVector
+==========================================
+=> creating biu::MoveAlphabet(FBLR,1)
+=> creating biu::Automorphism({{1,0,0},{0,1,0},{0,0,1}}) = a2r
+=> creating a2r*2 = r2a
+=> creating biu::NeighborVector(1,0,0, alph.getElement(B), r2a, a2r)
+->getX()  = -1
+->getY()  = 0
+->getZ()  = 0
+->alph.getString(getMove())  = B
+->getAbs2RelRotation()  = 
+1 0 0 
+0 1 0 
+0 0 1 
+->getRel2AbsRotation()  = 
+2 0 0 
+0 2 0 
+0 0 2 
+->this == IntPoint(-1,0,0)  = true
+============= END OF TEST ================
+

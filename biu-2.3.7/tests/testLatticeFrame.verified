@@ -1,0 +1,19 @@
+========== BEGIN OF TEST =================
+ test class : LatticeFrame
+==========================================
+=> creating biu::LatticeDescriptorCUB() = ld
+=> creating biu::LatticeFrame( ld, 4)
+->getFrameSize()  = 4
+-> IntPoint = 3  4  5 = p
+->isInFrame(p)  = false
+->setFrameSize(7)
+->getFrameSize()  = 7
+->isInFrame(p)  = true
+->(getPoint(getIndex(p)) == p)  = true
+->getCenter()  = 3  3  3
+->getIndexedNeighborhood().size()  = 6
+->getIndexedNeighborhood() : -49,-7,-1,1,7,49,
+-> (*this == *this)   = true
+-> (*this != *this)   = false
+============= END OF TEST ================
+

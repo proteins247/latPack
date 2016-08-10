@@ -1,0 +1,23 @@
+========== BEGIN OF TEST =================
+ test class : ContactEnergyFunction
+==========================================
+=> creating biu::Alphabet(HPNX,1) = alph
+=> creating biu::EnergyMatrix(4,4,0.0) = E
+-4 0 0 0 
+0 1 -1 0 
+0 -1 1 0 
+0 0 0 0 
+
+=> creating biu::LatticeModel( CUB )
+ lattice = cub
+=> creating biu::ContactEnergyFunction( alph, E, lattice)
+->getAlphabet()->getAlphabetSize() = 4
+->getContactEnergy( 0..3, 0..3)
+-4 0 0 0 
+0 1 -1 0 
+0 -1 1 0 
+0 0 0 0 
+-> (*this == *this) = true
+-> (*this != *this) = false
+============= END OF TEST ================
+

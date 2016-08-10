@@ -1,0 +1,41 @@
+========== BEGIN OF TEST ==================
+ test function : RNG_LCG
+===========================================
+=> creating RNG_LCG()
+-> getMaxRN() = 2147483647
+=> testing generator
+-> getRN() = 476707713
+-> getRN() = 1186278907
+-> getRN() = 505671508
+-> getRN() = 2137716191
+-> getRN() = 936145377
+==> testing rng & seed
+-> setSeed(1)
+-> getRN() = 476707713
+-> getRN() = 1186278907
+-> getRN() = 505671508
+-> getRN() = 2137716191
+-> getRN() = 936145377
+==> testing rng & seed
+-> setSeed(50)
+-> getRN() = 197032851
+-> getRN() = 983345960
+-> getRN() = 1903808049
+-> getRN() = 1179145132
+-> getRN() = 791615942
+==> testing rng & seed
+-> setSeed(50)
+-> getRN() = 197032851
+-> getRN() = 983345960
+-> getRN() = 1903808049
+-> getRN() = 1179145132
+-> getRN() = 791615942
+==> testing rng & seed
+-> setSeed(123456)
+-> getRN() = 333247424
+-> getRN() = 875560663
+-> getRN() = 622511668
+-> getRN() = 520815413
+-> getRN() = 1741317749
+============= END OF TEST =================
+

@@ -1,0 +1,8 @@
+prefix=@PREFIX_PATH@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: biu
+Description: BIU Library
+Version: @VERSION@

@@ -1,0 +1,4160 @@
+Testing CUB:
+========== BEGIN OF TEST ==================
+ test function : PullMoveSet::PullMoveDecoder
+===========================================
+=> creating PullMoveSet::PullMoveDecoder(new Lattice cub)
+ # get all possible pull moves for each neighboring vector :
+direction vector: -1  0  0
+  Pull-Move: 0
+    C: 0  -1  0
+    L: -1  -1  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: 0  0  -1
+    L: -1  0  -1
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 2
+    C: 0  0  1
+    L: -1  0  1
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 3
+    C: 0  1  0
+    L: -1  1  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: 0  -1  0
+  Pull-Move: 0
+    C: -1  0  0
+    L: -1  -1  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: 0  0  -1
+    L: 0  -1  -1
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 2
+    C: 0  0  1
+    L: 0  -1  1
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 3
+    C: 1  0  0
+    L: 1  -1  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: 0  0  -1
+  Pull-Move: 0
+    C: -1  0  0
+    L: -1  0  -1
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: 0  -1  0
+    L: 0  -1  -1
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 2
+    C: 0  1  0
+    L: 0  1  -1
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 3
+    C: 1  0  0
+    L: 1  0  -1
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: 0  0  1
+  Pull-Move: 0
+    C: -1  0  0
+    L: -1  0  1
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: 0  -1  0
+    L: 0  -1  1
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 2
+    C: 0  1  0
+    L: 0  1  1
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 3
+    C: 1  0  0
+    L: 1  0  1
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: 0  1  0
+  Pull-Move: 0
+    C: -1  0  0
+    L: -1  1  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: 0  0  -1
+    L: 0  1  -1
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 2
+    C: 0  0  1
+    L: 0  1  1
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 3
+    C: 1  0  0
+    L: 1  1  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: 1  0  0
+  Pull-Move: 0
+    C: 0  -1  0
+    L: 1  -1  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: 0  0  -1
+    L: 1  0  -1
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 2
+    C: 0  0  1
+    L: 1  0  1
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 3
+    C: 0  1  0
+    L: 1  1  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+ # get all possible end moves for (0,0,0) :
+  End-Move: 0
+    1: -1  0  0
+    2: -2  0  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 1
+    1: -1  0  0
+    2: -1  -1  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 2
+    1: -1  0  0
+    2: -1  0  -1
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 3
+    1: -1  0  0
+    2: -1  0  1
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 4
+    1: -1  0  0
+    2: -1  1  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 5
+    1: 0  -1  0
+    2: -1  -1  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 6
+    1: 0  -1  0
+    2: 0  -2  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 7
+    1: 0  -1  0
+    2: 0  -1  -1
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 8
+    1: 0  -1  0
+    2: 0  -1  1
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 9
+    1: 0  -1  0
+    2: 1  -1  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 10
+    1: 0  0  -1
+    2: -1  0  -1
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 11
+    1: 0  0  -1
+    2: 0  -1  -1
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 12
+    1: 0  0  -1
+    2: 0  0  -2
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 13
+    1: 0  0  -1
+    2: 0  1  -1
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 14
+    1: 0  0  -1
+    2: 1  0  -1
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 15
+    1: 0  0  1
+    2: -1  0  1
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 16
+    1: 0  0  1
+    2: 0  -1  1
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 17
+    1: 0  0  1
+    2: 0  0  2
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 18
+    1: 0  0  1
+    2: 0  1  1
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 19
+    1: 0  0  1
+    2: 1  0  1
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 20
+    1: 0  1  0
+    2: -1  1  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 21
+    1: 0  1  0
+    2: 0  1  -1
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 22
+    1: 0  1  0
+    2: 0  1  1
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 23
+    1: 0  1  0
+    2: 0  2  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 24
+    1: 0  1  0
+    2: 1  1  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 25
+    1: 1  0  0
+    2: 1  -1  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 26
+    1: 1  0  0
+    2: 1  0  -1
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 27
+    1: 1  0  0
+    2: 1  0  1
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 28
+    1: 1  0  0
+    2: 1  1  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 29
+    1: 1  0  0
+    2: 2  0  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+============= END OF TEST =================
+
+========== BEGIN OF TEST ==================
+ test PullMoveDecoder lookup
+===========================================
+=> creating helper objects
+=> creating PullMoveSet(new LatticeModel(new LatticeDescriptor cub ))
+=> PHPHHHH = seqStr
+=> FFFFFF  = absMoveStr
+=> creating biu::LatticeProtein_Ipnt(lm,f,seq,absMoveStr,true) = lp
+->getMoveStrAbs = FFFFFF
+->getMoveStrRel = FFFFFF
+pms.getMoveNumber(lp) = 108
+pms->decoder.lookupMove(lp.getSequence().size(), 0,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = -1  0  0
+  endPullPos1 = -2  0  0
+  moveIndex = 0
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 1,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = -1  0  0
+  endPullPos1 = -1  -1  0
+  moveIndex = 1
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 2,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = -1  0  0
+  endPullPos1 = -1  0  -1
+  moveIndex = 2
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 3,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = -1  0  0
+  endPullPos1 = -1  0  1
+  moveIndex = 3
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 4,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = -1  0  0
+  endPullPos1 = -1  1  0
+  moveIndex = 4
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 5,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  -1  0
+  endPullPos1 = -1  -1  0
+  moveIndex = 5
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 6,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  -1  0
+  endPullPos1 = 0  -2  0
+  moveIndex = 6
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 7,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  -1  0
+  endPullPos1 = 0  -1  -1
+  moveIndex = 7
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 8,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  -1  0
+  endPullPos1 = 0  -1  1
+  moveIndex = 8
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 9,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  -1  0
+  endPullPos1 = 1  -1  0
+  moveIndex = 9
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 10,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  0  -1
+  endPullPos1 = -1  0  -1
+  moveIndex = 10
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 11,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  0  -1
+  endPullPos1 = 0  -1  -1
+  moveIndex = 11
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 12,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  0  -1
+  endPullPos1 = 0  0  -2
+  moveIndex = 12
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 13,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  0  -1
+  endPullPos1 = 0  1  -1
+  moveIndex = 13
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 14,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  0  -1
+  endPullPos1 = 1  0  -1
+  moveIndex = 14
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 15,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  0  1
+  endPullPos1 = -1  0  1
+  moveIndex = 15
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 16,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  0  1
+  endPullPos1 = 0  -1  1
+  moveIndex = 16
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 17,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  0  1
+  endPullPos1 = 0  0  2
+  moveIndex = 17
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 18,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  0  1
+  endPullPos1 = 0  1  1
+  moveIndex = 18
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 19,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  0  1
+  endPullPos1 = 1  0  1
+  moveIndex = 19
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 20,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  1  0
+  endPullPos1 = -1  1  0
+  moveIndex = 20
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 21,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  1  0
+  endPullPos1 = 0  1  -1
+  moveIndex = 21
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 22,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  1  0
+  endPullPos1 = 0  1  1
+  moveIndex = 22
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 23,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  1  0
+  endPullPos1 = 0  2  0
+  moveIndex = 23
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 24,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  1  0
+  endPullPos1 = 1  1  0
+  moveIndex = 24
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 25,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 1  0  0
+  endPullPos1 = 1  -1  0
+  moveIndex = 25
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 26,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 1  0  0
+  endPullPos1 = 1  0  -1
+  moveIndex = 26
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 27,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 1  0  0
+  endPullPos1 = 1  0  1
+  moveIndex = 27
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 28,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 1  0  0
+  endPullPos1 = 1  1  0
+  moveIndex = 28
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 29,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 1  0  0
+  endPullPos1 = 2  0  0
+  moveIndex = 29
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 30,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = -1  0  0
+  endPullPos1 = -2  0  0
+  moveIndex = 0
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 31,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = -1  0  0
+  endPullPos1 = -1  -1  0
+  moveIndex = 1
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 32,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = -1  0  0
+  endPullPos1 = -1  0  -1
+  moveIndex = 2
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 33,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = -1  0  0
+  endPullPos1 = -1  0  1
+  moveIndex = 3
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 34,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = -1  0  0
+  endPullPos1 = -1  1  0
+  moveIndex = 4
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 35,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  -1  0
+  endPullPos1 = -1  -1  0
+  moveIndex = 5
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 36,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  -1  0
+  endPullPos1 = 0  -2  0
+  moveIndex = 6
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 37,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  -1  0
+  endPullPos1 = 0  -1  -1
+  moveIndex = 7
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 38,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  -1  0
+  endPullPos1 = 0  -1  1
+  moveIndex = 8
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 39,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  -1  0
+  endPullPos1 = 1  -1  0
+  moveIndex = 9
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 40,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  0  -1
+  endPullPos1 = -1  0  -1
+  moveIndex = 10
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 41,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  0  -1
+  endPullPos1 = 0  -1  -1
+  moveIndex = 11
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 42,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  0  -1
+  endPullPos1 = 0  0  -2
+  moveIndex = 12
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 43,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  0  -1
+  endPullPos1 = 0  1  -1
+  moveIndex = 13
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 44,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  0  -1
+  endPullPos1 = 1  0  -1
+  moveIndex = 14
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 45,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  0  1
+  endPullPos1 = -1  0  1
+  moveIndex = 15
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 46,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  0  1
+  endPullPos1 = 0  -1  1
+  moveIndex = 16
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 47,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  0  1
+  endPullPos1 = 0  0  2
+  moveIndex = 17
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 48,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  0  1
+  endPullPos1 = 0  1  1
+  moveIndex = 18
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 49,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  0  1
+  endPullPos1 = 1  0  1
+  moveIndex = 19
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 50,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  1  0
+  endPullPos1 = -1  1  0
+  moveIndex = 20
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 51,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  1  0
+  endPullPos1 = 0  1  -1
+  moveIndex = 21
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 52,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  1  0
+  endPullPos1 = 0  1  1
+  moveIndex = 22
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 53,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  1  0
+  endPullPos1 = 0  2  0
+  moveIndex = 23
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 54,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  1  0
+  endPullPos1 = 1  1  0
+  moveIndex = 24
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 55,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 1  0  0
+  endPullPos1 = 1  -1  0
+  moveIndex = 25
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 56,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 1  0  0
+  endPullPos1 = 1  0  -1
+  moveIndex = 26
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 57,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 1  0  0
+  endPullPos1 = 1  0  1
+  moveIndex = 27
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 58,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 1  0  0
+  endPullPos1 = 1  1  0
+  moveIndex = 28
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 59,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 1  0  0
+  endPullPos1 = 2  0  0
+  moveIndex = 29
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 60,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 0
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 61,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 1
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 62,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 2
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 63,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 3
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 64,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 0
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 65,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 1
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 66,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 2
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 67,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 3
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 68,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 0
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 69,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 1
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 70,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 2
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 71,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 3
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 72,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 0
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 73,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 1
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 74,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 2
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 75,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 3
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 76,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 0
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 77,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 1
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 78,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 2
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 79,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 3
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 80,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 0
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 81,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 1
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 82,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 2
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 83,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 3
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 84,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 0
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 85,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 1
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 86,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 2
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 87,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 3
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 88,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 0
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 89,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 1
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 90,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 2
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 91,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 3
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 92,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 0
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 93,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 1
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 94,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 2
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 95,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 3
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 96,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 0
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 97,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 1
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 98,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 2
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 99,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 3
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 100,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 0
+  movePosition = 5
+pms->decoder.lookupMove(lp.getSequence().size(), 101,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 1
+  movePosition = 5
+pms->decoder.lookupMove(lp.getSequence().size(), 102,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 2
+  movePosition = 5
+pms->decoder.lookupMove(lp.getSequence().size(), 103,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 3
+  movePosition = 5
+pms->decoder.lookupMove(lp.getSequence().size(), 104,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 0
+  movePosition = 5
+pms->decoder.lookupMove(lp.getSequence().size(), 105,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 1
+  movePosition = 5
+pms->decoder.lookupMove(lp.getSequence().size(), 106,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 2
+  movePosition = 5
+pms->decoder.lookupMove(lp.getSequence().size(), 107,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 3
+  movePosition = 5
+============= END OF TEST =================
+
+========== BEGIN OF TEST ==================
+ test function : PullMoveSet
+===========================================
+=> creating helper objects
+=> creating PullMoveSet(new LatticeModel(new LatticeDescriptor cub))
+=> PHPHHHH = seqStr
+=> FFFFFF  = relMoveStr
+=> 0 = seqShared
+=> creating biu::LatticeProtein_Ipnt(lm,f,seqStr,seqShared,relMoveStr,isAbsoluteMove) = lp
+->getMoveStrRel = FFFFFF
+->getMoveStrAbs = FFFFFF
+pms.getMoveNumber(lp) = 108
+pms.applyMoveInPlace(lp,5) = rel FFFFLL / abs FFFFLB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,6) = rel FFFFLF / abs FFFFLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,7) = rel FFFFLD / abs FFFFLD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,8) = rel FFFFLU / abs FFFFLU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,9) = rel FFFFLR / abs FFFFLF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,10) = rel FFFFDD / abs FFFFDB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,11) = rel FFFFDL / abs FFFFDL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,12) = rel FFFFDF / abs FFFFDD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,13) = rel FFFFDR / abs FFFFDR selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,14) = rel FFFFDU / abs FFFFDF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,15) = rel FFFFUU / abs FFFFUB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,16) = rel FFFFUL / abs FFFFUL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,17) = rel FFFFUF / abs FFFFUU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,18) = rel FFFFUR / abs FFFFUR selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,19) = rel FFFFUD / abs FFFFUF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,20) = rel FFFFRR / abs FFFFRB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,21) = rel FFFFRD / abs FFFFRD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,22) = rel FFFFRU / abs FFFFRU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,23) = rel FFFFRF / abs FFFFRR selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,24) = rel FFFFRL / abs FFFFRF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,25) = rel FFFFFL / abs FFFFFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,26) = rel FFFFFD / abs FFFFFD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,27) = rel FFFFFU / abs FFFFFU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,28) = rel FFFFFR / abs FFFFFR selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,29) = rel FFFFFF / abs FFFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,30) = rel FFFFFF / abs FFFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,31) = rel FLFFFF / abs RFFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,32) = rel FDFFFF / abs UFFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,33) = rel FUFFFF / abs DFFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,34) = rel FRFFFF / abs LFFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,35) = rel FRLFFF / abs FRFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,36) = rel FFLFFF / abs RRFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,37) = rel FRDFFF / abs URFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,38) = rel FRUFFF / abs DRFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,39) = rel FLLFFF / abs BRFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,40) = rel FUDFFF / abs FUFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,41) = rel FULFFF / abs RUFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,42) = rel FFDFFF / abs UUFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,43) = rel FURFFF / abs LUFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,44) = rel FUUFFF / abs BUFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,45) = rel FDUFFF / abs FDFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,46) = rel FDLFFF / abs RDFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,47) = rel FFUFFF / abs DDFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,48) = rel FDRFFF / abs LDFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,49) = rel FDDFFF / abs BDFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,50) = rel FLRFFF / abs FLFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,51) = rel FLDFFF / abs ULFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,52) = rel FLUFFF / abs DLFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,53) = rel FFRFFF / abs LLFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,54) = rel FRRFFF / abs BLFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,60) = rel FLFFFF / abs RFFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,61) = rel FDFFFF / abs UFFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,62) = rel FUFFFF / abs DFFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,63) = rel FRFFFF / abs LFFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,64) = rel FFFFFL / abs FFFFFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,65) = rel FFFFFD / abs FFFFFD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,66) = rel FFFFFU / abs FFFFFU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,67) = rel FFFFFR / abs FFFFFR selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,68) = rel FRLFFF / abs FRFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,69) = rel FUDFFF / abs FUFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,70) = rel FDUFFF / abs FDFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,71) = rel FLRFFF / abs FLFFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,72) = rel FRRLFF / abs LFRFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,73) = rel FUUDFF / abs DFUFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,74) = rel FDDUFF / abs UFDFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,75) = rel FLLRFF / abs RFLFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,76) = rel FRRLFF / abs LFRFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,77) = rel FUUDFF / abs DFUFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,78) = rel FDDUFF / abs UFDFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,79) = rel FLLRFF / abs RFLFFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,80) = rel FLRRLF / abs FLFRFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,81) = rel FDUUDF / abs FDFUFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,82) = rel FUDDUF / abs FUFDFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,83) = rel FRLLRF / abs FRFLFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,84) = rel FLRRLF / abs FLFRFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,85) = rel FDUUDF / abs FDFUFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,86) = rel FUDDUF / abs FUFDFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,87) = rel FRLLRF / abs FRFLFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,88) = rel FFLRRL / abs FFLFRF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,89) = rel FFDUUD / abs FFDFUF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,90) = rel FFUDDU / abs FFUFDF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,91) = rel FFRLLR / abs FFRFLF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,92) = rel FFLRRL / abs FFLFRF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,93) = rel FFDUUD / abs FFDFUF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,94) = rel FFUDDU / abs FFUFDF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,95) = rel FFRLLR / abs FFRFLF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,96) = rel FFFLRR / abs FFFLFR selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,97) = rel FFFDUU / abs FFFDFU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,98) = rel FFFUDD / abs FFFUFD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,99) = rel FFFRLL / abs FFFRFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,100) = rel FFFLRR / abs FFFLFR selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,101) = rel FFFDUU / abs FFFDFU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,102) = rel FFFUDD / abs FFFUFD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,103) = rel FFFRLL / abs FFFRFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,104) = rel FFFFLR / abs FFFFLF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,105) = rel FFFFDU / abs FFFFDF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,106) = rel FFFFUD / abs FFFFUF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+pms.applyMoveInPlace(lp,107) = rel FFFFRL / abs FFFFRF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFFFFF / abs FFFFFF
+ undo equals origin : true
+============= END OF TEST =================
+
+========== BEGIN OF TEST ==================
+ test function : PullMoveSet
+===========================================
+=> creating helper objects
+=> creating PullMoveSet(new LatticeModel(new LatticeDescriptor cub))
+=> PHPHHH = seqStr
+=> FLLRF  = relMoveStr
+=> 0 = seqShared
+=> creating biu::LatticeProtein_Ipnt(lm,f,seqStr,seqShared,relMoveStr,isAbsoluteMove) = lp
+->getMoveStrRel = FLLRF
+->getMoveStrAbs = FLBLL
+pms.getMoveNumber(lp) = 100
+pms.applyMoveInPlace(lp,0) = rel FFFLF / abs LLLBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,1) = rel FFFLR / abs LLLBL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,2) = rel FFFLD / abs LLLBD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,3) = rel FFFLU / abs LLLBU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,4) = rel FFFLL / abs LLLBR selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,5) = rel FFFFL / abs LLLLB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,6) = rel FFFFF / abs LLLLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,7) = rel FFFFD / abs LLLLD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,8) = rel FFFFU / abs LLLLU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,9) = rel FFFFR / abs LLLLF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,10) = rel FFFDL / abs LLLDB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,11) = rel FFFDU / abs LLLDL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,12) = rel FFFDF / abs LLLDD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,13) = rel FFFDD / abs LLLDR selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,14) = rel FFFDR / abs LLLDF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,15) = rel FFFUL / abs LLLUB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,16) = rel FFFUD / abs LLLUL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,17) = rel FFFUF / abs LLLUU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,18) = rel FFFUU / abs LLLUR selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,19) = rel FFFUR / abs LLLUF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,25) = rel FFFRL / abs LLLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,26) = rel FFFRD / abs LLLFD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,27) = rel FFFRU / abs LLLFU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,28) = rel FFFRR / abs LLLFR selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,29) = rel FFFRF / abs LLLFF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,30) = rel FFLFF / abs FFLLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,31) = rel FLLFF / abs RFLLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,32) = rel FDLFF / abs UFLLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,33) = rel FULFF / abs DFLLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,34) = rel FRLFF / abs LFLLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,40) = rel FULFF / abs FULLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,41) = rel FUUFF / abs RULLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,42) = rel FFLFF / abs UULLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,43) = rel FUDFF / abs LULLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,44) = rel FURFF / abs BULLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,45) = rel FDLFF / abs FDLLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,46) = rel FDDFF / abs RDLLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,47) = rel FFLFF / abs DDLLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,48) = rel FDUFF / abs LDLLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,49) = rel FDRFF / abs BDLLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,50) = rel FLFFF / abs FLLLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,51) = rel FLFFF / abs ULLLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,52) = rel FLFFF / abs DLLLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,53) = rel FFFFF / abs LLLLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,54) = rel FRFFF / abs BLLLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,61) = rel FLUDF / abs ULBLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,62) = rel FLDUF / abs DLBLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,63) = rel FFLRF / abs LLBLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,64) = rel FLLRL / abs FLBLB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,65) = rel FLLRD / abs FLBLD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,66) = rel FLLRU / abs FLBLU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,67) = rel FLLRR / abs FLBLF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,69) = rel FULDF / abs LUBLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,70) = rel FDLUF / abs LDBLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,71) = rel FLFRF / abs LBBLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,73) = rel FUULU / abs DFULB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,74) = rel FDDLD / abs UFDLB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,75) = rel FLLFL / abs RFLLB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,77) = rel FDDLF / abs DBULL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,78) = rel FUULF / abs UBDLL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,81) = rel FDLLD / abs FDLUB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,82) = rel FULLU / abs FULDB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,83) = rel FFLLF / abs FFLBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,84) = rel FLRRL / abs LBLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,85) = rel FDUUD / abs LDLUL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,86) = rel FUDDU / abs LULDL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,89) = rel FLDLL / abs FLDBU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,90) = rel FLULL / abs FLUBD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,92) = rel FFLRR / abs LLBLF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,93) = rel FFDUU / abs LLDLU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,94) = rel FFUDD / abs LLULD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,95) = rel FLFFL / abs FLLLB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,96) = rel FLLFR / abs FLBBL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,97) = rel FLLDR / abs FLBDL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,98) = rel FLLUR / abs FLBUL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLLRF / abs FLBLL
+ undo equals origin : true
+============= END OF TEST =================
+
+========== BEGIN OF TEST ==================
+ test function : PullMoveSet
+===========================================
+=> creating helper objects
+=> creating PullMoveSet(new LatticeModel(new LatticeDescriptor cub))
+=> PHPHHHHHH = seqStr
+=> FFRLRRFF  = relMoveStr
+=> 0 = seqShared
+=> creating biu::LatticeProtein_Ipnt(lm,f,seqStr,seqShared,relMoveStr,isAbsoluteMove) = lp
+->getMoveStrRel = FFRLRRFF
+->getMoveStrAbs = FFRFRBBB
+pms.getMoveNumber(lp) = 124
+pms.applyMoveInPlace(lp,0) = rel FFRFRFFF / abs FFRRBBBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,1) = rel FFRFRFFR / abs FFRRBBBL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,2) = rel FFRFRFFD / abs FFRRBBBD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,3) = rel FFRFRFFU / abs FFRRBBBU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,4) = rel FFRFRFFL / abs FFRRBBBR selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,5) = rel FFRFRFRL / abs FFRRBBLB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,7) = rel FFRFRFRD / abs FFRRBBLD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,8) = rel FFRFRFRU / abs FFRRBBLU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,9) = rel FFRFRFRR / abs FFRRBBLF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,10) = rel FFRFRFDU / abs FFRRBBDB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,11) = rel FFRFRFDR / abs FFRRBBDL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,12) = rel FFRFRFDF / abs FFRRBBDD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,13) = rel FFRFRFDL / abs FFRRBBDR selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,14) = rel FFRFRFDD / abs FFRRBBDF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,15) = rel FFRFRFUD / abs FFRRBBUB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,16) = rel FFRFRFUR / abs FFRRBBUL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,17) = rel FFRFRFUF / abs FFRRBBUU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,18) = rel FFRFRFUL / abs FFRRBBUR selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,19) = rel FFRFRFUU / abs FFRRBBUF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,20) = rel FFRFRFLR / abs FFRRBBRB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,21) = rel FFRFRFLD / abs FFRRBBRD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,22) = rel FFRFRFLU / abs FFRRBBRU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,23) = rel FFRFRFLF / abs FFRRBBRR selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,24) = rel FFRFRFLL / abs FFRRBBRF selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,30) = rel FFFFRFRF / abs FFFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,31) = rel FLFFRFRF / abs RFFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,32) = rel FDFFRFRF / abs UFFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,33) = rel FUFFRFRF / abs DFFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,34) = rel FRFFRFRF / abs LFFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,35) = rel FRLFRFRF / abs FRFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,36) = rel FFLFRFRF / abs RRFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,37) = rel FRDFUFUF / abs URFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,38) = rel FRUFDFDF / abs DRFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,39) = rel FLLFRFRF / abs BRFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,40) = rel FUDFRFRF / abs FUFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,41) = rel FULFDFDF / abs RUFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,42) = rel FFDFRFRF / abs UUFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,43) = rel FURFUFUF / abs LUFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,44) = rel FUUFLFLF / abs BUFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,45) = rel FDUFRFRF / abs FDFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,46) = rel FDLFUFUF / abs RDFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,47) = rel FFUFRFRF / abs DDFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,48) = rel FDRFDFDF / abs LDFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,49) = rel FDDFLFLF / abs BDFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,50) = rel FLRFRFRF / abs FLFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,51) = rel FLDFDFDF / abs ULFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,52) = rel FLUFUFUF / abs DLFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,54) = rel FRRFRFRF / abs BLFFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,60) = rel FLRLRRFF / abs RFRFRBBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,61) = rel FDRLRRFF / abs UFRFRBBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,62) = rel FURLRRFF / abs DFRFRBBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,63) = rel FRRLRRFF / abs LFRFRBBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,64) = rel FFRLRRFR / abs FFRFRBBL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,65) = rel FFRLRRFD / abs FFRFRBBD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,66) = rel FFRLRRFU / abs FFRFRBBU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,67) = rel FFRLRRFL / abs FFRFRBBR selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,68) = rel FRFLRRFF / abs FRRFRBBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,69) = rel FURDUUFF / abs FURFRBBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,70) = rel FDRUDDFF / abs FDRFRBBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,72) = rel FRRLRFRF / abs LFRFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,73) = rel FUUDRFRF / abs DFUFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,74) = rel FDDURFRF / abs UFDFRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,75) = rel FLFFRRFF / abs RFFFRBBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,77) = rel FRRULLFF / abs DRUFRBBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,78) = rel FRRDLLFF / abs URDFRBBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,80) = rel FLRRFFRF / abs FLFRRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,81) = rel FDUURFUF / abs FDFURRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,82) = rel FUDDRFDF / abs FUFDRRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,85) = rel FDLLULFF / abs RDFURBBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,86) = rel FULLDLFF / abs RUFDRBBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,89) = rel FFDRRLDF / abs FFDRURBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,90) = rel FFURRLUF / abs FFURDRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,93) = rel FLDRRDFF / abs RFDRUBBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,94) = rel FLURRUFF / abs RFURDBBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,95) = rel FLFRRFFF / abs RFFRBBBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,97) = rel FFRDLLUL / abs FFRDFURB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,98) = rel FFRULLDL / abs FFRUFDRB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,101) = rel FLRDRRLF / abs RFRDBUBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,102) = rel FLRURRLF / abs RFRUBDBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,103) = rel FLRFRRLF / abs RFRRBLBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,105) = rel FFRLDRRD / abs FFRFDRUB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,106) = rel FFRLURRU / abs FFRFURDB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,107) = rel FFRLFRRF / abs FFRFFRBB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,109) = rel FFRFDRRL / abs FFRRDBUB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,110) = rel FFRFURRL / abs FFRRUBDB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,111) = rel FFRFFRRL / abs FFRRRBLB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,113) = rel FFRLRDRR / abs FFRFRDBU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,114) = rel FFRLRURR / abs FFRFRUBD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,115) = rel FFRLRFRR / abs FFRFRRBL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,116) = rel FFRFRRLL / abs FFRRBLBR selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,117) = rel FFRFRDUU / abs FFRRBDBU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,118) = rel FFRFRUDD / abs FFRRBUBD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,119) = rel FFRFRLRR / abs FFRRBRBL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,121) = rel FFRLRRDU / abs FFRFRBDB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,122) = rel FFRLRRUD / abs FFRFRBUB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,123) = rel FFRLRRLR / abs FFRFRBRB selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FFRLRRFF / abs FFRFRBBB
+ undo equals origin : true
+============= END OF TEST =================
+
+========== BEGIN OF TEST ==================
+ test function : PullMoveSet
+===========================================
+=> creating helper objects
+=> creating PullMoveSet(new LatticeModel(new LatticeDescriptorCUB()))
+=> HHHHHHHPHHPHHPHHPHPHPHPHHPH = seqStr2
+=> BDFFULDFRFFDFURFLFLUBURDFR  = absMoveStr
+=> 0  = seqShared
+=> 1  = isAbsoluteMoveStr
+=> creating biu::LatticeProtein_Ipnt(lm,f,seqStr2,seqShared,absMoveStr,isAbsoluteMoveStr) = lp
+->getMoveStrRel = FDDFDRRURLFDUURDDUDLDULLUR
+->isSelfAvoiding() = 1
+pms.applyMoveInPlace(lp,0) = FDDFDRRURLFDUURDDUDLDULLRD selfavoiding
+pms.applyMoveInPlace(lp,1) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,2) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,3) = FDDFDRRURLFDUURDDUDLDULLRR selfavoiding
+pms.applyMoveInPlace(lp,4) = FDDFDRRURLFDUURDDUDLDULLRF selfavoiding
+pms.applyMoveInPlace(lp,5) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,6) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,7) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,8) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,9) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,10) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,11) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,12) = FDDFDRRURLFDUURDDUDLDLLRDF selfavoiding
+pms.applyMoveInPlace(lp,13) = FDDFDRRURLFDUURDDUDLDLLRDU selfavoiding
+pms.applyMoveInPlace(lp,14) = FDDFDRRURLFDUURDDUDLDLLRDL selfavoiding
+pms.applyMoveInPlace(lp,15) = FDDFDRRURLFDUURDDUDLDLLRUR selfavoiding
+pms.applyMoveInPlace(lp,16) = FDDFDRRURLFDUURDDUDLDLLRUU selfavoiding
+pms.applyMoveInPlace(lp,17) = FDDFDRRURLFDUURDDUDLDLLRUF selfavoiding
+pms.applyMoveInPlace(lp,18) = FDDFDRRURLFDUURDDUDLDLLRUD selfavoiding
+pms.applyMoveInPlace(lp,19) = FDDFDRRURLFDUURDDUDLDLLRUL selfavoiding
+pms.applyMoveInPlace(lp,20) = FDDFDRRURLFDUURDDUDLDLLRFR selfavoiding
+pms.applyMoveInPlace(lp,21) = FDDFDRRURLFDUURDDUDLDLLRFD selfavoiding
+pms.applyMoveInPlace(lp,22) = FDDFDRRURLFDUURDDUDLDLLRFU selfavoiding
+pms.applyMoveInPlace(lp,23) = FDDFDRRURLFDUURDDUDLDLLRFF selfavoiding
+pms.applyMoveInPlace(lp,24) = FDDFDRRURLFDUURDDUDLDLLRFL selfavoiding
+pms.applyMoveInPlace(lp,25) = FDDFDRRURLFDUURDDUDLDLLRLL selfavoiding
+pms.applyMoveInPlace(lp,26) = FDDFDRRURLFDUURDDUDLDLLRLD selfavoiding
+pms.applyMoveInPlace(lp,27) = FDDFDRRURLFDUURDDUDLDLLRLU selfavoiding
+pms.applyMoveInPlace(lp,28) = FDDFDRRURLFDUURDDUDLDLLRLR selfavoiding
+pms.applyMoveInPlace(lp,29) = FDDFDRRURLFDUURDDUDLDLLRLF selfavoiding
+pms.applyMoveInPlace(lp,30) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,31) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,32) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,33) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,34) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,35) = FRDLLDDRDUFLRRDLLRLULRUURD selfavoiding
+pms.applyMoveInPlace(lp,36) = FFDLLDDRDUFLRRDLLRLULRUURD selfavoiding
+pms.applyMoveInPlace(lp,37) = FRRDDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,38) = FRLUULLDLRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,39) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,40) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,41) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,42) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,43) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,44) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,45) = FDFUULLDLRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,46) = FDFLLDDRDUFLRRDLLRLULRUURD selfavoiding
+pms.applyMoveInPlace(lp,47) = FFFUULLDLRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,48) = FDFRRUULUDFRLLURRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,49) = FDFDDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,50) = FLDRRUULUDFRLLURRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,51) = FLLDDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,52) = FLRUULLDLRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,53) = FFDRRUULUDFRLLURRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,54) = FRDRRUULUDFRLLURRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,55) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,56) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,57) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,58) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,59) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,60) = FDLFLDDRDUFLRRDLLRLULRUURD selfavoiding
+pms.applyMoveInPlace(lp,61) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,62) = FFUFULLDLRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,63) = FDRFRUULUDFRLLURRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,64) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,65) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,66) = FDDFDRRURLFDUURDDUDLDULLUU selfavoiding
+pms.applyMoveInPlace(lp,67) = FDDFDRRURLFDUURDDUDLDULLUF selfavoiding
+pms.applyMoveInPlace(lp,68) = FUFFULLDLRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,69) = FRUFRUULUDFRLLURRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,70) = FLUFLDDRDUFLRRDLLRLULRUURD selfavoiding
+pms.applyMoveInPlace(lp,71) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,72) = FLLDLFDUUDFRLLURRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,73) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,74) = FUUFUFLRRLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,75) = FRRDRFUDDUFLRRDLLRLULRUURD selfavoiding
+pms.applyMoveInPlace(lp,76) = FRRLULLDLRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,77) = FUUDULLDLRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,78) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,79) = FLLRULLDLRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,80) = FFDDFFRLLRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,81) = FRDDRFRLLRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,82) = FLDDLFRLLRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,83) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,84) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,85) = FFUUFLLDLRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,86) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,87) = FRUURLLDLRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,88) = FDRDDUUDDUFLRRDLLRLULRUURD selfavoiding
+pms.applyMoveInPlace(lp,89) = FDFDDURLLRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,90) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,91) = FDLDDUDUUDFRLLURRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,92) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,93) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,94) = FURUUFULUDFRLLURRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,95) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,96) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,97) = FDDUDDRUUDFRLLURRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,98) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,99) = FDDLRRFLLRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,100) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,101) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,102) = FUUFLLFDLRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,103) = FUUDLLDDLRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,104) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,105) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,106) = FDDFLDDFDRDUFFDUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,107) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,108) = FUULULLFUDFRLLURRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,109) = FUULFLLDUDFRLLURRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,110) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,111) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,112) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,113) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,114) = FDDFDFRRFURLFFRLLRLULRUURD selfavoiding
+pms.applyMoveInPlace(lp,115) = FDDFDURUULFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,116) = FDDFRFLLFRFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,117) = FDDFRULLURFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,118) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,119) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,120) = FDDFDRDRRFDUFFDUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,121) = FDDFDRFRRUDUFFDUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,122) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,123) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,124) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,125) = FDDFRLULLDFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,126) = FDDFDRUURDFUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,127) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,128) = FDDFDRRLUUFDFFUDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,129) = FDDFDRRFUURDFFUDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,130) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,131) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,132) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,133) = FDDFRLLURRLLRRDLLRLULRUURD selfavoiding
+pms.applyMoveInPlace(lp,134) = FDDFRLLDRRLRLLURRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,135) = FDDFRLLFRRLUDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,136) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,137) = FDDFDRRUDRRUFFLRRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,138) = FDDFDRRUURRDFFLRRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,139) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,140) = FDDFDRRUFFRDLLURRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,141) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,142) = FDDFRLLRDUUFDDLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,143) = FDDFRLLRLRRULLURRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,144) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,145) = FDDFDRRURDLFFLURRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,146) = FDDFDRRURULLRFDUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,147) = FDDFDRRURFLLRFRLLRLULRUURD selfavoiding
+pms.applyMoveInPlace(lp,148) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,149) = FDDFRLLRFRUULURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,150) = FDDFRLLRFLUURURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,151) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,152) = FDDFDRRURLLRRLRLLRLULRUURD selfavoiding
+pms.applyMoveInPlace(lp,153) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,154) = FDDFDRRURLUDDURLLRLULRUURD selfavoiding
+pms.applyMoveInPlace(lp,155) = FDDFDRRURLRLLRRLLRLULRUURD selfavoiding
+pms.applyMoveInPlace(lp,156) = FDDFRLLRFURDDRLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,157) = FDDFRLLRFUFDDFLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,158) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,159) = FDDFRLLRFULDDLLUUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,160) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,161) = FDDFDRRURLFLDDRDUFRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,162) = FDDFDRRURLFRDDLDUFRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,163) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,164) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,165) = FDDFRLLRFUDRDDFLLRLULRUURD selfavoiding
+pms.applyMoveInPlace(lp,166) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,167) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,168) = FDDFDRRURLFDLUULDFLULRUURD selfavoiding
+pms.applyMoveInPlace(lp,169) = FDDFDRRURLFDFUUFDFLULRUURD selfavoiding
+pms.applyMoveInPlace(lp,170) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,171) = FDDFDRRURLFDRURLUDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,172) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,173) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,174) = FDDFDRRURLFFURRDRLRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,175) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,176) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,177) = FDDFDRRURLFDULUURFRDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,178) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,179) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,180) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,181) = FDDFDRRURLFDURLULDURUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,182) = FDDFDRRURLFFRULLURLULRUURD selfavoiding
+pms.applyMoveInPlace(lp,183) = FDDFDRRURLFFRFLLFRLULRUURD selfavoiding
+pms.applyMoveInPlace(lp,184) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,185) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,186) = FDDFDRRURLFDUUFRRDRLRDRDDU selfavoiding
+pms.applyMoveInPlace(lp,187) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,188) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,189) = FDDFDRRURLFFRLDLLURDRLDDLU selfavoiding
+pms.applyMoveInPlace(lp,190) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,191) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,192) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,193) = FDDFDRRURLFDUURRDDRUDLDLLR selfavoiding
+pms.applyMoveInPlace(lp,194) = FDDFDRRURLFDUURLDDLUDLDLLR selfavoiding
+pms.applyMoveInPlace(lp,195) = FDDFDRRURLFDUURFDDFUDLDLLR selfavoiding
+pms.applyMoveInPlace(lp,196) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,197) = FDDFDRRURLFDUUDDUULRUDRRDL selfavoiding
+pms.applyMoveInPlace(lp,198) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,199) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,200) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,201) = FDDFDRRURLFDUURDRDDLURURRL selfavoiding
+pms.applyMoveInPlace(lp,202) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,203) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,204) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,205) = FDDFDRRURLFDUUDFDLLFDULLUR selfavoiding
+pms.applyMoveInPlace(lp,206) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,207) = FDDFDRRURLFDUUDFFLLUDULLUR selfavoiding
+pms.applyMoveInPlace(lp,208) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,209) = FDDFDRRURLFDUURDDRUULRURRL selfavoiding
+pms.applyMoveInPlace(lp,210) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,211) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,212) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,213) = FDDFDRRURLFDUUDFLFUULDRRDL selfavoiding
+pms.applyMoveInPlace(lp,214) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,215) = FDDFDRRURLFDUUDFLRUUFDRRDL selfavoiding
+pms.applyMoveInPlace(lp,216) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,217) = FDDFDRRURLFDUURDDURDDFRDDU selfavoiding
+pms.applyMoveInPlace(lp,218) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,219) = FDDFDRRURLFDUURDDUFDDLRDDU selfavoiding
+pms.applyMoveInPlace(lp,220) = FDDFDRRURLFDUUDFLUDLLUDDLU selfavoiding
+pms.applyMoveInPlace(lp,221) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,222) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,223) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,224) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,225) = FDDFDRRURLFDUURDDUDFLLDUUD selfavoiding
+pms.applyMoveInPlace(lp,226) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,227) = FDDFDRRURLFDUURDDUDULLFUUD selfavoiding
+pms.applyMoveInPlace(lp,228) = FDDFDRRURLFDUUDFLULFRRURDL selfavoiding
+pms.applyMoveInPlace(lp,229) = FDDFDRRURLFDUUDFLULDRRFRDL selfavoiding
+pms.applyMoveInPlace(lp,230) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,231) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,232) = FDDFDRRURLFDUURDDUDLRDDFDU selfavoiding
+pms.applyMoveInPlace(lp,233) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,234) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,235) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,236) = FDDFDRRURLFDUUDFLULRLUULRD selfavoiding
+pms.applyMoveInPlace(lp,237) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,238) = FDDFDRRURLFDUUDFLULRFUUFRD selfavoiding
+pms.applyMoveInPlace(lp,239) = FDDFDRRURLFDUURDDUDLFLDLLU selfavoiding
+pms.applyMoveInPlace(lp,240) = FDDFDRRURLFDUURDDUDLDFUULU selfavoiding
+pms.applyMoveInPlace(lp,241) = FDDFDRRURLFDUURDDUDLDRUUFU selfavoiding
+pms.applyMoveInPlace(lp,242) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,243) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,244) = FDDFDRRURLFDUUDFLULRULUUFR selfavoiding
+pms.applyMoveInPlace(lp,245) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,246) = FDDFDRRURLFDUUDFLULRUFUURR selfavoiding
+pms.applyMoveInPlace(lp,247) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,248) = FDDFDRRURLFDUURDDUDLDUDLLD selfavoiding
+pms.applyMoveInPlace(lp,249) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,250) = FDDFDRRURLFDUURDDUDLDUFLLF selfavoiding
+pms.applyMoveInPlace(lp,251) = FDDFDRRURLFDUURDDUDLDUULUD selfavoiding
+pms.applyMoveInPlace(lp,252) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,253) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,254) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,255) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,256) = FDDFDRRURLFDUURDDUDLDULDLL selfavoiding
+pms.applyMoveInPlace(lp,257) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,258) = FDDFDRRURLFDUURDDUDLDULFLU selfavoiding
+pms.applyMoveInPlace(lp,259) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,260) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,261) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,262) = FDDFDRRURLFDUURDDUDLDULUDL selfavoiding
+pms.applyMoveInPlace(lp,263) = FDDFDRRURLFDUURDDUDLDLLFRR selfavoiding
+pms.applyMoveInPlace(lp,264) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,265) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,266) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+pms.applyMoveInPlace(lp,267) = FDDFDRRURLFDUURDDUDLDULLUR selfavoiding
+============= END OF TEST =================
+
+========== BEGIN OF TEST ==================
+ test cloning PullMoveSet
+===========================================
+=> creating helper objects
+=> creating PullMoveSet(new LatticeModel(new LatticeDescriptorCUB()))
+=> PHPHHH = seqStr2
+=> FLLRF  = relMoveStr
+=> 0  = seqShared
+=> 0  = isAbsoluteMoveStr
+=> creating biu::LatticeProtein_Ipnt(lm,f,seqStr2,seqShared,relMoveStr,isAbsoluteMoveStr) = lp
+->getMoveStrRel = FLLRF
+->isSelfAvoiding() = 1
+msClone->applyMoveInPlace(lp,5) = FFFFL
+msClone->undoLastMove(lp)->getMoveStrRel() = FLLRF
+============= END OF TEST =================
+
+========== BEGIN OF TEST ==================
+ test copy constructor
+===========================================
+=> creating helper objects
+=> creating PullMoveSet(new LatticeModel(new LatticeDescriptorCUB()))
+=> PHPHHH = seqStr2
+=> FLLRF  = relMoveStr
+=> 0  = seqShared
+=> 0  = isAbsoluteMoveStr
+=> creating biu::LatticeProtein_Ipnt(lm,f,seqStr2,seqShared,relMoveStr,isAbsoluteMoveStr) = lp
+->getMoveStrRel = FLLRF
+->isSelfAvoiding() = 1
+moveSet2->applyMoveInPlace(lp,5) = FFFFL
+moveSet2->undoLastMove(lp)->getMoveStrRel() = FLLRF
+PullMoveSet* moveSet3 = new PullMoveSet(&lm);
+moveSet3 = moveSet2;
+moveSet3->undoLastMove(lp)->getMoveStrRel() = FLLRF
+============= END OF TEST =================
+
+========== BEGIN OF TEST ==================
+ test function : PullMoveSet with shared pull move decoder
+===========================================
+=> creating helper objects
+=> creating PullMoveSet(new LatticeModel(new LatticeDescriptorCUB()))
+=> PHPHHHHHH = seqStr2
+=> FFRLRRFF  = relMoveStr
+=> 0  = seqShared
+=> 0  = isAbsoluteMoveStr
+=> creating biu::LatticeProtein_Ipnt(lm,f,seqStr2,seqShared,relMoveStr,isAbsoluteMoveStr) = lp
+->getMoveStrRel = FFRLRRFF
+->isSelfAvoiding() = 1
+pms.applyMoveInPlace(lp,0) = FFRFRFFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,1) = FFRFRFFR
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,2) = FFRFRFFD
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,3) = FFRFRFFU
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,4) = FFRFRFFL
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,5) = FFRFRFRL
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,6) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,7) = FFRFRFRD
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,8) = FFRFRFRU
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,9) = FFRFRFRR
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,10) = FFRFRFDU
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,11) = FFRFRFDR
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,12) = FFRFRFDF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,13) = FFRFRFDL
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,14) = FFRFRFDD
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,15) = FFRFRFUD
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,16) = FFRFRFUR
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,17) = FFRFRFUF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,18) = FFRFRFUL
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,19) = FFRFRFUU
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,20) = FFRFRFLR
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,21) = FFRFRFLD
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,22) = FFRFRFLU
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,23) = FFRFRFLF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,24) = FFRFRFLL
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,25) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,26) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,27) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,28) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,29) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,30) = FFFFRFRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,31) = FLFFRFRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,32) = FDFFRFRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,33) = FUFFRFRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,34) = FRFFRFRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,35) = FRLFRFRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,36) = FFLFRFRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,37) = FRDFUFUF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,38) = FRUFDFDF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,39) = FLLFRFRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,40) = FUDFRFRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,41) = FULFDFDF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,42) = FFDFRFRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,43) = FURFUFUF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,44) = FUUFLFLF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,45) = FDUFRFRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,46) = FDLFUFUF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,47) = FFUFRFRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,48) = FDRFDFDF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,49) = FDDFLFLF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,50) = FLRFRFRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,51) = FLDFDFDF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,52) = FLUFUFUF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,53) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,54) = FRRFRFRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,55) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,56) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,57) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,58) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,59) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,60) = FLRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,61) = FDRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,62) = FURLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,63) = FRRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,64) = FFRLRRFR
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,65) = FFRLRRFD
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,66) = FFRLRRFU
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,67) = FFRLRRFL
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,68) = FRFLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,69) = FURDUUFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,70) = FDRUDDFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,71) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,72) = FRRLRFRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,73) = FUUDRFRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,74) = FDDURFRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,75) = FLFFRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,76) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,77) = FRRULLFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,78) = FRRDLLFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,79) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,80) = FLRRFFRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,81) = FDUURFUF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,82) = FUDDRFDF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,83) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,84) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,85) = FDLLULFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,86) = FULLDLFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,87) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,88) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,89) = FFDRRLDF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,90) = FFURRLUF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,91) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,92) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,93) = FLDRRDFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,94) = FLURRUFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,95) = FLFRRFFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,96) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,97) = FFRDLLUL
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,98) = FFRULLDL
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,99) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,100) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,101) = FLRDRRLF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,102) = FLRURRLF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,103) = FLRFRRLF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,104) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,105) = FFRLDRRD
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,106) = FFRLURRU
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,107) = FFRLFRRF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,108) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,109) = FFRFDRRL
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,110) = FFRFURRL
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,111) = FFRFFRRL
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,112) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,113) = FFRLRDRR
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,114) = FFRLRURR
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,115) = FFRLRFRR
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,116) = FFRFRRLL
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,117) = FFRFRDUU
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,118) = FFRFRUDD
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,119) = FFRFRLRR
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,120) = FFRLRRFF
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,121) = FFRLRRDU
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,122) = FFRLRRUD
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+pms.applyMoveInPlace(lp,123) = FFRLRRLR
+pms.undoLastMove(lp)->getMoveStrRel() = FFRLRRFF
+============= END OF TEST =================
+
+========== BEGIN OF TEST ==================
+ test PullMove reversibility
+===========================================
+=> creating helper objects
+=> creating PullMoveSet(new LatticeModel(new LatticeDescriptorCUB()))
+=> PHPHHHHHH = seqStr2
+=> FFRLRRFF  = relMoveStr
+=> 0  = seqShared
+=> 0  = isAbsoluteMoveStr
+=> creating biu::LatticeProtein_Ipnt(lm,f,seqStr2,seqShared,relMoveStr,isAbsoluteMoveStr) = lp
+->printing coordinates:
+  0  0  0
+  1  0  0
+  2  0  0
+  2  1  0
+  3  1  0
+  3  2  0
+  2  2  0
+  1  2  0
+  0  2  0
+->getMoveStrRel = FFRLRRFF
+->isSelfAvoiding() = 1
+sequence derived by move 54: FRRFRFRF can't be reversed to FFRLRRFF
+============= END OF TEST =================
+
+
+Testing FCC:
+========== BEGIN OF TEST ==================
+ test function : PullMoveSet::PullMoveDecoder
+===========================================
+=> creating PullMoveSet::PullMoveDecoder(new Lattice fcc)
+ # get all possible pull moves for each neighboring vector :
+direction vector: -1  -1  0
+  Pull-Move: 0
+    C: -1  0  -1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: -1  0  1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 2
+    C: 0  -1  -1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 3
+    C: 0  -1  1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: -1  0  -1
+  Pull-Move: 0
+    C: -1  -1  0
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: -1  1  0
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 2
+    C: 0  -1  -1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 3
+    C: 0  1  -1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: -1  0  1
+  Pull-Move: 0
+    C: -1  -1  0
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: -1  1  0
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 2
+    C: 0  -1  1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 3
+    C: 0  1  1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: -1  1  0
+  Pull-Move: 0
+    C: -1  0  -1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: -1  0  1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 2
+    C: 0  1  -1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 3
+    C: 0  1  1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: 0  -1  -1
+  Pull-Move: 0
+    C: -1  -1  0
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: -1  0  -1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 2
+    C: 1  -1  0
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 3
+    C: 1  0  -1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: 0  -1  1
+  Pull-Move: 0
+    C: -1  -1  0
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: -1  0  1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 2
+    C: 1  -1  0
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 3
+    C: 1  0  1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: 0  1  -1
+  Pull-Move: 0
+    C: -1  0  -1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: -1  1  0
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 2
+    C: 1  0  -1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 3
+    C: 1  1  0
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: 0  1  1
+  Pull-Move: 0
+    C: -1  0  1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: -1  1  0
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 2
+    C: 1  0  1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 3
+    C: 1  1  0
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: 1  -1  0
+  Pull-Move: 0
+    C: 0  -1  -1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: 0  -1  1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 2
+    C: 1  0  -1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 3
+    C: 1  0  1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: 1  0  -1
+  Pull-Move: 0
+    C: 0  -1  -1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: 0  1  -1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 2
+    C: 1  -1  0
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 3
+    C: 1  1  0
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: 1  0  1
+  Pull-Move: 0
+    C: 0  -1  1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: 0  1  1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 2
+    C: 1  -1  0
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 3
+    C: 1  1  0
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: 1  1  0
+  Pull-Move: 0
+    C: 0  1  -1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: 0  1  1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 2
+    C: 1  0  -1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 3
+    C: 1  0  1
+    L: 0  0  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+ # get all possible end moves for (0,0,0) :
+  End-Move: 0
+    1: -1  -1  0
+    2: 0  0  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 1
+    1: -1  0  -1
+    2: 0  0  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 2
+    1: -1  0  1
+    2: 0  0  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 3
+    1: -1  1  0
+    2: 0  0  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 4
+    1: 0  -1  -1
+    2: 0  0  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 5
+    1: 0  -1  1
+    2: 0  0  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 6
+    1: 0  1  -1
+    2: 0  0  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 7
+    1: 0  1  1
+    2: 0  0  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 8
+    1: 1  -1  0
+    2: 0  0  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 9
+    1: 1  0  -1
+    2: 0  0  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 10
+    1: 1  0  1
+    2: 0  0  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 11
+    1: 1  1  0
+    2: 0  0  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+============= END OF TEST =================
+
+========== BEGIN OF TEST ==================
+ test PullMoveDecoder lookup
+===========================================
+=> creating helper objects
+=> creating PullMoveSet(new LatticeModel(new LatticeDescriptor fcc ))
+=> PHPHHHH = seqStr
+=> FLFLFLFLFLFL  = absMoveStr
+=> creating biu::LatticeProtein_Ipnt(lm,f,seq,absMoveStr,true) = lp
+->getMoveStrAbs = FLFLFLFLFLFL
+->getMoveStrRel = FLFLFLFLFLFL
+pms.getMoveNumber(lp) = 72
+pms->decoder.lookupMove(lp.getSequence().size(), 0,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = -1  -1  0
+  endPullPos1 = 0  0  0
+  moveIndex = 0
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 1,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = -1  0  -1
+  endPullPos1 = 0  0  0
+  moveIndex = 1
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 2,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = -1  0  1
+  endPullPos1 = 0  0  0
+  moveIndex = 2
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 3,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = -1  1  0
+  endPullPos1 = 0  0  0
+  moveIndex = 3
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 4,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  -1  -1
+  endPullPos1 = 0  0  0
+  moveIndex = 4
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 5,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  -1  1
+  endPullPos1 = 0  0  0
+  moveIndex = 5
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 6,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  1  -1
+  endPullPos1 = 0  0  0
+  moveIndex = 6
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 7,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  1  1
+  endPullPos1 = 0  0  0
+  moveIndex = 7
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 8,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 1  -1  0
+  endPullPos1 = 0  0  0
+  moveIndex = 8
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 9,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 1  0  -1
+  endPullPos1 = 0  0  0
+  moveIndex = 9
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 10,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 1  0  1
+  endPullPos1 = 0  0  0
+  moveIndex = 10
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 11,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 1  1  0
+  endPullPos1 = 0  0  0
+  moveIndex = 11
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 12,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = -1  -1  0
+  endPullPos1 = 0  0  0
+  moveIndex = 0
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 13,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = -1  0  -1
+  endPullPos1 = 0  0  0
+  moveIndex = 1
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 14,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = -1  0  1
+  endPullPos1 = 0  0  0
+  moveIndex = 2
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 15,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = -1  1  0
+  endPullPos1 = 0  0  0
+  moveIndex = 3
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 16,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  -1  -1
+  endPullPos1 = 0  0  0
+  moveIndex = 4
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 17,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  -1  1
+  endPullPos1 = 0  0  0
+  moveIndex = 5
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 18,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  1  -1
+  endPullPos1 = 0  0  0
+  moveIndex = 6
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 19,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  1  1
+  endPullPos1 = 0  0  0
+  moveIndex = 7
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 20,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 1  -1  0
+  endPullPos1 = 0  0  0
+  moveIndex = 8
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 21,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 1  0  -1
+  endPullPos1 = 0  0  0
+  moveIndex = 9
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 22,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 1  0  1
+  endPullPos1 = 0  0  0
+  moveIndex = 10
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 23,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 1  1  0
+  endPullPos1 = 0  0  0
+  moveIndex = 11
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 24,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 0
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 25,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 1
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 26,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 2
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 27,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 3
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 28,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 0
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 29,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 1
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 30,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 2
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 31,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 3
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 32,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 0
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 33,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 1
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 34,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 2
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 35,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 3
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 36,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 0
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 37,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 1
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 38,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 2
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 39,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 3
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 40,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 0
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 41,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 1
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 42,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 2
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 43,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 3
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 44,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 0
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 45,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 1
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 46,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 2
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 47,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 3
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 48,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 0
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 49,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 1
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 50,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 2
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 51,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 3
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 52,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 0
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 53,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 1
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 54,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 2
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 55,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 3
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 56,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 0
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 57,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 1
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 58,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 2
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 59,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 3
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 60,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 0
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 61,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 1
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 62,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 2
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 63,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 3
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 64,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 0
+  movePosition = 5
+pms->decoder.lookupMove(lp.getSequence().size(), 65,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 1
+  movePosition = 5
+pms->decoder.lookupMove(lp.getSequence().size(), 66,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 2
+  movePosition = 5
+pms->decoder.lookupMove(lp.getSequence().size(), 67,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 3
+  movePosition = 5
+pms->decoder.lookupMove(lp.getSequence().size(), 68,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 0
+  movePosition = 5
+pms->decoder.lookupMove(lp.getSequence().size(), 69,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 1
+  movePosition = 5
+pms->decoder.lookupMove(lp.getSequence().size(), 70,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 2
+  movePosition = 5
+pms->decoder.lookupMove(lp.getSequence().size(), 71,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 3
+  movePosition = 5
+============= END OF TEST =================
+
+========== BEGIN OF TEST ==================
+ test function : PullMoveSet
+===========================================
+=> creating helper objects
+=> creating PullMoveSet(new LatticeModel(new LatticeDescriptor fcc))
+=> PHPHHHHHH = seqStr
+=> FLFLFLFLFLFLFLFL  = relMoveStr
+=> 0 = seqShared
+=> creating biu::LatticeProtein_Ipnt(lm,f,seqStr,seqShared,relMoveStr,isAbsoluteMove) = lp
+->getMoveStrRel = FLFLFLFLFLFLFLFL
+->getMoveStrAbs = FLFLFLFLFLFLFLFL
+pms.getMoveNumber(lp) = 88
+pms.applyMoveInPlace(lp,1) = rel FLFLFLFLFLFLFLLD / abs FLFLFLFLFLFLFLLD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,2) = rel FLFLFLFLFLFLFLLU / abs FLFLFLFLFLFLFLLU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,3) = rel FLFLFLFLFLFLFLBL / abs FLFLFLFLFLFLFLBL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,4) = rel FLFLFLFLFLFLFLFD / abs FLFLFLFLFLFLFLFD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,5) = rel FLFLFLFLFLFLFLFU / abs FLFLFLFLFLFLFLFU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,6) = rel FLFLFLFLFLFLFLLD / abs FLFLFLFLFLFLFLLD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,7) = rel FLFLFLFLFLFLFLLU / abs FLFLFLFLFLFLFLLU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,8) = rel FLFLFLFLFLFLFLFR / abs FLFLFLFLFLFLFLFR selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,9) = rel FLFLFLFLFLFLFLFD / abs FLFLFLFLFLFLFLFD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,10) = rel FLFLFLFLFLFLFLFU / abs FLFLFLFLFLFLFLFU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,11) = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,12) = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,13) = rel FLFDFLFLFLFLFLFL / abs FUFLFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,14) = rel FLFUFLFLFLFLFLFL / abs FDFLFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,15) = rel FLBLFLFLFLFLFLFL / abs FRFLFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,16) = rel FLLDFLFLFLFLFLFL / abs LUFLFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,17) = rel FLLUFLFLFLFLFLFL / abs LDFLFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,18) = rel FLFDFLFLFLFLFLFL / abs FUFLFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,19) = rel FLFUFLFLFLFLFLFL / abs FDFLFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,20) = rel FLFRFLFLFLFLFLFL / abs BLFLFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,21) = rel FLLDFLFLFLFLFLFL / abs LUFLFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,22) = rel FLLUFLFLFLFLFLFL / abs LDFLFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,24) = rel FLFDFLFLFLFLFLFL / abs FUFLFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,25) = rel FLFUFLFLFLFLFLFL / abs FDFLFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,26) = rel FLLDFLFLFLFLFLFL / abs LUFLFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,27) = rel FLLUFLFLFLFLFLFL / abs LDFLFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,28) = rel FLFLFLFLFLFLFLLD / abs FLFLFLFLFLFLFLLD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,29) = rel FLFLFLFLFLFLFLLU / abs FLFLFLFLFLFLFLLU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,30) = rel FLFLFLFLFLFLFLFD / abs FLFLFLFLFLFLFLFD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,31) = rel FLFLFLFLFLFLFLFU / abs FLFLFLFLFLFLFLFU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,32) = rel FLBUFDFLFLFLFLFL / abs LDFUFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,33) = rel FLBDFUFLFLFLFLFL / abs LUFDFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,34) = rel FLRULDFLFLFLFLFL / abs FDLUFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,35) = rel FLRDLUFLFLFLFLFL / abs FULDFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,36) = rel FLBUFDFLFLFLFLFL / abs LDFUFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,37) = rel FLBDFUFLFLFLFLFL / abs LUFDFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,38) = rel FLRULDFLFLFLFLFL / abs FDLUFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,39) = rel FLRDLUFLFLFLFLFL / abs FULDFLFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,40) = rel FLLDBUFDFLFLFLFL / abs FLLDFUFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,41) = rel FLLUBDFUFLFLFLFL / abs FLLUFDFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,42) = rel FLFDRULDFLFLFLFL / abs FLFDLUFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,43) = rel FLFURDLUFLFLFLFL / abs FLFULDFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,44) = rel FLLDBUFDFLFLFLFL / abs FLLDFUFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,45) = rel FLLUBDFUFLFLFLFL / abs FLLUFDFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,46) = rel FLFDRULDFLFLFLFL / abs FLFDLUFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,47) = rel FLFURDLUFLFLFLFL / abs FLFULDFLFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,48) = rel FLFLLDBUFDFLFLFL / abs FLFLLDFUFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,49) = rel FLFLLUBDFUFLFLFL / abs FLFLLUFDFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,50) = rel FLFLFDRULDFLFLFL / abs FLFLFDLUFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,51) = rel FLFLFURDLUFLFLFL / abs FLFLFULDFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,52) = rel FLFLLDBUFDFLFLFL / abs FLFLLDFUFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,53) = rel FLFLLUBDFUFLFLFL / abs FLFLLUFDFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,54) = rel FLFLFDRULDFLFLFL / abs FLFLFDLUFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,55) = rel FLFLFURDLUFLFLFL / abs FLFLFULDFLFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,56) = rel FLFLFLLDBUFDFLFL / abs FLFLFLLDFUFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,57) = rel FLFLFLLUBDFUFLFL / abs FLFLFLLUFDFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,58) = rel FLFLFLFDRULDFLFL / abs FLFLFLFDLUFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,59) = rel FLFLFLFURDLUFLFL / abs FLFLFLFULDFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,60) = rel FLFLFLLDBUFDFLFL / abs FLFLFLLDFUFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,61) = rel FLFLFLLUBDFUFLFL / abs FLFLFLLUFDFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,62) = rel FLFLFLFDRULDFLFL / abs FLFLFLFDLUFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,63) = rel FLFLFLFURDLUFLFL / abs FLFLFLFULDFLFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,64) = rel FLFLFLFLLDBUFDFL / abs FLFLFLFLLDFUFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,65) = rel FLFLFLFLLUBDFUFL / abs FLFLFLFLLUFDFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,66) = rel FLFLFLFLFDRULDFL / abs FLFLFLFLFDLUFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,67) = rel FLFLFLFLFURDLUFL / abs FLFLFLFLFULDFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,68) = rel FLFLFLFLLDBUFDFL / abs FLFLFLFLLDFUFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,69) = rel FLFLFLFLLUBDFUFL / abs FLFLFLFLLUFDFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,70) = rel FLFLFLFLFDRULDFL / abs FLFLFLFLFDLUFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,71) = rel FLFLFLFLFURDLUFL / abs FLFLFLFLFULDFLFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,72) = rel FLFLFLFLFLLDBUFD / abs FLFLFLFLFLLDFUFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,73) = rel FLFLFLFLFLLUBDFU / abs FLFLFLFLFLLUFDFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,74) = rel FLFLFLFLFLFDRULD / abs FLFLFLFLFLFDLUFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,75) = rel FLFLFLFLFLFURDLU / abs FLFLFLFLFLFULDFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,76) = rel FLFLFLFLFLLDBUFD / abs FLFLFLFLFLLDFUFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,77) = rel FLFLFLFLFLLUBDFU / abs FLFLFLFLFLLUFDFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,78) = rel FLFLFLFLFLFDRULD / abs FLFLFLFLFLFDLUFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,79) = rel FLFLFLFLFLFURDLU / abs FLFLFLFLFLFULDFL selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,80) = rel FLFLFLFLFLFLLDBU / abs FLFLFLFLFLFLLDFU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,81) = rel FLFLFLFLFLFLLUBD / abs FLFLFLFLFLFLLUFD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,82) = rel FLFLFLFLFLFLFDRU / abs FLFLFLFLFLFLFDLU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,83) = rel FLFLFLFLFLFLFURD / abs FLFLFLFLFLFLFULD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,84) = rel FLFLFLFLFLFLLDBU / abs FLFLFLFLFLFLLDFU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,85) = rel FLFLFLFLFLFLLUBD / abs FLFLFLFLFLFLLUFD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,86) = rel FLFLFLFLFLFLFDRU / abs FLFLFLFLFLFLFDLU selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+pms.applyMoveInPlace(lp,87) = rel FLFLFLFLFLFLFURD / abs FLFLFLFLFLFLFULD selfavoiding
+pms.undoLastMove(lp) ->getMoveStr..() = rel FLFLFLFLFLFLFLFL / abs FLFLFLFLFLFLFLFL
+ undo equals origin : true
+============= END OF TEST =================
+
+
+Testing SQR:
+========== BEGIN OF TEST ==================
+ test function : PullMoveSet::PullMoveDecoder
+===========================================
+=> creating PullMoveSet::PullMoveDecoder(new Lattice sqr)
+ # get all possible pull moves for each neighboring vector :
+direction vector: -1  0  0
+  Pull-Move: 0
+    C: 0  -1  0
+    L: -1  -1  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: 0  1  0
+    L: -1  1  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: 0  -1  0
+  Pull-Move: 0
+    C: -1  0  0
+    L: -1  -1  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: 1  0  0
+    L: 1  -1  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: 0  1  0
+  Pull-Move: 0
+    C: -1  0  0
+    L: -1  1  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: 1  0  0
+    L: 1  1  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+direction vector: 1  0  0
+  Pull-Move: 0
+    C: 0  -1  0
+    L: 1  -1  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+  Pull-Move: 1
+    C: 0  1  0
+    L: 1  1  0
+    C and L neighbored: true
+    C is neighbored to (0,0,0)? true
+    L is neighbored to fixed direction? true
+ # get all possible end moves for (0,0,0) :
+  End-Move: 0
+    1: -1  0  0
+    2: -2  0  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 1
+    1: -1  0  0
+    2: -1  -1  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 2
+    1: -1  0  0
+    2: -1  1  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 3
+    1: 0  -1  0
+    2: -1  -1  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 4
+    1: 0  -1  0
+    2: 0  -2  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 5
+    1: 0  -1  0
+    2: 1  -1  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 6
+    1: 0  1  0
+    2: -1  1  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 7
+    1: 0  1  0
+    2: 0  2  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 8
+    1: 0  1  0
+    2: 1  1  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 9
+    1: 1  0  0
+    2: 1  -1  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 10
+    1: 1  0  0
+    2: 1  1  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+  End-Move: 11
+    1: 1  0  0
+    2: 2  0  0
+    1 is neighbored to (0,0,0)? true
+    1 and 2 neighbored: true
+============= END OF TEST =================
+
+========== BEGIN OF TEST ==================
+ test PullMoveDecoder lookup
+===========================================
+=> creating helper objects
+=> creating PullMoveSet(new LatticeModel(new LatticeDescriptor sqr ))
+=> HPHPPHP = seqStr
+=> FRRBLB  = absMoveStr
+=> creating biu::LatticeProtein_Ipnt(lm,f,seq,absMoveStr,true) = lp
+->getMoveStrAbs = FRRBLB
+->getMoveStrRel = FRFRRL
+pms.getMoveNumber(lp) = 48
+pms->decoder.lookupMove(lp.getSequence().size(), 0,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = -1  0  0
+  endPullPos1 = -2  0  0
+  moveIndex = 0
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 1,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = -1  0  0
+  endPullPos1 = -1  -1  0
+  moveIndex = 1
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 2,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = -1  0  0
+  endPullPos1 = -1  1  0
+  moveIndex = 2
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 3,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  -1  0
+  endPullPos1 = -1  -1  0
+  moveIndex = 3
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 4,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  -1  0
+  endPullPos1 = 0  -2  0
+  moveIndex = 4
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 5,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  -1  0
+  endPullPos1 = 1  -1  0
+  moveIndex = 5
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 6,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  1  0
+  endPullPos1 = -1  1  0
+  moveIndex = 6
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 7,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  1  0
+  endPullPos1 = 0  2  0
+  moveIndex = 7
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 8,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 0  1  0
+  endPullPos1 = 1  1  0
+  moveIndex = 8
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 9,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 1  0  0
+  endPullPos1 = 1  -1  0
+  moveIndex = 9
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 10,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 1  0  0
+  endPullPos1 = 1  1  0
+  moveIndex = 10
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 11,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = false
+  endPullPos0 = 1  0  0
+  endPullPos1 = 2  0  0
+  moveIndex = 11
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 12,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = -1  0  0
+  endPullPos1 = -2  0  0
+  moveIndex = 0
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 13,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = -1  0  0
+  endPullPos1 = -1  -1  0
+  moveIndex = 1
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 14,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = -1  0  0
+  endPullPos1 = -1  1  0
+  moveIndex = 2
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 15,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  -1  0
+  endPullPos1 = -1  -1  0
+  moveIndex = 3
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 16,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  -1  0
+  endPullPos1 = 0  -2  0
+  moveIndex = 4
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 17,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  -1  0
+  endPullPos1 = 1  -1  0
+  moveIndex = 5
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 18,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  1  0
+  endPullPos1 = -1  1  0
+  moveIndex = 6
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 19,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  1  0
+  endPullPos1 = 0  2  0
+  moveIndex = 7
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 20,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 0  1  0
+  endPullPos1 = 1  1  0
+  moveIndex = 8
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 21,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 1  0  0
+  endPullPos1 = 1  -1  0
+  moveIndex = 9
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 22,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 1  0  0
+  endPullPos1 = 1  1  0
+  moveIndex = 10
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 23,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = false
+  endPullPos0 = 1  0  0
+  endPullPos1 = 2  0  0
+  moveIndex = 11
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 24,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 0
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 25,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 1
+  movePosition = 0
+pms->decoder.lookupMove(lp.getSequence().size(), 26,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 0
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 27,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 1
+  movePosition = 6
+pms->decoder.lookupMove(lp.getSequence().size(), 28,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 0
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 29,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 1
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 30,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 0
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 31,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 1
+  movePosition = 1
+pms->decoder.lookupMove(lp.getSequence().size(), 32,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 0
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 33,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 1
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 34,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 0
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 35,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 1
+  movePosition = 2
+pms->decoder.lookupMove(lp.getSequence().size(), 36,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 0
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 37,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 1
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 38,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 0
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 39,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 1
+  movePosition = 3
+pms->decoder.lookupMove(lp.getSequence().size(), 40,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 0
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 41,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 1
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 42,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 0
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 43,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 1
+  movePosition = 4
+pms->decoder.lookupMove(lp.getSequence().size(), 44,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 0
+  movePosition = 5
+pms->decoder.lookupMove(lp.getSequence().size(), 45,pullFront,stdPull,movePosition)
+  pullFront = true
+  stdPull = true
+  moveIndex = 1
+  movePosition = 5
+pms->decoder.lookupMove(lp.getSequence().size(), 46,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 0
+  movePosition = 5
+pms->decoder.lookupMove(lp.getSequence().size(), 47,pullFront,stdPull,movePosition)
+  pullFront = false
+  stdPull = true
+  moveIndex = 1
+  movePosition = 5
+============= END OF TEST =================
+
+========== BEGIN OF TEST ==================
+ test function : PullMoveSet
+===========================================
+=> creating helper objects
+=> creating PullMoveSet(new LatticeModel(new LatticeDescriptor sqr))
+=> HPHPPHP = seqStr
+=> FRRBLB  = relMoveStr
+=> 0 = seqShared
+=> creating biu::LatticeProtein_Ipnt(lm,f,seqStr,seqShared,relMoveStr,isAbsoluteMove) = lp
+->getMoveStrRel = FRFRRL
+->getMoveStrAbs = FRRBLB
+pms.getMoveNumber(lp) = 48
+ initial structure : 
+ O-O-O 
+ |   | 
+ O O-O 
+   |   
+   O   
+
+pms.applyMoveInPlace(lp,0) = rel FRRFFF / abs FRBBBB selfavoiding
+ structure : 
+ O-O 
+ | | 
+ O O 
+   | 
+   O 
+   | 
+   O 
+   | 
+   O 
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,1) = rel FRRFFR / abs FRBBBL selfavoiding
+ structure : 
+ O-O 
+ | | 
+ O O 
+   | 
+   O 
+   | 
+ O-O 
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,2) = rel FRRFFL / abs FRBBBR selfavoiding
+ structure : 
+ O-O   
+ | |   
+ O O   
+   |   
+   O   
+   |   
+   O-O 
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,3) = rel FRRFRL / abs FRBBLB selfavoiding
+ structure : 
+ O-O 
+ | | 
+ O O 
+   | 
+ O-O 
+ |   
+ O   
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,4) = rel FRRFRF / abs FRBBLL selfavoiding
+ structure : 
+   O-O 
+   | | 
+   O O 
+     | 
+ O-O-O 
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,6) = rel FRFRFF / abs FRRBBB selfavoiding
+ structure : 
+ O-O-O 
+ |   | 
+ O   O 
+     | 
+     O 
+     | 
+     O 
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,7) = rel FRFRFL / abs FRRBBR selfavoiding
+ structure : 
+ O-O-O   
+ |   |   
+ O   O   
+     |   
+     O-O 
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,12) = rel FFFRRF / abs FFFRBB selfavoiding
+ structure : 
+ O-O 
+ | | 
+ O O 
+ | | 
+ O O 
+ |   
+ O   
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,13) = rel FLFRRF / abs RFFRBB selfavoiding
+ structure : 
+   O-O 
+   | | 
+   O O 
+   | | 
+ O-O O 
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,15) = rel FRLRRF / abs FRFRBB selfavoiding
+ structure : 
+   O-O 
+   | | 
+ O-O O 
+ |   | 
+ O   O 
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,16) = rel FFLRRF / abs RRFRBB selfavoiding
+ structure : 
+     O-O 
+     | | 
+ O-O-O O 
+       | 
+       O 
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,17) = rel FLLRRF / abs BRFRBB selfavoiding
+ structure : 
+ O O-O 
+ | | | 
+ O-O O 
+     | 
+     O 
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,24) = rel FFFRRL / abs RRRBLB selfavoiding
+ structure : 
+ O-O-O-O 
+       | 
+     O-O 
+     |   
+     O   
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,29) = rel FRLRRL / abs RBRBLB selfavoiding
+ structure : 
+ O-O   
+   |   
+   O-O 
+     | 
+   O-O 
+   |   
+   O   
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,30) = rel FRRFRF / abs LFRRBB selfavoiding
+ structure : 
+ O-O-O 
+ |   | 
+ O-O O 
+     | 
+     O 
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,33) = rel FRRFRL / abs FRBBLB selfavoiding
+ structure : 
+ O-O 
+ | | 
+ O O 
+   | 
+ O-O 
+ |   
+ O   
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,35) = rel FFRRFF / abs FFRBBB selfavoiding
+ structure : 
+ O-O 
+ | | 
+ O O 
+ | | 
+ O O 
+   | 
+   O 
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,37) = rel FFRRFL / abs RRBLLB selfavoiding
+ structure : 
+ O-O-O 
+     | 
+ O-O-O 
+ |     
+ O     
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,39) = rel FRLRRF / abs FRFRBB selfavoiding
+ structure : 
+   O-O 
+   | | 
+ O-O O 
+ |   | 
+ O   O 
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+pms.applyMoveInPlace(lp,43) = rel FRFFRR / abs FRRRBL selfavoiding
+ structure : 
+ O-O-O-O 
+ |     | 
+ O   O-O 
+
+pms.undoLastMove(lp) ->getMoveStr..() = rel FRFRRL / abs FRRBLB
+ undo equals origin : true
+============= END OF TEST =================
+
