@@ -651,8 +651,8 @@ int main(int argc, char** argv) {
 	globalTime.start();
 	for (int i=1; i<=runs; i++)
 	{
-		// restart RNG
-		biu::RNF::getRNG().setSeed(seed + i);
+		// // restart RNG
+		// biu::RNF::getRNG().setSeed(seed + i);
 
 		// build StateCollector
 		switch(simOutMode)
