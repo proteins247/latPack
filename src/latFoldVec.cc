@@ -621,8 +621,8 @@ int main(int argc, char** argv) {
 	  // start simulation runs
 	for (int doneRuns=0; doneRuns<runs; doneRuns++)
 	{
-		// restart RNG
-		biu::RNF::getRNG().setSeed(seed + doneRuns);
+		// // restart RNG
+		// biu::RNF::getRNG().setSeed(seed + doneRuns);
 
 		///////////////////  BEGIN CHAIN GROWTH ///////////////////////////
 			
