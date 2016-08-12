@@ -636,8 +636,6 @@ int main(int argc, char** argv) {
 		*outstream <<std::endl;
 	}
 	
-	std::vector<size_t> foundCount(maxLength,0);
-
 	if (verbosity > 0) {
 		*outstream	<< "\n Folding simulations :"
 					<< "\n ====================="
