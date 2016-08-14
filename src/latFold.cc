@@ -564,7 +564,7 @@ int main(int argc, char** argv) {
 	/*
 	 * Preparing Randomizer
 	 */
-	biu::RandomNumberGenerator* rng = new biu::RNG_LCG();
+	biu::RandomNumberGenerator* rng = new biu::RNG_ARS4x32();
 	biu::RNF::setRNG( rng );
 	delete rng;
 	biu::RNF::getRNG().setSeed(seed);
