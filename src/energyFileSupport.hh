@@ -5,11 +5,33 @@
 
 #include <iostream>
 #include <sstream>
+#include <cctype>
 #include <limits.h>
 
 #include <biu/Alphabet.hh>
 #include <biu/DistanceEnergyFunction.hh>
 
+
+/**
+ * Initializes a distance interval based energy function from the
+ * given stream.
+ *
+ * @param alph the alphabet to fill
+ * @param energyMatrix the energy function contact table to fill
+ * @param cAlphaDistScale a factor to scale the distances of the energy file to
+ *        the corresponding distances in the used lattice model
+ * @param input the input stream to read the information from
+ * @return Status of reading : 0 = ok, -1 = read error
+ */
+void
+trim_whitespace( std::string &str )
+{
+	while(std::isspace(*str.begin()))
+		str.erase(str.begin());
+
+	while(std::isspace(*str.rbegin()))
+		str.erase(str.length()-1);
+}
 
 
 /**
@@ -49,6 +71,7 @@ initIntervalEnergyFunction(	biu::Alphabet *& alph,
 	  // read first line that contains alphabet info
 	  // get first line content
 	getline( input, line, '\n' );
+	trim_whitespace(line);
 
 	if (line.size() == 0) {
 		std::cerr <<"\n   ERROR : energy file : first line does not contain allowed alphabet !\n\n";
@@ -149,6 +172,7 @@ initContactEnergyFunction(	biu::Alphabet *& alph,
 	  // read first line that contains alphabet info
 	  // get first line content
 	getline( input, line, '\n' );
+	trim_whitespace(line);
 
 	if (line.size() == 0) {
 		std::cerr <<"\n   ERROR : energy file : first line does not contain allowed alphabet !\n\n";
