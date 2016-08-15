@@ -581,7 +581,7 @@ int main(int argc, char** argv) {
 	// See Sindhikara et al. JCTC 2009, 5
 	// "Bad Seeds Sprout Perilous Dynamics: Stochastic Thermostat Induced Trajectory Synchronization in Biomolecules"
 	unsigned int modified_seed = (unsigned int)(kT * 100) * seed;
-	for (std::string::iterator it=seqStr.begin(); it!=seqStr.end; ++it)
+	for (std::string::iterator it=seqStr.begin(); it!=seqStr.end(); ++it)
 	  modified_seed *= *it;
 	
 	  // output parameter setting
