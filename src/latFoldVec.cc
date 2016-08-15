@@ -575,6 +575,14 @@ int main(int argc, char** argv) {
 	biu::RNF::setRNG( rng );
 	delete rng;
 	biu::RNF::getRNG().setSeed(seed);
+	// To avoid using the same RN sequence for all simulations with the same user seed
+	//   (but different sequences and/or temperature), a modified seed is generated
+	//   based on the user seed, as well as temperature and sequence.
+	// See Sindhikara et al. JCTC 2009, 5
+	// "Bad Seeds Sprout Perilous Dynamics: Stochastic Thermostat Induced Trajectory Synchronization in Biomolecules"
+	unsigned int modified_seed = (unsigned int)(kT * 100) * seed;
+	for (std::string::iterator it=seqStr.begin(); it!=seqStr.end; ++it)
+	  modified_seed *= *it;
 	
 	  // output parameter setting
 	if (verbosity > 0) {
