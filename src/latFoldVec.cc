@@ -154,6 +154,7 @@ static const double DEFAULT_MINE = (double)INT_MIN;
 static const std::string DEFAULT_LATTICE = OPTION_CUB;
 static const std::string DEFAULT_MOVES = OPTION_PULLM;
 static const std::string DEFAULT_RUNS = "1";
+static const unsigned int DEFAULT_OUTFREQ = 1;
 
 
 // constants
@@ -282,6 +283,11 @@ int main(int argc, char** argv) {
 			"N"));
 	
 	options.push_back(biu::COption(
+			"outFreq", optional, biu::COption::INT,
+			"output frequency. print information every INT steps. in effect only if -out=E or -out=S",
+			DEFAULT_OUTFREQ));
+
+	options.push_back(biu::COption(
 			"outFile", optional, biu::COption::STRING, ofileInfo, "STDOUT"));
 	
 	options.push_back(biu::COption(
@@ -317,6 +323,7 @@ int main(int argc, char** argv) {
 	biu::LatticeModel * lattice = NULL;
 	size_t seed;
 	int runs;
+	unsigned int outFreq;
 	std::ostream* outstream = &std::cout;
 	ell::SC_MinE* sc;
 	bool timing;
@@ -554,6 +561,15 @@ int main(int argc, char** argv) {
 			return PARSE_ERROR;
 		}
 		
+		 // set output frequency
+		if (	simOutMode != OUT_NO
+			        && parser.argExist("outFreq")   ) {
+	        	outFreq = parser.getIntVal("outFreq");
+			if (outFreq <= 0) << "Error: given output frequencey '"
+					  << outFreq
+					  << "' is not supported. Require outFreq > 0\n";
+		}
+
 		verbosity = 0;
 		if (parser.argExist("v")) verbosity = 1;
 		if (parser.argExist("vv")) verbosity = 2;
@@ -606,6 +622,8 @@ int main(int argc, char** argv) {
 		}
 		if (minEnergy != DEFAULT_MINE)
 			*outstream << "\n  - Min. Energy : " << minEnergy;
+		if (simOutMode != OUT_NO)
+		        *outstream << "\n  - Out freq.   : " << outFreq;
 		*outstream <<std::endl;
 	}
 	
@@ -934,10 +952,10 @@ int main(int argc, char** argv) {
 				switch(simOutMode)
 				{
 				case OUT_ES:
-					sc = new SC_OutAbs(*simOut, absMoveStr.length());
+					sc = new SC_OutAbs(*simOut, absMoveStr.length(), outFreq);
 					break;
 				case OUT_E:
-					sc = new SC_OutEnergy(*simOut);
+					sc = new SC_OutEnergy(*simOut, outFreq);
 					break;
 				case OUT_NO:
 					sc = new SC_MinE();
