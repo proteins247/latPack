@@ -20,10 +20,11 @@ namespace ell
 		  //! the stream to write the states to
 		std::ostream& out;
 		const size_t cutoff;
+	        const size_t outFreq;
 		
 	public:
 	
-		SC_OutAbs(	std::ostream& out, size_t cutoff);
+	        SC_OutAbs(	std::ostream& out, size_t cutoff, size_t outFreq = 1);
 		
 		virtual ~SC_OutAbs();
 	

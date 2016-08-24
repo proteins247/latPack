@@ -5,8 +5,8 @@
 namespace ell
 {
 
-	SC_OutAbs::SC_OutAbs(	std::ostream& out_, size_t cutoff_)
-	 :	SC_MinE(), out(out_), cutoff(cutoff_)
+	SC_OutAbs::SC_OutAbs(	std::ostream& out_, size_t cutoff_, size_t outFreq_)
+	  :	SC_MinE(), out(out_), cutoff(cutoff_), outFreq(outFreq_)
 	{
 	}
 	
@@ -21,12 +21,14 @@ namespace ell
 		  //  call handler of superclass
 		SC_MinE::add(s);
 		
-		// extract structure information
-		std::string abs = s.toString();
-		abs = abs.substr(0, cutoff);
 		
 		  // print to stream
-		out << s.getEnergy() << " " << abs << std::endl;
+		if ( !(stateCount % outFreq) ) {
+			// extract structure information
+			std::string abs = s.toString();
+			abs = abs.substr(0, cutoff);
+			out << s.getEnergy() << " " << abs << std::endl;
+		}
 	}
 
 }

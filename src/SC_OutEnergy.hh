@@ -19,10 +19,11 @@ namespace ell
 	protected:
 		  //! the stream to write the states to
 		std::ostream& out;
+                const size_t outFreq;
 		
 	public:
 	
-		SC_OutEnergy(	std::ostream& out);
+		SC_OutEnergy(	std::ostream& out, size_t outFreq = 1);
 		
 		virtual ~SC_OutEnergy();
 	
