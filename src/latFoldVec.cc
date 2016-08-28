@@ -154,7 +154,7 @@ static const double DEFAULT_MINE = (double)INT_MIN;
 static const std::string DEFAULT_LATTICE = OPTION_CUB;
 static const std::string DEFAULT_MOVES = OPTION_PULLM;
 static const std::string DEFAULT_RUNS = "1";
-static const unsigned int DEFAULT_OUTFREQ = 1;
+static const std::string DEFAULT_OUTFREQ = "1";
 
 
 // constants
@@ -565,7 +565,8 @@ int main(int argc, char** argv) {
 		if (	simOutMode != OUT_NO
 			        && parser.argExist("outFreq")   ) {
 	        	outFreq = parser.getIntVal("outFreq");
-			if (outFreq <= 0) << "Error: given output frequencey '"
+			if (outFreq <= 0)
+				std::cerr << "Error: given output frequencey '"
 					  << outFreq
 					  << "' is not supported. Require outFreq > 0\n";
 		}

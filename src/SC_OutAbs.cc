@@ -23,7 +23,8 @@ namespace ell
 		
 		
 		  // print to stream
-		if ( !(stateCount % outFreq) ) {
+		  // stateCount starts at 1 (original structure)
+		if ( !((stateCount-1) % outFreq) ) {
 			// extract structure information
 			std::string abs = s.toString();
 			abs = abs.substr(0, cutoff);

@@ -20,7 +20,8 @@ namespace ell
 		SC_MinE::add(s);
 
 		  // print to stream
-		if  ( !(stateCount % outFreq) ) 
+		  // stateCount starts at 1 (original structure)
+		if  ( !((stateCount-1) % outFreq) ) 
 			out << s.getEnergy() << std::endl;
 	}
 
