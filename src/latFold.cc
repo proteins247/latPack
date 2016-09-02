@@ -594,12 +594,13 @@ int main(int argc, char** argv) {
 	// This design is not robust.
 	// See Sindhikara et al. JCTC 2009, 5
 	// "Bad Seeds Sprout Perilous Dynamics: Stochastic Thermostat Induced Trajectory Synchronization in Biomolecules"
-	unsigned int modified_seed = (unsigned int)(kT * 100) * seed;
+	unsigned int modified_seed = 0;
 	for (std::string::iterator it=seqStr.begin(); it!=seqStr.end(); ++it) {
-	  modified_seed *= *it;
-	  modified_seed += *it;
+		// (sbdm hash)
+		modified_seed = it + (modified_seed << 6) + (modified_seed << 16) - modified_seed;
 	}
-	biu::RNF::getRNG().setSeed(modified_seed);
+	modified_seed *= (unsigned int)(kT * 100)
+	biu::RNF::getRNG().setSeed(modified_seed + seed);
 	
 	/*
 	 * Building Protein related objects.
