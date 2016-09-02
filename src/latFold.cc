@@ -599,7 +599,7 @@ int main(int argc, char** argv) {
 		// (sbdm hash)
 		modified_seed = it + (modified_seed << 6) + (modified_seed << 16) - modified_seed;
 	}
-	modified_seed *= (unsigned int)(kT * 100)
+	modified_seed *= (unsigned int)(kT * 100);
 	biu::RNF::getRNG().setSeed(modified_seed + seed);
 	
 	/*
