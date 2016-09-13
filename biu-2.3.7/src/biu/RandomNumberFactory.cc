@@ -63,7 +63,7 @@ namespace biu
                 unsigned int rn = getRN();
                 while ( rn > maxAllowedRn )
                         rn = getRN();
-                // compute final random number within [0,max]
+                // compute final random number within [0,max)
                 return rn%max;
         }
 	
