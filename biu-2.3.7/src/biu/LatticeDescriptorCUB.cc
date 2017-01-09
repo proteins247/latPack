@@ -11,7 +11,7 @@ namespace biu
 		: LatticeDescriptor("cub")
 	{
 		
-		// gitterbasis
+		// gitterbasis (lattice base)
 		latBase.push_back(IntPoint(1,0,0));	// x
 		latBase.push_back(IntPoint(0,1,0));	// y
 		latBase.push_back(IntPoint(0,0,1));	// z
