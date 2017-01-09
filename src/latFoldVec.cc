@@ -594,13 +594,13 @@ int main(int argc, char** argv) {
 	// To avoid using the same RN sequence for all simulations with the same user seed
 	//   (but different sequences and/or temperature), a modified seed is generated
 	//   based on the user seed, as well as temperature and sequence.
-	// This design is not robust.
 	// See Sindhikara et al. JCTC 2009, 5
 	// "Bad Seeds Sprout Perilous Dynamics: Stochastic Thermostat Induced Trajectory Synchronization in Biomolecules"
+	// Robustness of multiplication and addition after hash uncertain.
 	unsigned int modified_seed = 0;
 	for (std::string::iterator it=seqStr.begin(); it!=seqStr.end(); ++it) {
-		// (sbdm hash)
-		modified_seed = it + (modified_seed << 6) + (modified_seed << 16) - modified_seed;
+		// (sdbm hash)
+		modified_seed = *it + (modified_seed << 6) + (modified_seed << 16) - modified_seed;
 	}
 	modified_seed *= (unsigned int)(kT * 100);
 	biu::RNF::getRNG().setSeed(modified_seed + seed);
