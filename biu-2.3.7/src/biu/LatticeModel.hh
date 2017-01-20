@@ -106,7 +106,7 @@ namespace biu
 		virtual std::string	getString( const MoveSequence& moveSeq ) const;
 		
 		//////////////////////////////////////////////////////
-		// nachbarschaft im gitter
+		// nachbarschaft im gitter (neighborhood in the grid)
 		//////////////////////////////////////////////////////
 		
 			//! Calculates all neighbored points to the given center based
