@@ -11,6 +11,11 @@ namespace ell
 	{
 	}
 
+	SC_MinE::SC_MinE(size_t previousCount)
+	 :	SC_Counting(previousCount), minE((double)INT_MAX)
+	{
+	}
+
 	SC_MinE::~SC_MinE()
 	{
 	}

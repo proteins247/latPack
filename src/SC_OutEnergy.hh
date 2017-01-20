@@ -23,7 +23,8 @@ namespace ell
 		
 	public:
 	
-		SC_OutEnergy(	std::ostream& out, size_t outFreq = 1);
+		SC_OutEnergy(	std::ostream& out);
+       	        SC_OutEnergy(	std::ostream& out, size_t outFreq, size_t previousCount);
 		
 		virtual ~SC_OutEnergy();
 	

@@ -20,6 +20,7 @@ namespace ell
 	public:
 	
 		SC_MinE();
+		SC_MinE(size_t previousCount);
 		
 		virtual ~SC_MinE();
 		

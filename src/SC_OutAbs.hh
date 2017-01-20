@@ -5,6 +5,7 @@
 #include <string>
 
 #include "SC_MinE.hh"
+#include <ell/protein/S_LP.hh>	// added
 
 namespace ell
 {
@@ -24,7 +25,8 @@ namespace ell
 		
 	public:
 	
-	        SC_OutAbs(	std::ostream& out, size_t cutoff, size_t outFreq = 1);
+	        SC_OutAbs(	std::ostream& out, size_t cutoff);
+	        SC_OutAbs(	std::ostream& out, size_t cutoff, size_t outFreq, size_t previousCount);		
 		
 		virtual ~SC_OutAbs();
 	
