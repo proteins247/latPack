@@ -116,6 +116,8 @@ static const std::string helpInfo =
 	"display program parameters and help";
 static const std::string moveSetInfo =
 	"which move set to use: PullM or PivotM";
+static const std::string ribosomeInfo =
+	"simulate with a non-interacting wall that acts as a barrier and anchors the last residue. 3D-only";
 
 int main(int argc, char** argv) {
 	
@@ -211,6 +213,12 @@ int main(int argc, char** argv) {
 			biu::COption::STRING,
 			moveSetInfo,
 			DEFAULT_MOVES));
+
+	options.push_back(biu::COption(
+			"ribosome",
+			optional,
+			biu::COption::BOOL,
+			ribosomeInfo));
 	
 	options.push_back(biu::COption(
 			"out",
@@ -286,6 +294,7 @@ int main(int argc, char** argv) {
 	unsigned int outFreq;
 	std::ostream* outstream = &std::cout;
 	ell::SC_MinE* sc;
+	bool ribosome;
 	bool timing;
 	int verbosity;
 	OUT_MODE simOutMode = OUT_NO;
@@ -518,6 +527,9 @@ int main(int argc, char** argv) {
 				return PARSE_ERROR;
 			}
 		}
+		
+		// ribosome options
+		ribosome = parser.argExist("ribosome");
 
 		  // check for simulation output mode
 		switch (parser.getCharVal("out")) {
@@ -610,13 +622,22 @@ int main(int argc, char** argv) {
 	biu::Sequence seq = alph->getSequence(seqStr);
 	biu::LatticeProtein_I* latProt = new biu::LatticeProtein_Ipnt
 										(lattice,energy,&seq,seqShared,absMoveStr,
-										isAbsMove);
+										 isAbsMove,ribosome);
 
 	if (!latProt->isSelfAvoiding())
 	{
 		std::cerr	<< "Error: move sequence \'"
 					<< absMoveStr << "\'"
 					<< " is not selfavoiding."
+					<< std::endl;
+		return DATA_ERROR;
+	}
+
+	if (ribosome && !latProt->isRibosomeValid())
+	{
+		std::cerr      << "Error: cannot anchor move sequence \'"
+					<< absMoveStr << "\'"
+					<< " to a wall. Not ribosome valid"
 					<< std::endl;
 		return DATA_ERROR;
 	}
@@ -659,6 +680,7 @@ int main(int argc, char** argv) {
 					<< "\n  - Sequence    : " << seqStr
 					<< "\n  - Abs. moves  : " << absMoveStr
 					<< "\n  - Move set    : " << moves
+         				<< "\n  - Ribosome?   : " << (ribosome ? "tethered" : "untethered")
 					<< "\n  - Simulations : " << runs
 					<< "\n  - Seed (rand) : " << seed
 					<< "\n  - kT (MC)     : " << kT
@@ -691,10 +713,10 @@ int main(int argc, char** argv) {
 		switch(simOutMode)
 		{
 		case OUT_ES:
-			sc = new SC_OutAbs(*simOut, absMoveStr.length(), outFreq);
+			sc = new SC_OutAbs(*simOut, absMoveStr.length(), outFreq, 0);
 			break;
 		case OUT_E:
-			sc = new SC_OutEnergy(*simOut, outFreq);
+			sc = new SC_OutEnergy(*simOut, outFreq, 0);
 			break;
 		case OUT_NO:
 			sc = new SC_MinE();

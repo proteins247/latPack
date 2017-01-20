@@ -214,6 +214,8 @@ static const std::string helpInfo =
 	"display program parameters and help";
 static const std::string moveSetInfo =
 	"which move set to use: PullM or PivotM";
+static const std::string ribosomeInfo =
+	"simulate with a non-interacting wall that acts as a barrier and anchors the last residue. 3D-only";
 
 int main(int argc, char** argv) {
 	
@@ -278,6 +280,9 @@ int main(int argc, char** argv) {
 			"moveSet", optional, biu::COption::STRING, moveSetInfo, DEFAULT_MOVES));
 	
 	options.push_back(biu::COption(
+			"ribosome", optional, biu::COption::BOOL, ribosomeInfo));
+	
+	options.push_back(biu::COption(
 			"out", optional, biu::COption::CHAR,
 			"output mode along the folding simulation: (N)o, (E)nergy, (S)tructure+Energy",
 			"N"));
@@ -326,6 +331,7 @@ int main(int argc, char** argv) {
 	unsigned int outFreq;
 	std::ostream* outstream = &std::cout;
 	ell::SC_MinE* sc;
+	bool ribosome;
 	bool timing;
 	size_t verbosity;
 	OUT_MODE simOutMode = OUT_NO;
@@ -522,6 +528,9 @@ int main(int argc, char** argv) {
 				return PARSE_ERROR;
 			}
 		}
+		
+		// ribosome options
+		ribosome = parser.argExist("ribosome");
 
 		  // check for simulation output mode
 		switch (parser.getCharVal("out")) {
@@ -679,6 +688,9 @@ int main(int argc, char** argv) {
 		  // hold the current chain length
 	//	size_t curLength = 2;
 		size_t curLength = 3;
+
+		// track total number of steps in simulation
+		size_t totalSteps = 0;		
 		
 		
 		  // initialize with a ONE move
@@ -786,7 +798,7 @@ int main(int argc, char** argv) {
 					bool isAbsMove = true;
 					  // create lattice protein instance
 					biu::LatticeProtein_Ipnt 
-						latProt(lattice,energy,&seq,seqShared,absMoveStr,isAbsMove);
+						latProt(lattice,energy,&seq,seqShared,absMoveStr,isAbsMove,ribosome);
 					curEnergy = latProt.getEnergy();
 	
 					break;
@@ -910,7 +922,7 @@ int main(int argc, char** argv) {
 			bool isAbsMove = true;
 			  // create lattice protein instance
 			biu::LatticeProtein_Ipnt 
-				latProt(lattice,energy,&seq,seqShared,absMoveStr,isAbsMove);
+				latProt(lattice,energy,&seq,seqShared,absMoveStr,isAbsMove,ribosome);
 			  // update energy
 			curEnergy = latProt.getEnergy();
 	
@@ -954,10 +966,10 @@ int main(int argc, char** argv) {
 				switch(simOutMode)
 				{
 				case OUT_ES:
-					sc = new SC_OutAbs(*simOut, absMoveStr.length(), outFreq);
+					sc = new SC_OutAbs(*simOut, absMoveStr.length(), outFreq, totalSteps);
 					break;
 				case OUT_E:
-					sc = new SC_OutEnergy(*simOut, outFreq);
+					sc = new SC_OutEnergy(*simOut, outFreq, totalSteps);
 					break;
 				case OUT_NO:
 					sc = new SC_MinE();
@@ -980,6 +992,7 @@ int main(int argc, char** argv) {
 				  // update 
 				curEnergy = sc->getLastAdded()->getEnergy();
 				absMoveStr = sc->getLastAdded()->toString();
+				totalSteps += sc->size();
 				if (absMoveStr.find("(") != std::string::npos) {
 					absMoveStr = absMoveStr.substr(0,absMoveStr.find("("));
 				}
