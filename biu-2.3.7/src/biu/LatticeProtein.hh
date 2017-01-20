@@ -68,6 +68,12 @@ namespace biu
 			//! are neighbored in the lattice. 
 		virtual bool	isConnected() const = 0;
 		
+			//! Reports whether the structure is anchored at one end to a wall
+		virtual bool	isRibosomeBound() const = 0;
+
+			//! Tests whether or not the structure obeys ribosome criterion
+		virtual bool	isRibosomeValid() const = 0;
+
 			//! Returns the lattice model this lattice protein is basing on
 		virtual const LatticeModel* getLatticeModel() const = 0;
 		

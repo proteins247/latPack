@@ -28,7 +28,7 @@ namespace biu
 
 
 		//! the structure in 3D coordinates
-		IPointVec*		points;	
+		IPointVec*		points;
 
 			//! the energy of this structure that is calculated lazily on demand
 		mutable double	energy;
@@ -38,6 +38,9 @@ namespace biu
 		
 			//! lazy calculated connectedness
 		mutable MyBool connected;
+
+		//! whether the last residue is anchored to a wall
+		bool ribosomeBound;
 
 	
 	public:
@@ -60,20 +63,26 @@ namespace biu
 		 * @param isAbsoluteMove true if moveString is an absolute move 
 		 * 						string or false if it is a relative 
 		 * 						move string
+		 * @param isRibosomeBound true if last residue should be anchored to a wall
+		 * 						added by VZ to this class
+		 * 						default false saves changes to existing code
 		 */
 		LatticeProtein_Ipnt(const LatticeModel* lattice, 
 						const DistanceEnergyFunction* energy, 
 						const Sequence* seq,
 						const bool seqShared,
 						const std::string& moveString, 
-						const bool isAbsoluteMove);
+				                const bool isAbsoluteMove,
+				                const bool isRibosomeBound = false);
 
 		LatticeProtein_I* clone() const;
 		LatticeProtein_I* fromString(const std::string& stringRep) const;
 		
 		// copy constructors
-	
+
+		// VZ: property of RibosomeBound is inherited unless downcasting fails
 		LatticeProtein_Ipnt(const LatticeProtein& latProt); 
+		// VZ: property of RibosomeBound is inherited
 		LatticeProtein_Ipnt(const LatticeProtein_Ipnt& latProt); 
 						
 		/*! Destruction of the lattice protein object.
@@ -145,6 +154,12 @@ namespace biu
 			//! are neighbored in the lattice. 
 		virtual bool	isConnected() const;
 			
+			//! Tests whether or not the structure is bound to a "ribosome" (wall)
+		virtual bool	isRibosomeBound() const;
+		
+			//! Tests whether or not the structure obeys ribosome criterion
+		virtual bool	isRibosomeValid() const;
+		
 		virtual LatticeProtein_Ipnt&	operator= (const LatticeProtein_Ipnt& latProt2);		
 		virtual LatticeProtein_I&	operator= (const LatticeProtein_I& latProt2);		
 		virtual bool	 		operator== (const LatticeProtein& latProt2) const;

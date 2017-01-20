@@ -3,7 +3,7 @@
 
 #include "biu/LatticeProtein_Ipnt.hh"
 #include <limits.h>
-
+#include <algorithm>
 
 namespace biu
 {
@@ -18,12 +18,14 @@ namespace biu
 						const Sequence* seq,
 						const bool seqShared,
 						const std::string& moveString, 
-						const bool isAbsoluteMove)
+						const bool isAbsoluteMove,
+						const bool isRibosomeBound)
 	 :	LatticeProtein_I(lattice, energyFunc, seq, seqShared),
 	 	points( new IPointVec() ), 
 	 	energy(NAN_DOUBLE), 
 	 	selfavoiding(MyNaN),
-	 	connected(MyNaN) 
+	 	connected(MyNaN),
+		ribosomeBound(isRibosomeBound)
 	{
 		if (isAbsoluteMove) {
 			*points = lattice->absMovesToPoints(
@@ -62,8 +64,14 @@ namespace biu
 			energy = l2->energy;
 			selfavoiding = l2->selfavoiding;
 			connected = l2->connected;
+			// copy ribosomeBound property
+			ribosomeBound = l2->ribosomeBound;
 		} else {	// via copied objects
 			*points = latPr.getPoints();
+			ribosomeBound = latPr.isRibosomeBound(); // added by VZ
+			// but is it ok to call this pure virtual function?
+			// note, latPr.getPoints() is also pure virtual function...
+			// maybe within this else clause has never been tested?
 			 // inform the object that the structure has changed
 			updateProperties();
 		}
@@ -74,7 +82,8 @@ namespace biu
 	 	points( new IPointVec(latPr.points->size())),
 	 	energy(latPr.energy), 
 	 	selfavoiding(latPr.selfavoiding),
-	 	connected(latPr.connected) 
+	 	connected(latPr.connected),
+		ribosomeBound(latPr.ribosomeBound)
 	{
 		assertbiu (lattice != NULL && energyFunc != NULL, 
 			"no lattice model or energy function available");
@@ -379,7 +388,39 @@ namespace biu
 		connected = MyTrue;
 		return true;
 	}
-	
+
+		//! Reports on whether this is a ribosome bound structure
+	bool	
+	LatticeProtein_Ipnt::isRibosomeBound() const {
+		return ribosomeBound;
+	}	
+
+		//! Tests the ribosome criterion
+		//! If the last residue of the structure can be placed next to a plane
+	        //! such that no residues in the structure breaches that plane, then the structure
+	        //! is ribosome valid
+	bool	
+	LatticeProtein_Ipnt::isRibosomeValid() const {
+		assertbiu(points != NULL, "no structure available");
+		// do the check
+		IntPoint anchorPoint = points->back();
+		int max_x=anchorPoint.getX(), min_x=anchorPoint.getX();
+		int max_y=anchorPoint.getY(), min_y=anchorPoint.getY();
+		int max_z=anchorPoint.getZ(), min_z=anchorPoint.getZ();
+		if (points->size() < 2)
+			return true;
+		for (biu::IPointVec::iterator it = points->begin(); it != points->end()-1; ++it) {
+			max_x = std::max(it->getX(), max_x);
+			min_x = std::min(it->getX(), min_x);
+			max_y = std::max(it->getY(), max_y);
+			min_y = std::min(it->getY(), min_y);
+			max_z = std::max(it->getZ(), max_z);
+			min_z = std::min(it->getZ(), min_z);
+		}
+		return  max_x <= anchorPoint.getX() || min_x >= anchorPoint.getX() ||
+			max_y <= anchorPoint.getY() || min_y >= anchorPoint.getY() ||
+			max_z <= anchorPoint.getZ() || min_z >= anchorPoint.getZ();
+	}	
 	
 	
 		// additional functions (LatticeProtein_Ipnt)
