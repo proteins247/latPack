@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 #
 AC_PREREQ(2.59)
-AC_INIT([LatPack],[1.9.1-2], [http://www.bioinf.uni-freiburg.de/Software/LatPack/])
+AC_INIT([LatPack],[1.9.1-3], [http://www.bioinf.uni-freiburg.de/Software/LatPack/])
 AC_CONFIG_SRCDIR([src/latFit.cc])
 AC_CONFIG_AUX_DIR([.])
 
@@ -30,7 +30,7 @@ AC_ARG_ENABLE(debug,
 AC_MSG_RESULT($debuger)
 if test x"$debuger" = x"yes"; then
 	AC_DEFINE(DEBUG)
-	CXXFLAGS="$CXXFLAGS -g -Wall -Werror -Wno-uninitialized -O0  -ansi -pedantic -march=native "
+	CXXFLAGS="$CXXFLAGS -g -Wall -Werror -Wno-uninitialized -O0 -pedantic -march=native "
 else
 	AC_DEFINE(NDEBUG)
 	CXXFLAGS="$CXXFLAGS -O2 -march=native "

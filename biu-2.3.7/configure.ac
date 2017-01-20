@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 #
 AC_PREREQ([2.59])
-AC_INIT([BIU], [2.3.7], [http://www.bioinf.uni-freiburg.de/SW/BIU/])
+AC_INIT([BIU], [2.3.7-1], [http://www.bioinf.uni-freiburg.de/SW/BIU/])
 AC_CONFIG_SRCDIR([src/biu/OptionParser.hh])
 AC_CONFIG_AUX_DIR([.])
 AC_CANONICAL_HOST
@@ -69,7 +69,7 @@ AC_ARG_ENABLE(debug,
 AC_MSG_RESULT($debuger)
 if test x"$debuger" = x"yes"; then
 	AC_DEFINE(DEBUG)
-	CXXFLAGS="$CXXFLAGS -g -Wall -Werror -Wno-uninitialized -O0 -ansi -pedantic -march=native "
+	CXXFLAGS="$CXXFLAGS -g -Wall -Werror -Wno-uninitialized -O0 -pedantic -march=native "
 else
 	AC_DEFINE(NDEBUG)
 	CXXFLAGS="$CXXFLAGS -O2 -march=native "
