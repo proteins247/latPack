@@ -533,6 +533,12 @@ namespace biu
 					return NULL;
 			}
 
+			// VZ: And move must not produce a hook conformation
+			//  see "'Pull moves' for rectangular lattice polymer models are not fully reversible" by Gyorffy et al. 2012.
+			// hook conformation results if second pullpoint and the second to last prot residue are neighbored
+			if (lattice->areNeighbored( pullPoints.second, todoPoints->at(relPos-1) ))
+				return NULL;
+
 			// save undo information
 			undoRec.hasChanged = true;
 			undoRec.lastChangedObject = todo;
