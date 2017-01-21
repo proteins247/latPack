@@ -640,6 +640,9 @@ initAllowedArguments(biu::OptionMap & allowedArgs, std::string &infoText )
 							"energyFile", false, biu::COption::STRING, 
 							"the energy function file that contains also the alphabet"));
 	allowedArgs.push_back(biu::COption(	
+							"elementLength", true, biu::COption::INT, 
+							"the character length of a single alphabet element in the energy file", "1"));
+	allowedArgs.push_back(biu::COption(	
 							"energyForDist", true, biu::COption::BOOL, 
 							"if present a distance based energy function is used, otherwise a contact energy function is applied"));
 	allowedArgs.push_back(biu::COption(	
@@ -790,6 +793,7 @@ int main( int argc, char** argv ) {
 	
 		// init energy function
 	std::string energyFile = opts.getStrVal("energyFile");
+	int alphElementLength = opts.getIntVal("elementLength");
 	if ( energyFile.size() == 0 ) {
 		cerr <<"\n   Error: no energy file given ('-energyFile=XXX') !\n";
 		return -1;
@@ -818,7 +822,7 @@ int main( int argc, char** argv ) {
 										/ cAlphaDist;
 			
 			// do parsing
-			if (initIntervalEnergyFunction( alph, energy, cAlphaDistScale, *in) != 0) {
+			if (initIntervalEnergyFunction( alph, energy, cAlphaDistScale, *in, alphElementLength) != 0) {
 				cerr <<"\n   Error: the given energy file '"<<energyFile <<"' is not valid !\n";
 				return -1;
 			}
@@ -826,7 +830,7 @@ int main( int argc, char** argv ) {
 		} else {
 		/////// CONTACT BASED ENERGY FUNCTION ////////////////////////////////////
 			  // do parsing
-			if (initContactEnergyFunction( alph, energyMatrix, *in) != 0) {
+			if (initContactEnergyFunction( alph, energyMatrix, *in, alphElementLength) != 0) {
 				cerr <<"\n   Error: the given energy file '"<<energyFile <<"' is not valid !\n";
 				return -1;
 			}
@@ -853,7 +857,7 @@ int main( int argc, char** argv ) {
 	  // read sequence and check if conform to alphabet 
 	{
 		std::string seqStr = opts.getStrVal("seq");
-		if (seqStr.size() < MIN_SEQ_LENGTH) {
+		if (seqStr.size()/alphElementLength < MIN_SEQ_LENGTH) {
 			cerr	<<"\n   ERROR : minimal sequence length is "<<MIN_SEQ_LENGTH <<" \n\n";
 			return -1;
 		}

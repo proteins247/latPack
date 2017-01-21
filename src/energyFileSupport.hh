@@ -13,15 +13,7 @@
 
 
 /**
- * Initializes a distance interval based energy function from the
- * given stream.
- *
- * @param alph the alphabet to fill
- * @param energyMatrix the energy function contact table to fill
- * @param cAlphaDistScale a factor to scale the distances of the energy file to
- *        the corresponding distances in the used lattice model
- * @param input the input stream to read the information from
- * @return Status of reading : 0 = ok, -1 = read error
+ * Simple function to remove whitespace from beginning and end of string
  */
 void
 trim_whitespace( std::string &str )
@@ -49,7 +41,8 @@ int
 initIntervalEnergyFunction(	biu::Alphabet *& alph,
 							biu::DistanceEnergyFunction *& energyD,
 							const double cAlphaDistScale,
-							std::istream & input )
+				std::istream & input ,
+				int alphElementLength)
 {
 	assertbiu( input.good(), "cannot read from given input");
 
@@ -78,7 +71,7 @@ initIntervalEnergyFunction(	biu::Alphabet *& alph,
 		return -1;
 	}
 	  // create new alphabet
-	alph = new biu::Alphabet(line, 1);
+	alph = new biu::Alphabet(line, alphElementLength);
 
 
 
@@ -155,7 +148,8 @@ initIntervalEnergyFunction(	biu::Alphabet *& alph,
 int
 initContactEnergyFunction(	biu::Alphabet *& alph,
 							biu::EnergyMatrix *& energyMatrix,
-							std::istream & input )
+				std::istream & input,
+				int alphElementLength)
 {
 	assertbiu( input.good(), "cannot read from given input");
 
@@ -179,7 +173,7 @@ initContactEnergyFunction(	biu::Alphabet *& alph,
 		return -1;
 	}
 	  // create new alphabet
-	alph = new biu::Alphabet(line, 1);
+	alph = new biu::Alphabet(line, alphElementLength);
 
 	  // create and init new matrix
 	energyMatrix = new biu::EnergyMatrix(	alph->getAlphabetSize(),

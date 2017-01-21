@@ -42,6 +42,7 @@ static const std::string DEFAULT_LATTICE = "CUB";
 static const std::string DEFAULT_MOVES = "PullM";
 static const std::string DEFAULT_RUNS = "1";
 static const std::string DEFAULT_OUTFREQ = "1";
+static const std::string DEFAULT_ELEMENTLENGTH = "1";
 
 // default data
 
@@ -142,6 +143,13 @@ int main(int argc, char** argv) {
 			!optional, 
 			biu::COption::STRING, 
 			"the contact energy function file that contains also the alphabet"));
+
+	options.push_back(biu::COption(	
+			"elementLength", 
+			optional, 
+			biu::COption::INT,
+			"the character length of a single alphabet element in the energy file",
+			DEFAULT_ELEMENTLENGTH));
 
 	options.push_back(biu::COption(	
 			"energyForDist", 
@@ -292,6 +300,7 @@ int main(int argc, char** argv) {
 	size_t seed;
 	int runs;
 	unsigned int outFreq;
+	unsigned int alphElementLength;
 	std::ostream* outstream = &std::cout;
 	ell::SC_MinE* sc;
 	bool ribosome;
@@ -346,6 +355,7 @@ int main(int argc, char** argv) {
 		
 			// init energy function
 		std::string energyFile = parser.getStrVal("energyFile");
+		alphElementLength = parser.getIntVal("elementLength");
 		if ( energyFile.size() == 0 ) {
 			std::cerr <<"\n   Error: no energy file given ('-energyFile=XXX') !\n";
 			return -1;
@@ -374,7 +384,7 @@ int main(int argc, char** argv) {
 											/ cAlphaDist;
 				
 				// do parsing
-				if (initIntervalEnergyFunction( alph, energy, cAlphaDistScale, *in) != 0) {
+				if (initIntervalEnergyFunction( alph, energy, cAlphaDistScale, *in, alphElementLength) != 0) {
 					std::cerr <<"\n   Error: the given energy file '"<<energyFile <<"' is not valid !\n";
 					return -1;
 				}
@@ -382,7 +392,7 @@ int main(int argc, char** argv) {
 			} else {
 			/////// CONTACT BASED ENERGY FUNCTION ////////////////////////////////////
 				  // do parsing
-				if (initContactEnergyFunction( alph, energyMatrix, *in) != 0) {
+				if (initContactEnergyFunction( alph, energyMatrix, *in, alphElementLength) != 0) {
 					std::cerr <<"\n   Error: the given energy file '"<<energyFile <<"' is not valid !\n";
 					return -1;
 				}
@@ -419,7 +429,7 @@ int main(int argc, char** argv) {
 		    	return PARSE_ERROR;
 		    }
 		    // check size
-		    if (seqStr.size()<3) {
+		    if ( seqStr.size()/alphElementLength <3) {
 		    	std::cerr	<< "Error: seq must have at least length 3."
 		    				<< std::endl;
 		    	return PARSE_ERROR;
@@ -447,7 +457,7 @@ int main(int argc, char** argv) {
 				return PARSE_ERROR;
 			}
 			// check size
-			if (latticeDescriptor->getAlphabet()->getSequence(absMoveStr).size()+1 != seqStr.size())
+			if (latticeDescriptor->getAlphabet()->getSequence(absMoveStr).size()+1 != seqStr.size()/alphElementLength)
 			{
 				std::cerr	<< "Error: sequence and structure differ in size."
 							<< std::endl;
@@ -457,7 +467,7 @@ int main(int argc, char** argv) {
 		else {
 			absMoveStr = "";
 			  // add a sequence of the first move of the move alphabet
-			for (size_t i=1; i<seqStr.size(); i++)
+			for (size_t i=1; i<seqStr.size()/alphElementLength; i++)
 			{
 				absMoveStr.append(
 							latticeDescriptor->getAlphabet()->getString(
@@ -677,6 +687,7 @@ int main(int argc, char** argv) {
 					<< "\n  - Lattice     : " << lattice->getDescriptor()->getName()
 					<< "\n  - Energy file : " << parser.getStrVal("energyFile")
 					<< "\n  - Alphabet    : " << alphString
+					<< "\n  - Elt. length : " << alphElementLength
 					<< "\n  - Sequence    : " << seqStr
 					<< "\n  - Abs. moves  : " << absMoveStr
 					<< "\n  - Move set    : " << moves

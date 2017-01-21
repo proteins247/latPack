@@ -155,7 +155,7 @@ static const std::string DEFAULT_LATTICE = OPTION_CUB;
 static const std::string DEFAULT_MOVES = OPTION_PULLM;
 static const std::string DEFAULT_RUNS = "1";
 static const std::string DEFAULT_OUTFREQ = "1";
-
+static const std::string DEFAULT_ELEMENTLENGTH = "1";
 
 // constants
 static const double DELTA_E_ADD = 0.0001;
@@ -230,6 +230,11 @@ int main(int argc, char** argv) {
 	options.push_back(biu::COption(	
 			"energyFile", !optional, biu::COption::STRING, 
 			"the contact energy function file that contains also the alphabet"));
+
+	options.push_back(biu::COption(	
+			"elementLength", optional, biu::COption::INT,
+			"the character length of a single alphabet element in the energy file",
+			DEFAULT_ELEMENTLENGTH));
 
 	options.push_back(biu::COption(	
 			"energyForDist",  true, biu::COption::BOOL, 
@@ -329,6 +334,7 @@ int main(int argc, char** argv) {
 	size_t seed;
 	int runs;
 	unsigned int outFreq;
+	unsigned int alphElementLength;
 	std::ostream* outstream = &std::cout;
 	ell::SC_MinE* sc;
 	bool ribosome;
@@ -384,6 +390,7 @@ int main(int argc, char** argv) {
 		
 			// init energy function
 		std::string energyFile = parser.getStrVal("energyFile");
+		alphElementLength = parser.getIntVal("elementLength");
 		if ( energyFile.size() == 0 ) {
 			std::cerr <<"\n   Error: no energy file given ('-energyFile=XXX') !\n";
 			return -1;
@@ -412,7 +419,7 @@ int main(int argc, char** argv) {
 											/ cAlphaDist;
 				
 				// do parsing
-				if (initIntervalEnergyFunction( alph, energy, cAlphaDistScale, *in) != 0) {
+				if (initIntervalEnergyFunction( alph, energy, cAlphaDistScale, *in, alphElementLength) != 0) {
 					std::cerr <<"\n   Error: the given energy file '"<<energyFile <<"' is not valid !\n";
 					return -1;
 				}
@@ -420,7 +427,7 @@ int main(int argc, char** argv) {
 			} else {
 			/////// CONTACT BASED ENERGY FUNCTION ////////////////////////////////////
 				  // do parsing
-				if (initContactEnergyFunction( alph, energyMatrix, *in) != 0) {
+				if (initContactEnergyFunction( alph, energyMatrix, *in, alphElementLength) != 0) {
 					std::cerr <<"\n   Error: the given energy file '"<<energyFile <<"' is not valid !\n";
 					return -1;
 				}
@@ -457,7 +464,7 @@ int main(int argc, char** argv) {
 		    	return PARSE_ERROR;
 		    }
 		    // check size
-		    if (seqStr.size()<4) {
+		    if (seqStr.size()/alphElementLength < 4) {
 		    	std::cerr	<< "Error: seq must have at least length 4."
 		    				<< std::endl;
 		    	return PARSE_ERROR;
@@ -621,8 +628,10 @@ int main(int argc, char** argv) {
 					<< "\n  - Lattice     : " << lattice->getDescriptor()->getName()
 					<< "\n  - Energy file : " << parser.getStrVal("energyFile")
 					<< "\n  - Alphabet    : " << alphString
+					<< "\n  - Elt. length : " << alphElementLength
 					<< "\n  - Sequence    : " << seqStr
 					<< "\n  - Move set    : " << moves
+         				<< "\n  - Ribosome?   : " << (ribosome ? "tethered" : "untethered")
 					<< "\n  - Simulations : " << runs
 					<< "\n  - Seed (rand) : " << seed
 					<< "\n  - kT (MC)     : " << kT
@@ -703,7 +712,7 @@ int main(int argc, char** argv) {
 		{
 			
 			  // get subsequence of current intermediate chain
-			biu::Sequence seq = alph->getSequence( seqStr.substr(0,cL+1) );
+			biu::Sequence seq = alph->getSequence( seqStr.substr(0,(cL+1)*alphElementLength) );
 			
 			  // the set of all valid elongations including Boltzmann weight
 			std::set< std::pair<std::string,double> > elongations;
@@ -810,14 +819,14 @@ int main(int argc, char** argv) {
 		assertbiu( absMoveStr.size() == (latticeDescriptor->getAlphabet()->getElementLength()*curLength), "absolute moves initialization was not successful");
 		
 	
-		for (curLength++; (!runWasAborted) && curLength < seqStr.size(); curLength++) {
+		for (curLength++; (!runWasAborted) && curLength < seqStr.size()/alphElementLength; curLength++) {
 			
 			// TODO : walk accepts only elongatable structures (SAC specialization)
 			// TODO : mem-leak ?!? (no global folding mode [maxSteps == 0])
 			
 			
 			  // get subsequence of current intermediate chain
-			biu::Sequence seq = alph->getSequence( seqStr.substr(0,curLength+1) );
+			biu::Sequence seq = alph->getSequence( seqStr.substr(0,(curLength+1)*alphElementLength) );
 	
 			///////////////////  ELONGATE CHAIN  ///////////////////////////
 			
@@ -992,7 +1001,7 @@ int main(int argc, char** argv) {
 				  // update 
 				curEnergy = sc->getLastAdded()->getEnergy();
 				absMoveStr = sc->getLastAdded()->toString();
-				totalSteps += sc->size();
+				totalSteps += sc->size() - 1;
 				if (absMoveStr.find("(") != std::string::npos) {
 					absMoveStr = absMoveStr.substr(0,absMoveStr.find("("));
 				}
