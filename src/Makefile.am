@@ -3,9 +3,9 @@
 
 # the program to build
 if with_latfold
-bin_PROGRAMS = test latFit latVec latFoldVec latConv latMap latFold latNum # latFit-old
+bin_PROGRAMS = test latFit latVec latFoldVec latConv latMap latMapTraj latFold latNum # latFit-old
 else
-bin_PROGRAMS = latFit latVec latConv latMap latNum
+bin_PROGRAMS = latFit latVec latConv latMap latMapTraj latNum
 endif
 
 AM_CPPFLAGS = -I$(top_srcdir)/src
@@ -81,6 +81,17 @@ latMap_SOURCES =	\
 					biu/SuperPos_Kabsch.hh \
 					biu/SuperPos_Kabsch.cc \
 					latMap.cc
+
+#######################   LatMap PROGRAM   #########################
+
+latMapTraj_SOURCES =	\
+					biu/LatticeDescriptorCKW.hh \
+					biu/LatticeDescriptorCKW.cc \
+					biu/LatticeProteinUtil.hh \
+					biu/LatticeProteinUtil.cc \
+					biu/SuperPos_Kabsch.hh \
+					biu/SuperPos_Kabsch.cc \
+					latMapTraj.cc
 
 #######################   LatFold PROGRAM   ########################
 
