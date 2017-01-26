@@ -39,7 +39,7 @@ namespace ell
 			std::string abs = s.toString();
 			abs = abs.substr(0, cutoff);
 			out << std::setw(10) << totalCount - 1 << " "
-			    << std::setw(6) << s.getEnergy() << " "
+			    << std::setw(6) << std::setprecision(2) << s.getEnergy() << " "
 			    << abs << std::endl;
                         // below is added for debugging
                         // const S_LP* slp = dynamic_cast<const S_LP*>(&s);

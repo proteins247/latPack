@@ -30,7 +30,7 @@ namespace ell
 		  // stateCount starts at 1 (original structure)
 		if  ( !((stateCount-1) % outFreq) ) 
 			out << std::setw(10) << totalCount - 1 << " "
-			    << std::setw(6) << s.getEnergy() << std::endl;
+			    << std::setw(6) << std::setprecision(2) << s.getEnergy() << std::endl;
 	}
 
 }
