@@ -36,11 +36,12 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 @with_latfold_FALSE@bin_PROGRAMS = latFit$(EXEEXT) latVec$(EXEEXT) \
 @with_latfold_FALSE@	latConv$(EXEEXT) latMap$(EXEEXT) \
-@with_latfold_FALSE@	latNum$(EXEEXT)
+@with_latfold_FALSE@	latMapTraj$(EXEEXT) latNum$(EXEEXT)
 @with_latfold_TRUE@bin_PROGRAMS = test$(EXEEXT) latFit$(EXEEXT) \
 @with_latfold_TRUE@	latVec$(EXEEXT) latFoldVec$(EXEEXT) \
 @with_latfold_TRUE@	latConv$(EXEEXT) latMap$(EXEEXT) \
-@with_latfold_TRUE@	latFold$(EXEEXT) latNum$(EXEEXT)
+@with_latfold_TRUE@	latMapTraj$(EXEEXT) latFold$(EXEEXT) \
+@with_latfold_TRUE@	latNum$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/version.hh.in
@@ -83,6 +84,11 @@ am_latMap_OBJECTS = biu/LatticeDescriptorCKW.$(OBJEXT) \
 	latMap.$(OBJEXT)
 latMap_OBJECTS = $(am_latMap_OBJECTS)
 latMap_LDADD = $(LDADD)
+am_latMapTraj_OBJECTS = biu/LatticeDescriptorCKW.$(OBJEXT) \
+	biu/LatticeProteinUtil.$(OBJEXT) biu/SuperPos_Kabsch.$(OBJEXT) \
+	latMapTraj.$(OBJEXT)
+latMapTraj_OBJECTS = $(am_latMapTraj_OBJECTS)
+latMapTraj_LDADD = $(LDADD)
 am_latNum_OBJECTS = biu/LatticeDescriptorCKW.$(OBJEXT) \
 	biu/LatticeProteinUtil.$(OBJEXT) latNum.$(OBJEXT)
 latNum_OBJECTS = $(am_latNum_OBJECTS)
@@ -108,12 +114,12 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(latConv_SOURCES) $(latFit_SOURCES) $(latFold_SOURCES) \
-	$(latFoldVec_SOURCES) $(latMap_SOURCES) $(latNum_SOURCES) \
-	$(latVec_SOURCES) $(test_SOURCES)
+	$(latFoldVec_SOURCES) $(latMap_SOURCES) $(latMapTraj_SOURCES) \
+	$(latNum_SOURCES) $(latVec_SOURCES) $(test_SOURCES)
 DIST_SOURCES = $(latConv_SOURCES) $(latFit_SOURCES) \
 	$(am__latFold_SOURCES_DIST) $(am__latFoldVec_SOURCES_DIST) \
-	$(latMap_SOURCES) $(latNum_SOURCES) $(latVec_SOURCES) \
-	$(test_SOURCES)
+	$(latMap_SOURCES) $(latMapTraj_SOURCES) $(latNum_SOURCES) \
+	$(latVec_SOURCES) $(test_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -283,6 +289,17 @@ latMap_SOURCES = \
 					latMap.cc
 
 
+#######################   LatMap PROGRAM   #########################
+latMapTraj_SOURCES = \
+					biu/LatticeDescriptorCKW.hh \
+					biu/LatticeDescriptorCKW.cc \
+					biu/LatticeProteinUtil.hh \
+					biu/LatticeProteinUtil.cc \
+					biu/SuperPos_Kabsch.hh \
+					biu/SuperPos_Kabsch.cc \
+					latMapTraj.cc
+
+
 #######################   LatFold PROGRAM   ########################
 @with_latfold_TRUE@latFold_SOURCES = \
 @with_latfold_TRUE@					SC_MinE.hh \
@@ -408,6 +425,9 @@ latFoldVec$(EXEEXT): $(latFoldVec_OBJECTS) $(latFoldVec_DEPENDENCIES)
 latMap$(EXEEXT): $(latMap_OBJECTS) $(latMap_DEPENDENCIES) 
 	@rm -f latMap$(EXEEXT)
 	$(CXXLINK) $(latMap_OBJECTS) $(latMap_LDADD) $(LIBS)
+latMapTraj$(EXEEXT): $(latMapTraj_OBJECTS) $(latMapTraj_DEPENDENCIES) 
+	@rm -f latMapTraj$(EXEEXT)
+	$(CXXLINK) $(latMapTraj_OBJECTS) $(latMapTraj_LDADD) $(LIBS)
 latNum$(EXEEXT): $(latNum_OBJECTS) $(latNum_DEPENDENCIES) 
 	@rm -f latNum$(EXEEXT)
 	$(CXXLINK) $(latNum_OBJECTS) $(latNum_LDADD) $(LIBS)
@@ -438,6 +458,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/latFold.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/latFoldVec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/latMap.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/latMapTraj.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/latNum.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/latVec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testSuperPos.Po@am__quote@
