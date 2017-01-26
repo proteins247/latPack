@@ -40,7 +40,6 @@ fi
 AM_INIT_AUTOMAKE([subdir-objects])
 
 AC_LANG_CPLUSPLUS
-AC_DEFINE(__cplusplus)
 
 
 ###############################################################################
