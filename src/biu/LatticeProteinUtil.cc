@@ -5,9 +5,10 @@
 
 #include <cmath>
 
+#include <utility>
+
 namespace biu
 {
-
 
 	////////////////////////////////////////////////////////////////////////////
 
@@ -441,5 +442,47 @@ namespace biu
 
 	////////////////////////////////////////////////////////////////////////////
 	
+
+	void
+	LatticeProteinUtil::
+	countContacts( const biu::IPointVec & ref,
+		       const biu::IPointVec & pos,
+		       int & nativeContacts,
+		       int & nonNativeContacts,
+		       biu::LatticeModel * lattice) {
+		static int currLen = 0;
+		static IntPairSet nativeContactsSet;
+
+		assertbiu(ref.size() == pos.size(), "ref and pos are of different size");		
+
+		nativeContacts = 0;
+		nonNativeContacts = 0;
+
+		if ( currLen != ref.size() ) {
+			currLen = ref.size();
+			// rebuild / add to nativeContactsSet
+			for (int i=0; i<currLen-3; i++) {
+				for (int j=i+3; j<currLen; j++) {
+					if (lattice->areNeighbored(ref.at(i), ref.at(j)))
+						nativeContactsSet.insert(IntPair(i,j));
+				}
+			}
+		}
+
+		for (int i=0; i<currLen-3; i++) {
+			for (int j=i+3; j<currLen; j++) {
+				if (lattice->areNeighbored(pos.at(i), pos.at(j))) {
+					if (nativeContactsSet.count(IntPair(i,j))) {
+						nativeContacts++;
+					} else {
+						nonNativeContacts++;
+					}
+				}
+			}
+		}
+		return;
+	}
+
+			
 
 }

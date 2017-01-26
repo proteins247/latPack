@@ -11,6 +11,9 @@ namespace biu
 	{
 	public:
 		
+		// used in countContacts
+		typedef std::pair<int, int> IntPair;
+		typedef std::set<IntPair> IntPairSet;
 		
 		
 		////////////////////////////////////////////////////////////////////////
@@ -240,6 +243,14 @@ namespace biu
 		double
 		GDT_HA(	const biu::DPointVec & pos1
 				, const biu::DPointVec & pos2 );
+
+		static
+		void
+		countContacts( const biu::IPointVec & ref,
+			       const biu::IPointVec & pos,
+			       int & nativeContacts,
+			       int & nonNativeContacts,
+			       biu::LatticeModel * lattice);
 		
 	};
 
