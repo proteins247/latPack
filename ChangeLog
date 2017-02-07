@@ -1,4 +1,47 @@
+version 1.9.1-4
 
+170207 Victor Zhao
+	- biu-2.3.7-1 : replaced by biu-2.3.7-2
+	+ biu-2.3.7-2 : Changed ribosome-bound criterion
+	+ latMapTraj : program to run calculations on simulation trajectories
+	* biu/LatticeProteinUtil.cc :
+	        * New countContacts function
+version 1.9.1-3
+
+170201 Victor Zhao
+	- biu-2.3.7 : replaced by biu-2.3.7-1
+	- ell-3.2.4 : replaced by ell-3.2.4-1
+	+ biu-2.3.7-1 : fix to PullMoveSet and ribosome-bound simulations
+	+ ell-3.2.4-1 : support for ribosome-bound simulations
+	* configure :
+	        * regenerated using Autoconf 2.63
+	* latFold :
+		* seqStr is hashed and combined with user-provided seed
+		* outFreq option to reduce output volume (1.9.1-2)
+		* Output labeled with step number
+		* ability to run ribosome-tethered simulations
+		* Output labeled with step number
+		* can use sequences in which length of an element >1
+	* latFoldVec :
+		* same changes as latFold and...
+		* Step counts don't reset with elongation
+	* latVec :
+		* support for sequences in which length of an element >1
+	* SC_OutAbs :
+		* support for step number output and output frequency
+	          and support for an offset count (tracking account
+	          across multiple instances of SC)
+	* SC_OutEnergy :
+		* support for step number output and output frequency
+	          and support for an offset count (tracking account
+	          across multiple instances of SC)
+	* SC_MinE :
+		* support for an offset count (tracking account
+	          across multiple instances of SC)
+	* energyFileSupport.hh :
+		* whitespace stripped from begninning and end of alphabet
+                  in any energy file
+	
 version 1.9.1
 
 160808 Martin Mann
