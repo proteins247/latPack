@@ -195,6 +195,15 @@ static const std::string maxstepsInfo =
 	"each intermediate simulation ends after [maxSteps] states";
 static const std::string minenergyInfo =
 	"walk ends if energy gets below or equal to [minE]";
+static const std::string finalInfo =
+	"if present, each folding simulation run is aborted if the given (or "
+	"a symmetric) structure is visited.";
+static const std::string finalStepsInfo =
+	"after full elongation, sim will run this number of additional steps or "
+	"until final structure is reached. Option relevant only if -final is present";
+static const std::string finalOnlyInfo =
+	"if present, run will abort only if final is reached. Only in effect if "
+	"-final option is present";
 static const std::string seedInfo =
 	"seed for random number generator "
 	"[uses biu::RNG_ARS4x32, a counter-based generator from the Random123 library]";
@@ -203,7 +212,7 @@ static const std::string runsInfo =
 static const std::string latticeInfo =
 	"which lattice to use: CUB, SQR or FCC";
 static const std::string ofileInfo =
-	"write output of simulations to filename, if equal to 'STDOUT' it is written to standard output";
+	"write output of simulations to filename (HDF5), if equal to 'STDOUT' it is written to standard output (text)";
 static const std::string timingInfo =
 	"print cpu-time used";
 static const std::string verbosityInfo =
@@ -266,10 +275,10 @@ int main(int argc, char** argv) {
 	}
 	
 	options.push_back(biu::COption(
-			"final", optional, biu::COption::STRING,
-			"if present: each folding simulation run is aborted if the given"
-			" (or a symmetric) structure is visited."
-			));
+			"final", optional, biu::COption::STRING, finalInfo));
+		
+	options.push_back(biu::COption(
+			"finalSteps", optional, biu::COption::INT, finalStepsInfo));
 		
 	options.push_back(biu::COption(
 			"seed", optional, biu::COption::INT, seedInfo, 
@@ -328,6 +337,8 @@ int main(int argc, char** argv) {
 	double kT;
 	double maxLength;
 	bool sequenceDependentSimLength = false;
+	bool simForFinal = false;
+	int finalSteps;
 	double minEnergy;
 	biu::LatticeDescriptor* latticeDescriptor = NULL;
 	biu::LatticeModel * lattice = NULL;
@@ -337,6 +348,7 @@ int main(int argc, char** argv) {
 	unsigned int alphElementLength;
 	std::ostream* outstream = &std::cout;
 	ell::SC_MinE* sc;
+	double minE;
 	bool ribosome;
 	bool timing;
 	size_t verbosity;
@@ -503,6 +515,10 @@ int main(int argc, char** argv) {
 		if (parser.argExist("final"))
 		{
 			absMoveStrFinal = parser.getStrVal("final");
+			if (parser.argExist("finalSteps")) {
+				finalSteps = parser.getIntVal("finalSteps");
+				simForFinal = true;
+			}
 		}
 		
 		if (parser.argExist("seed")) 
@@ -633,7 +649,7 @@ int main(int argc, char** argv) {
 					<< "\n  - Move set    : " << moves
          				<< "\n  - Ribosome?   : " << (ribosome ? "tethered" : "untethered")
 					<< "\n  - Simulations : " << runs
-					<< "\n  - Seed (rand) : " << seed
+             				<< "\n  - Seed (rand) : " << seed << " (" << modified_seed + seed << ")"
 					<< "\n  - kT (MC)     : " << kT
 					<< "\n  - Max. steps  : " << maxLength
 					;
@@ -990,8 +1006,17 @@ int main(int argc, char** argv) {
 				if (((curLength+1) == seqStr.size()) && parser.argExist("final")) {
 					  // run that checks for final structure 
 					  // (after full elongation only)
-					WAC_OR curWac(wac, *wac_final);
-					WalkMC::walkMC(s, sc, &curWac, kT);
+					if (simForFinal) {
+						WAC_MaxLength wac_final_length((size_t)finalSteps);
+						WAC_OR intermediateWac(wac_e, wac_final_length);
+						WAC_OR curWac(intermediateWac, *wac_final);
+						// so min_E OR final length OR final structure
+						WalkMC::walkMC(s, sc, &curWac, kT);
+					} else {
+						WAC_OR curWac(wac, *wac_final);
+						// so min_E OR normal length OR final structure
+						WalkMC::walkMC(s, sc, &curWac, kT);
+					}
 					successfulRunFinal = wac_final->abort(sc);
 				} else {
 					  // "normal run"
@@ -1011,6 +1036,7 @@ int main(int argc, char** argv) {
 				if (parser.argExist("minE") && curEnergy < minEnergy+DELTA_E_ADD) {
 					successfulRunMinE = true;
 				}
+				minE = sc->getMinE();
 				
 				delete sc;
 				delete s;  // who is deleting this? --> get segfault for explicit deletion
@@ -1068,7 +1094,13 @@ int main(int argc, char** argv) {
 			*outstream	<< "  - computation time  : " 
 						<< localTime.stop() <<" ms"
 						<< "\n";
-		
+		if (verbosity > 1)
+		{
+			*outstream
+						<< "  - simulation steps  : " << totalSteps <<"\n"
+						<< "  - minimal E reached : " << minE
+						<< std::endl;
+		}
 
 		///////////////////  END ELONGATION  ///////////////////
 	
@@ -1077,16 +1109,6 @@ int main(int argc, char** argv) {
 	///////////////////  END REPEATED RUNS  ///////////////////
 	
 	double globalTimeElapsed = globalTime.stop() - timeAbortedRuns;
-	
-	  // reset simulation output stream
-	if (	simOutMode != OUT_NO 
-			&& parser.argExist("outFile") 
-			&& parser.getStrVal("outFile").compare("STDOUT") != 0 )
-	{
-		delete simOut;
-		simOut = &std::cout;
-	}
-
 	
 	if (verbosity > 0) {
 		*outstream	<< "\n Results :"
@@ -1119,6 +1141,7 @@ int main(int argc, char** argv) {
 			&& parser.getStrVal("outFile").compare("STDOUT") != 0) 
 	{
 		dynamic_cast<std::ofstream*>(simOut)->close();
+		delete simOut;
 	}
 	  // final outstream clearing
 	*outstream <<std::endl;
