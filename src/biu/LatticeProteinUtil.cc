@@ -449,28 +449,32 @@ namespace biu
 		       const biu::IPointVec & pos,
 		       int & nativeContacts,
 		       int & nonNativeContacts,
+		       float & fractionNativeContacts,
 		       biu::LatticeModel * lattice) {
-		static int currLen = 0;
+		static unsigned int currLen = 0;
 		static IntPairSet nativeContactsSet;
+		static int totalNativeContacts = 0;
 
 		assertbiu(ref.size() == pos.size(), "ref and pos are of different size");		
 
 		nativeContacts = 0;
 		nonNativeContacts = 0;
+		fractionNativeContacts = 0.0;
 
 		if ( currLen != ref.size() ) {
 			currLen = ref.size();
 			// rebuild / add to nativeContactsSet
-			for (int i=0; i<currLen-3; i++) {
-				for (int j=i+3; j<currLen; j++) {
+			for (size_t i=0; i<currLen-3; i++) {
+				for (size_t j=i+3; j<currLen; j++) {
 					if (lattice->areNeighbored(ref.at(i), ref.at(j)))
 						nativeContactsSet.insert(IntPair(i,j));
 				}
 			}
+			totalNativeContacts = nativeContactsSet.size();
 		}
 
-		for (int i=0; i<currLen-3; i++) {
-			for (int j=i+3; j<currLen; j++) {
+		for (size_t i=0; i<currLen-3; i++) {
+			for (size_t j=i+3; j<currLen; j++) {
 				if (lattice->areNeighbored(pos.at(i), pos.at(j))) {
 					if (nativeContactsSet.count(IntPair(i,j))) {
 						nativeContacts++;
@@ -480,6 +484,8 @@ namespace biu
 				}
 			}
 		}
+		if (totalNativeContacts > 0)
+			fractionNativeContacts = (float)nativeContacts / (float)totalNativeContacts;
 		return;
 	}
 

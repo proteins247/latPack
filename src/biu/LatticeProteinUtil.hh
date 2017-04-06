@@ -250,6 +250,7 @@ namespace biu
 			       const biu::IPointVec & pos,
 			       int & nativeContacts,
 			       int & nonNativeContacts,
+			       float & fractionNativeContacts,
 			       biu::LatticeModel * lattice);
 		
 	};
