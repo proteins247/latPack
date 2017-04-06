@@ -1,11 +1,26 @@
+
+version 1.9.1-5
+
+170406 Victor Zhao
+	+ HDF5_support : ability to write to HDF5 file
+	* latFold :
+	        + ability to write to HDF5 file
+	* latFoldVec :
+	        + ability to write to HDF5 file
+	* SC_MinE :
+	        + def of enum OUT_MODE moved here
+
+
 version 1.9.1-4
 
 170207 Victor Zhao
 	- biu-2.3.7-1 : replaced by biu-2.3.7-2
 	+ biu-2.3.7-2 : Changed ribosome-bound criterion
 	+ latMapTraj : program to run calculations on simulation trajectories
+	* src/Makefile.am :
+	        + added latMapTraj target
 	* biu/LatticeProteinUtil.cc :
-	        * New countContacts function
+	        + New countContacts function (for latMapTraj)
 version 1.9.1-3
 
 170201 Victor Zhao
@@ -15,39 +30,39 @@ version 1.9.1-3
 	+ ell-3.2.4-1 : support for ribosome-bound simulations
 	* configure :
 	        * regenerated using Autoconf 2.63
+	* configure.ac :
+	        - AC_DEFINE(__cplusplus), was causing issues
+                - CXXFLAGS : -ansi (in debug mode)
+	        + CXXFLAGS : -march=native (in debug mode)
 	* latFold :
 		* seqStr is hashed and combined with user-provided seed
-		* outFreq option to reduce output volume (1.9.1-2)
-		* Output labeled with step number
-		* ability to run ribosome-tethered simulations
-		* Output labeled with step number
-		* can use sequences in which length of an element >1
+		+ outFreq option to reduce output volume (1.9.1-2)
+		+ Output labeled with step number
+		+ ability to run ribosome-tethered simulations
+		+ can use sequences in which length of an element >1
 	* latFoldVec :
 		* same changes as latFold and...
 		* Step counts don't reset with elongation
 	* latVec :
-		* support for sequences in which length of an element >1
-	* SC_OutAbs :
-		* support for step number output and output frequency
-	          and support for an offset count (tracking account
+		+ support for sequences in which length of an element >1
+	* SC_MinE :
+		+ support for an offset count (tracking a count
 	          across multiple instances of SC)
 	* SC_OutEnergy :
-		* support for step number output and output frequency
-	          and support for an offset count (tracking account
-	          across multiple instances of SC)
-	* SC_MinE :
-		* support for an offset count (tracking account
-	          across multiple instances of SC)
+		+ same as SC_MinE and support for step number output and
+	          output frequency
+	* SC_OutAbs :
+		+ Same as SC_OutEnergy
 	* energyFileSupport.hh :
 		* whitespace stripped from begninning and end of alphabet
                   in any energy file
-	
+
 version 1.9.1
 
 160808 Martin Mann
 	- biu-2.3.5 : replaced by biu-2.3.7
 	+ biu-2.3.7 : extended biu version
-	* configure : 
+	* configure :
 		* biu-2.3.7 enabled
 	* bin/latFold.cc :
 		* uses now biu::RNG_ARS4x32, a counter-based generator from the 
