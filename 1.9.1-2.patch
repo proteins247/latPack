@@ -1,0 +1,276 @@
+diff --git a/biu-2.3.7/src/biu/HashMap.hh b/biu-2.3.7/src/biu/HashMap.hh
+index 313e131..4f38364 100644
+--- a/biu-2.3.7/src/biu/HashMap.hh
++++ b/biu-2.3.7/src/biu/HashMap.hh
+@@ -3,7 +3,7 @@
+ #define BIU_HASHMAP_HH_
+ 
+ // is set to 1 if header <unordered_map> is available, 0 otherwise
+-#define HAVE_UNORDERED_MAP 0
++#define HAVE_UNORDERED_MAP 1
+ 
+ // is set to 1 if header <tr1/unordered_map> is available, 0 otherwise
+ #define HAVE_TR1_UNORDERED_MAP 1
+diff --git a/configure.ac b/configure.ac
+index e3d3aed..3c984a1 100755
+--- a/configure.ac
++++ b/configure.ac
+@@ -2,7 +2,7 @@
+ # Process this file with autoconf to produce a configure script.
+ #
+ AC_PREREQ(2.59)
+-AC_INIT([LatPack],[1.9.1-1], [http://www.bioinf.uni-freiburg.de/Software/LatPack/])
++AC_INIT([LatPack],[1.9.1-2], [http://www.bioinf.uni-freiburg.de/Software/LatPack/])
+ AC_CONFIG_SRCDIR([src/latFit.cc])
+ AC_CONFIG_AUX_DIR([.])
+ 
+diff --git a/src/SC_OutAbs.cc b/src/SC_OutAbs.cc
+index 7776b39..fc1c493 100755
+--- a/src/SC_OutAbs.cc
++++ b/src/SC_OutAbs.cc
+@@ -5,8 +5,8 @@
+ namespace ell
+ {
+ 
+-	SC_OutAbs::SC_OutAbs(	std::ostream& out_, size_t cutoff_)
+-	 :	SC_MinE(), out(out_), cutoff(cutoff_)
++	SC_OutAbs::SC_OutAbs(	std::ostream& out_, size_t cutoff_, size_t outFreq_)
++	  :	SC_MinE(), out(out_), cutoff(cutoff_), outFreq(outFreq_)
+ 	{
+ 	}
+ 	
+@@ -21,12 +21,15 @@ namespace ell
+ 		  //  call handler of superclass
+ 		SC_MinE::add(s);
+ 		
+-		// extract structure information
+-		std::string abs = s.toString();
+-		abs = abs.substr(0, cutoff);
+ 		
+ 		  // print to stream
+-		out << s.getEnergy() << " " << abs << std::endl;
++		  // stateCount starts at 1 (original structure)
++		if ( !((stateCount-1) % outFreq) ) {
++			// extract structure information
++			std::string abs = s.toString();
++			abs = abs.substr(0, cutoff);
++			out << s.getEnergy() << " " << abs << std::endl;
++		}
+ 	}
+ 
+ }
+diff --git a/src/SC_OutAbs.hh b/src/SC_OutAbs.hh
+index 3ced54d..f3f7ff9 100755
+--- a/src/SC_OutAbs.hh
++++ b/src/SC_OutAbs.hh
+@@ -20,10 +20,11 @@ namespace ell
+ 		  //! the stream to write the states to
+ 		std::ostream& out;
+ 		const size_t cutoff;
++	        const size_t outFreq;
+ 		
+ 	public:
+ 	
+-		SC_OutAbs(	std::ostream& out, size_t cutoff);
++	        SC_OutAbs(	std::ostream& out, size_t cutoff, size_t outFreq = 1);
+ 		
+ 		virtual ~SC_OutAbs();
+ 	
+diff --git a/src/SC_OutEnergy.cc b/src/SC_OutEnergy.cc
+index 4aea3a9..6947a18 100755
+--- a/src/SC_OutEnergy.cc
++++ b/src/SC_OutEnergy.cc
+@@ -3,8 +3,8 @@
+ namespace ell
+ {
+ 
+-	SC_OutEnergy::SC_OutEnergy(	std::ostream& out_)
+-	 :	SC_MinE(), out(out_)
++	SC_OutEnergy::SC_OutEnergy(	std::ostream& out_, const size_t outFreq_)
++	 :	SC_MinE(), out(out_), outFreq(outFreq_)
+ 	{
+ 	}
+ 	
+@@ -18,9 +18,11 @@ namespace ell
+ 	SC_OutEnergy::add(const State& s) {
+ 		  //  call handler of superclass
+ 		SC_MinE::add(s);
++
+ 		  // print to stream
+-		
+-		out << s.getEnergy() << std::endl;
++		  // stateCount starts at 1 (original structure)
++		if  ( !((stateCount-1) % outFreq) ) 
++			out << s.getEnergy() << std::endl;
+ 	}
+ 
+ }
+diff --git a/src/SC_OutEnergy.hh b/src/SC_OutEnergy.hh
+index 1f170f9..90d8fd9 100755
+--- a/src/SC_OutEnergy.hh
++++ b/src/SC_OutEnergy.hh
+@@ -19,10 +19,11 @@ namespace ell
+ 	protected:
+ 		  //! the stream to write the states to
+ 		std::ostream& out;
++                const size_t outFreq;
+ 		
+ 	public:
+ 	
+-		SC_OutEnergy(	std::ostream& out);
++		SC_OutEnergy(	std::ostream& out, size_t outFreq = 1);
+ 		
+ 		virtual ~SC_OutEnergy();
+ 	
+diff --git a/src/latFold.cc b/src/latFold.cc
+index 9d36376..91982d5 100755
+--- a/src/latFold.cc
++++ b/src/latFold.cc
+@@ -41,6 +41,7 @@ static const double DEFAULT_MINE = (double)INT_MIN;
+ static const std::string DEFAULT_LATTICE = "CUB";
+ static const std::string DEFAULT_MOVES = "PullM";
+ static const std::string DEFAULT_RUNS = "1";
++static const std::string DEFAULT_OUTFREQ = "1";
+ 
+ // default data
+ 
+@@ -219,6 +220,13 @@ int main(int argc, char** argv) {
+ 			"N"));
+ 	
+ 	options.push_back(biu::COption(
++			"outFreq",
++			optional,
++			biu::COption::INT,
++			"output frequency. print information every INT steps. in effect only if -out=E or -out=S",
++			DEFAULT_OUTFREQ));
++	
++	options.push_back(biu::COption(
+ 			"outFile",
+ 			optional,
+ 			biu::COption::STRING,
+@@ -275,6 +283,7 @@ int main(int argc, char** argv) {
+ 	biu::LatticeModel * lattice = NULL;
+ 	size_t seed;
+ 	int runs;
++	unsigned int outFreq;
+ 	std::ostream* outstream = &std::cout;
+ 	ell::SC_MinE* sc;
+ 	bool timing;
+@@ -527,6 +536,7 @@ int main(int argc, char** argv) {
+ 						<<"' is not supported !\n";
+ 			return PARSE_ERROR;
+ 		}
++
+ 		  // set simulation output stream
+ 		if (	simOutMode != OUT_NO 
+ 				&& parser.argExist("outFile") 
+@@ -548,6 +558,16 @@ int main(int argc, char** argv) {
+ 			return PARSE_ERROR;
+ 		}
+ 		
++		 // set output frequency
++		if (	simOutMode != OUT_NO
++			        && parser.argExist("outFreq")   ) {
++	        	outFreq = parser.getIntVal("outFreq");
++			if (outFreq <= 0)
++				std::cerr << "Error: given output frequencey '"
++					  << outFreq
++					  << "' is not supported. Require outFreq > 0\n";
++		}
++
+ 		verbosity = 0;
+ 		if (parser.argExist("v")) verbosity = 1;
+ 		if (parser.argExist("vv")) verbosity = 2;
+@@ -645,6 +665,8 @@ int main(int argc, char** argv) {
+ 					;
+ 		if (minEnergy != DEFAULT_MINE)
+ 			*outstream << "\n  - Min. Energy : " << minEnergy;
++		if (simOutMode != OUT_NO)
++		        *outstream << "\n  - Out freq.   : " << outFreq;
+ 		*outstream <<std::endl;
+ 	}
+ 	
+@@ -668,10 +690,10 @@ int main(int argc, char** argv) {
+ 		switch(simOutMode)
+ 		{
+ 		case OUT_ES:
+-			sc = new SC_OutAbs(*simOut, absMoveStr.length());
++			sc = new SC_OutAbs(*simOut, absMoveStr.length(), outFreq);
+ 			break;
+ 		case OUT_E:
+-			sc = new SC_OutEnergy(*simOut);
++			sc = new SC_OutEnergy(*simOut, outFreq);
+ 			break;
+ 		case OUT_NO:
+ 			sc = new SC_MinE();
+diff --git a/src/latFoldVec.cc b/src/latFoldVec.cc
+index 427515d..db81497 100755
+--- a/src/latFoldVec.cc
++++ b/src/latFoldVec.cc
+@@ -154,6 +154,7 @@ static const double DEFAULT_MINE = (double)INT_MIN;
+ static const std::string DEFAULT_LATTICE = OPTION_CUB;
+ static const std::string DEFAULT_MOVES = OPTION_PULLM;
+ static const std::string DEFAULT_RUNS = "1";
++static const std::string DEFAULT_OUTFREQ = "1";
+ 
+ 
+ // constants
+@@ -282,6 +283,11 @@ int main(int argc, char** argv) {
+ 			"N"));
+ 	
+ 	options.push_back(biu::COption(
++			"outFreq", optional, biu::COption::INT,
++			"output frequency. print information every INT steps. in effect only if -out=E or -out=S",
++			DEFAULT_OUTFREQ));
++
++	options.push_back(biu::COption(
+ 			"outFile", optional, biu::COption::STRING, ofileInfo, "STDOUT"));
+ 	
+ 	options.push_back(biu::COption(
+@@ -317,6 +323,7 @@ int main(int argc, char** argv) {
+ 	biu::LatticeModel * lattice = NULL;
+ 	size_t seed;
+ 	int runs;
++	unsigned int outFreq;
+ 	std::ostream* outstream = &std::cout;
+ 	ell::SC_MinE* sc;
+ 	bool timing;
+@@ -554,6 +561,16 @@ int main(int argc, char** argv) {
+ 			return PARSE_ERROR;
+ 		}
+ 		
++		 // set output frequency
++		if (	simOutMode != OUT_NO
++			        && parser.argExist("outFreq")   ) {
++	        	outFreq = parser.getIntVal("outFreq");
++			if (outFreq <= 0)
++				std::cerr << "Error: given output frequencey '"
++					  << outFreq
++					  << "' is not supported. Require outFreq > 0\n";
++		}
++
+ 		verbosity = 0;
+ 		if (parser.argExist("v")) verbosity = 1;
+ 		if (parser.argExist("vv")) verbosity = 2;
+@@ -606,6 +623,8 @@ int main(int argc, char** argv) {
+ 		}
+ 		if (minEnergy != DEFAULT_MINE)
+ 			*outstream << "\n  - Min. Energy : " << minEnergy;
++		if (simOutMode != OUT_NO)
++		        *outstream << "\n  - Out freq.   : " << outFreq;
+ 		*outstream <<std::endl;
+ 	}
+ 	
+@@ -934,10 +953,10 @@ int main(int argc, char** argv) {
+ 				switch(simOutMode)
+ 				{
+ 				case OUT_ES:
+-					sc = new SC_OutAbs(*simOut, absMoveStr.length());
++					sc = new SC_OutAbs(*simOut, absMoveStr.length(), outFreq);
+ 					break;
+ 				case OUT_E:
+-					sc = new SC_OutEnergy(*simOut);
++					sc = new SC_OutEnergy(*simOut, outFreq);
+ 					break;
+ 				case OUT_NO:
+ 					sc = new SC_MinE();
