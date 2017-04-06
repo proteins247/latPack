@@ -3,9 +3,11 @@
 #include <biu/assertbiu.hh>
 #include <iomanip>
 
-#include <biu/Point.hh>		// added
-#include <biu/LatticeProtein_I.hh> // added
-#include <ell/protein/S_LP.hh>	// added
+// the below three are for debugging by printing the points occupied
+//   by the lattice protein
+#include <biu/Point.hh>		// added(VZ)
+#include <biu/LatticeProtein_I.hh> // added(VZ)
+#include <ell/protein/S_LP.hh>	// added(VZ)
 
 namespace ell
 {
@@ -20,6 +22,13 @@ namespace ell
 	{
 	}
 	
+        // have to initialize out (it's type std::ostream&), but we will not use it
+        //   when outputting to writer
+        SC_OutAbs::SC_OutAbs(	HDF5TrajWriter* writer_, size_t cutoff_, size_t outFreq_, size_t previousCount)
+	  :	SC_MinE(previousCount), out(std::cout), cutoff(cutoff_), outFreq(outFreq_), writer(writer_)
+	{
+	}
+	
 	SC_OutAbs::~SC_OutAbs()
 	{
 	}
@@ -31,15 +40,21 @@ namespace ell
 		  //  call handler of superclass
 		SC_MinE::add(s);
 		
+		// note, stateCount, totalCount starts at 1 (original structure)
+		//   subtract 1 to get step number
 		
-		  // print to stream
-		  // stateCount starts at 1 (original structure)
-		if ( !((stateCount-1) % outFreq) ) {
+		if (writer) {
+ 			// extract structure information
+		        std::string abs = (s.toString()).substr(0, cutoff);
+			writer->write_buffered_traj(totalCount - 1, s.getEnergy(), &abs);
+		}
+		// else print to stream
+		else if ( !((stateCount-1) % outFreq) ) {
 			// extract structure information
 			std::string abs = s.toString();
 			abs = abs.substr(0, cutoff);
 			out << std::setw(10) << totalCount - 1 << " "
-			    << std::setw(6) << std::setprecision(2) << s.getEnergy() << " "
+			    << std::setw(6) << std::fixed << std::setprecision(2) << s.getEnergy() << " "
 			    << abs << std::endl;
                         // below is added for debugging
                         // const S_LP* slp = dynamic_cast<const S_LP*>(&s);

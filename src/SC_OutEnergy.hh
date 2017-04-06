@@ -5,12 +5,17 @@
 #include <string>
 
 #include "SC_MinE.hh"
+#include "HDF5_support.hh" // added(vz)
 
 namespace ell
 {
 
 	/*! A WalkCollector that prints the energy of each reported state to the 
 	 * given outstream.
+	 * 
+	 * This class was subsequently updated with facilities for writing
+	 * to HDF5 file via HDF5_support.hh's HDF5TrajWriter class. Depending
+	 * on constructor, the output format will differ. -VZ
 	 * 
 	 * @author Daniel Maticzka
 	 */
@@ -20,11 +25,15 @@ namespace ell
 		  //! the stream to write the states to
 		std::ostream& out;
                 const size_t outFreq;
-		
+		//! alternatively the handler class for HDF5 output
+		//! can initialize here with c++11
+		HDF5TrajWriter* writer = nullptr;
+
 	public:
 	
 		SC_OutEnergy(	std::ostream& out);
        	        SC_OutEnergy(	std::ostream& out, size_t outFreq, size_t previousCount);
+       	        SC_OutEnergy(	HDF5TrajWriter* writer, size_t outFreq, size_t previousCount);
 		
 		virtual ~SC_OutEnergy();
 	
