@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 #
 AC_PREREQ(2.59)
-AC_INIT([LatPack],[1.9.1-3], [http://www.bioinf.uni-freiburg.de/Software/LatPack/])
+AC_INIT([LatPack],[1.9.1-5], [http://www.bioinf.uni-freiburg.de/Software/LatPack/])
 AC_CONFIG_SRCDIR([src/latFit.cc])
 AC_CONFIG_AUX_DIR([.])
 
@@ -182,6 +182,29 @@ fi
 ###############################################################################
 
 
+###############################################################################
+# BEGIN HDF5 LIBRARY PATH SUPPORT
+###############################################################################
+
+# GSL library path support, if not installed in usual directories
+AC_ARG_WITH(HDF5,
+	AC_HELP_STRING(
+	    [--with-HDF5=prefix],
+	    [try this for a HDF5 install prefix. Mandatory for latFold & latFoldVec program.]
+	  ),
+	  HDF5PATHSET=1,
+	  HDF5PATHSET=0
+)
+if test  $HDF5PATHSET = 1 ; then
+	CXXFLAGS="-I$with_HDF5/include $CXXFLAGS"
+	LDFLAGS="-L$with_HDF5/lib64 -Wl,-rpath=$with_HDF5/lib64 $LDFLAGS"
+fi
+
+###############################################################################
+# END HDF5 LIBRARY PATH SUPPORT
+###############################################################################
+
+
 
 ###############################################################################
 # BEGIN FOLDING MODULE CHECK
@@ -200,7 +223,7 @@ AM_CONDITIONAL(with_latfold,
 	[test "$enable_latfold" = "yes"])
 	
 if test "$enable_latfold" = "yes"; then
-	LIBS="-lell $LIBS"
+	LIBS="-lell -lhdf5 $LIBS"
 fi
 
 ###############################################################################
@@ -254,6 +277,24 @@ if test "$enable_latfold" = "yes"; then
 	)
 else
    ELLNOTFOUND=0;
+fi
+
+if test "$enable_latfold" = "yes"; then
+	# check for HDF5 headers
+	AC_MSG_CHECKING([for the HDF5 C library headers])
+	AC_COMPILE_IFELSE(
+	     [AC_LANG_PROGRAM([[ #include <hdf5.h> ]])],
+	     [ 
+	       AC_MSG_RESULT(yes)
+	       HDF5NOTFOUND=0;
+	     ],
+	     [
+	       AC_MSG_RESULT(no)
+	       HDF5NOTFOUND=1;
+	     ]
+	)
+else
+   HDF5NOTFOUND=0;
 fi
 
 # store current *FLAGS and merge with AM_*FLAGS for compilation and linker check   
@@ -334,6 +375,20 @@ if test $ELLNOTFOUND = 1; then
 		AC_MSG_NOTICE([cannot find ELL in given path '$with_ELL'.])
  	else
 		AC_MSG_NOTICE([if ELL is installed elsewhere use --with-ELL=prefix.])
+ 	fi
+ 	DEPENDENCYNOTFOUND=1;
+fi
+
+# error output if HDF5-headers not found
+if test $HDF5NOTFOUND = 1; then
+	AC_MSG_NOTICE([])
+	AC_MSG_NOTICE([the HDF5 C library is required for building the tools.])
+	AC_MSG_NOTICE([it can be obtained from the internet.])
+	AC_MSG_NOTICE([])
+ 	if test $HDF5PATHSET = 1; then
+		AC_MSG_NOTICE([cannot find HDF5 in given path '$with_HDF5'.])
+ 	else
+		AC_MSG_NOTICE([if HDF5 is installed elsewhere use --with-HDF5=prefix.])
  	fi
  	DEPENDENCYNOTFOUND=1;
 fi
