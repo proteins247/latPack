@@ -396,30 +396,26 @@ namespace biu
 	}	
 
 		//! Tests the ribosome criterion
-		//! If the last residue of the structure can be placed next to a plane
-	        //! such that no residues in the structure breaches that plane, then the structure
+	        //! The ribosome is an yz-plane neighboring the last residue.
+		//! If no residues in the structure have a larger x-coordinate than
+	        //! that of the last residue in the structure, then the structure
 	        //! is ribosome valid
 	bool	
 	LatticeProtein_Ipnt::isRibosomeValid() const {
 		assertbiu(points != NULL, "no structure available");
 		// do the check
+		// old version had orientation-free plane. now the plane is fixed
 		IntPoint anchorPoint = points->back();
-		int max_x=anchorPoint.getX(), min_x=anchorPoint.getX();
-		int max_y=anchorPoint.getY(), min_y=anchorPoint.getY();
-		int max_z=anchorPoint.getZ(), min_z=anchorPoint.getZ();
+		int max_x=anchorPoint.getX();
 		if (points->size() < 2)
 			return true;
 		for (biu::IPointVec::iterator it = points->begin(); it != points->end()-1; ++it) {
 			max_x = std::max(it->getX(), max_x);
-			min_x = std::min(it->getX(), min_x);
-			max_y = std::max(it->getY(), max_y);
-			min_y = std::min(it->getY(), min_y);
-			max_z = std::max(it->getZ(), max_z);
-			min_z = std::min(it->getZ(), min_z);
 		}
-		return  max_x <= anchorPoint.getX() || min_x >= anchorPoint.getX() ||
-			max_y <= anchorPoint.getY() || min_y >= anchorPoint.getY() ||
-			max_z <= anchorPoint.getZ() || min_z >= anchorPoint.getZ();
+		return max_x <= anchorPoint.getX();
+		// return  max_x <= anchorPoint.getX() || min_x >= anchorPoint.getX() ||
+		// 	max_y <= anchorPoint.getY() || min_y >= anchorPoint.getY() ||
+		// 	max_z <= anchorPoint.getZ() || min_z >= anchorPoint.getZ();
 	}	
 	
 	
