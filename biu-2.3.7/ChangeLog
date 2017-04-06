@@ -1,5 +1,23 @@
 
 
+version 2.3.7-2
+
+170202  Victor Zhao
+	* LatticeProtein_Ipnt
+	  * New implementation of ribosome criterion (constant plane orientation)
+
+version 2.3.7-1
+
+170121  Victor Zhao
+	* configure etc. :
+	  - (configure.ac) CXXFLAGS : -ansi : in debug mode
+	  + (configure.ac) CXXFLAGS : -march=native : in debug mode
+	  * regenerated with autoconf 2.63
+	* LatticeProtein :
+	  + Virtual functions for ribosome-bound simulation support
+	* LatticeProtein_Ipnt :
+	  + Ribosome-bound simulation support
+
 version 2.3.7
 
 2016-08-08 Martin Mann
