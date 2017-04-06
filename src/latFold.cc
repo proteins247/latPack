@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <time.h>
+#include <csignal>
+#include <cstring>
 
 #include <biu/OptionParser.hh>
 #include <biu/RandomNumberGenerator.hh>
@@ -20,6 +22,8 @@
 #include <ell/protein/S_LP_PullM.hh>
 #include <ell/protein/S_LP_PivotM.hh>
 #include <ell/protein/WAC_LP.hh>
+
+#include "HDF5_support.hh"
 
 #include "SC_OutEnergy.hh"
 #include "SC_OutAbs.hh"
@@ -57,7 +61,8 @@ static const std::string OPTION_PIVOTM = "PivotM";
 static const double DELTA_E_ADD = 0.0001;
 
  // possible output modes
-enum OUT_MODE { OUT_NO, OUT_E, OUT_ES };
+// enum OUT_MODE { OUT_NO, OUT_E, OUT_ES };
+// definition moved to SC_MinE.hh - VZ
 
 // infotexts
 static const std::string infotext = 
@@ -106,7 +111,7 @@ static const std::string runsInfo =
 static const std::string latticeInfo =
 	"which lattice to use: CUB, SQR or FCC";
 static const std::string ofileInfo =
-	"write output of simulations to filename, if equal to 'STDOUT' it is written to standard output";
+	"write output of simulations to filename (HDF5). if equal to 'STDOUT' it is written to standard output (text)";
 static const std::string timingInfo =
 	"print cpu-time used";
 static const std::string verbosityInfo =
@@ -120,8 +125,26 @@ static const std::string moveSetInfo =
 static const std::string ribosomeInfo =
 	"simulate with a non-interacting wall that acts as a barrier and anchors the last residue. 3D-only";
 
+// csignal for SIGINT, SIGTERM handling
+volatile sig_atomic_t stopFlag = 0;
+
+static void handler(int signum)
+{
+	stopFlag = signum;
+}
+
+
 int main(int argc, char** argv) {
-	
+	struct sigaction sa;
+
+	memset( &sa, 0, sizeof(sa) );
+	sa.sa_handler = handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART; /* Restart functions if
+				     interrupted by handler */
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGTERM, &sa, NULL);
+
 	/*
 	 * parse input
 	 */
@@ -307,7 +330,9 @@ int main(int argc, char** argv) {
 	bool timing;
 	int verbosity;
 	OUT_MODE simOutMode = OUT_NO;
-	std::ostream* simOut = &std::cout;
+	bool outHDF = false;
+	std::unique_ptr<HDF5TrajWriter> hdf5writer;
+	// std::ostream* simOut = &std::cout; will remove this
 	std::string alphString = ""; // temporary alphabet string representation
 	double cAlphaDist = 3.8;	//!< the C_alpha distance used to scale the distances of the energy function
 	
@@ -559,19 +584,21 @@ int main(int argc, char** argv) {
 			return PARSE_ERROR;
 		}
 
-		  // set simulation output stream
+		  // setup HDF5 output if outFile argument is not STDOUT
 		if (	simOutMode != OUT_NO 
 				&& parser.argExist("outFile") 
 				&& parser.getStrVal("outFile").compare("STDOUT") != 0)
 		{
+			outHDF = true;
 			std::string filename = parser.getStrVal("outFile");
-			simOut = new std::ofstream(filename.c_str());
-			if (simOut->bad())
-			{
-				std::cerr	<< "Error: opening file " << filename << " failed."
-							<< std::endl;
+			try {
+				hdf5writer = std::unique_ptr<HDF5TrajWriter>(new HDF5TrajWriter(filename.c_str(), simOutMode,
+												seqStr.size()-1));
+				// seqStr.size()-1 is the size of the move string for the structure
+			}
+			catch (File_exists_error) {
+				std::cerr << "The filename "<<filename<<" already exists.\n";
 				return IO_ERROR;
-
 			}
 		} 
 		  // check if at least some output hast to be produced
@@ -675,7 +702,12 @@ int main(int argc, char** argv) {
 	 */
 	WAC_MinEnergy wac_e(minEnergy);
 	WAC_MaxLength wac_l(maxLength);
-	WAC_OR wac(wac_e, wac_l);
+	if (outHDF) {
+		WAC_Signal wac_s(&stopFlag);
+		WAC_OR wac_or(wac_e, wac_l);
+		WAC_OR wac(wac_or, wac_s);
+	} else
+		WAC_OR wac(wac_e, wac_l);
 	
 	/* 
 	 * Executing walk
@@ -693,7 +725,7 @@ int main(int argc, char** argv) {
 					<< "\n  - Move set    : " << moves
          				<< "\n  - Ribosome?   : " << (ribosome ? "tethered" : "untethered")
 					<< "\n  - Simulations : " << runs
-					<< "\n  - Seed (rand) : " << seed
+					<< "\n  - Seed (rand) : " << seed << " (" << modified_seed + seed << ")"
 					<< "\n  - kT (MC)     : " << kT
 					<< "\n  - Max. steps  : " << maxLength
 					;
@@ -702,6 +734,26 @@ int main(int argc, char** argv) {
 		if (simOutMode != OUT_NO)
 		        *outstream << "\n  - Out freq.   : " << outFreq;
 		*outstream <<std::endl;
+	}
+
+	if (outHDF) {
+		hdf5writer->write_attribute("Lattice", lattice->getDescriptor()->getName());
+		hdf5writer->write_attribute("Energy file", parser.getStrVal("energyFile"));
+		hdf5writer->write_attribute("Alphabet", alphString);
+		hdf5writer->write_attribute("Elt. length", alphElementLength);
+		hdf5writer->write_attribute("Sequence", seqStr);
+		hdf5writer->write_attribute("Abs. moves", absMoveStr);
+		hdf5writer->write_attribute("Move set", moves);
+		hdf5writer->write_attribute("Ribosome", (ribosome ? "tethered" : "untethered"));
+		hdf5writer->write_attribute("Simulations", (unsigned int)runs);
+		hdf5writer->write_attribute("Seed", (unsigned int)seed);
+		hdf5writer->write_attribute("Modified seed", (unsigned int)(modified_seed + seed));
+		hdf5writer->write_attribute("kT", (float)kT);
+		hdf5writer->write_attribute("Max. steps", (unsigned int)maxLength);
+		if (minEnergy != DEFAULT_MINE)
+			hdf5writer->write_attribute("Min. energy", (float)minEnergy);
+		if (simOutMode != OUT_NO)
+			hdf5writer->write_attribute("Out. freq", outFreq);
 	}
 	
 	if (verbosity > 0) {
@@ -720,14 +772,19 @@ int main(int argc, char** argv) {
 		// // restart RNG
 		// biu::RNF::getRNG().setSeed(seed + i);
 
+		if (outHDF)
+			hdf5writer->create_trajectory_group();
+
 		// build StateCollector
 		switch(simOutMode)
 		{
 		case OUT_ES:
-			sc = new SC_OutAbs(*simOut, absMoveStr.length(), outFreq, 0);
+			sc = outHDF ? new SC_OutAbs(hdf5writer, absMoveStr.length(), outFreq, 0)
+				: new SC_OutAbs(*outstream, absMoveStr.length(), outFreq, 0);
 			break;
 		case OUT_E:
-			sc = new SC_OutEnergy(*simOut, outFreq, 0);
+			sc = outHDF ? new SC_OutEnergy(hdf5writer, outFreq, 0)
+				: new SC_OutEnergy(*outstream, outFreq, 0);
 			break;
 		case OUT_NO:
 			sc = new SC_MinE();
@@ -762,6 +819,15 @@ int main(int argc, char** argv) {
 			WalkMC::walkMC(s, sc, &wac, kT);
 		}
 		
+		// if SIGINT or SIGTERM was caught
+		if (stopFlag) {
+			if (outHDF)
+				hdf5writer.reset(); // unique_ptr reset deletes object
+			sa.sa_handler = SIG_DFL;
+			sigaction(SIGINT, &sa, NULL);
+			raise(SIGINT);
+		}
+
 		  // get final structure
 		double finalEnergy = sc->getLastAdded()->getEnergy();
 		std::string finalAbsMoveStr = sc->getLastAdded()->toString();
@@ -805,6 +871,9 @@ int main(int argc, char** argv) {
 			foundFinalStructure++;
 		}
 		
+		if (outHDF)
+			hdf5writer->close_trajectory_group();
+		
 		delete sc;
 	}
 	
@@ -835,13 +904,8 @@ int main(int argc, char** argv) {
 					<< ((float) foundFinalStructure / (float) runs)*100 << "%" << std::endl;
 	}
 	
-	  // check if output of simulation was to file
-	if (	simOutMode != OUT_NO
-			&& parser.argExist("outFile") 
-			&& parser.getStrVal("outFile").compare("STDOUT") != 0) 
-	{
-		dynamic_cast<std::ofstream*>(simOut)->close();
-	}
+	// note hdf5writer will be deleted at the end (smart pointer)
+
 	  // final outstream clearing
 	*outstream <<std::endl;
 
