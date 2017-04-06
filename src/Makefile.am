@@ -22,7 +22,7 @@ latFit_SOURCES =	\
 					biu/SuperPos_Kabsch.hh \
 					biu/SuperPos_Kabsch.cc \
 					latFit.cc
-					
+
 #latFit_old_SOURCES =	\
 #					biu/LatticeDescriptorCKW.hh \
 #					biu/LatticeDescriptorCKW.cc \
@@ -52,7 +52,7 @@ latConv_SOURCES =	\
 					PDBsupport.hh \
 					latConv.hh \
 					latConv.cc
-				
+
 
 #######################   LatVec PROGRAM   #########################
 
@@ -104,6 +104,8 @@ latFold_SOURCES =	\
 					SC_OutEnergy.hh \
 					SC_OutEnergy.cc \
 					energyFileSupport.hh \
+					HDF5_support.hh \
+					HDF5_support.cc \
 					latFold.cc 
 endif
 
@@ -118,6 +120,8 @@ latFoldVec_SOURCES =	\
 					SC_OutEnergy.hh \
 					SC_OutEnergy.cc \
 					energyFileSupport.hh \
+					HDF5_support.hh \
+					HDF5_support.cc \
 					latFoldVec.cc 
 endif
 
