@@ -108,9 +108,12 @@ printContacts( const biu::IPointVec & ref
 {
 	int nativeContacts;
 	int nonNativeContacts;
-	biu::LatticeProteinUtil::countContacts(ref, pos, nativeContacts, nonNativeContacts, lattice);
-	out     <<"  " <<std::setw(2) << nativeContacts
+	float fractionNativeContacts; // the fraction of nativeContacts out of total possible
+	biu::LatticeProteinUtil::countContacts(ref, pos, nativeContacts, nonNativeContacts, fractionNativeContacts, lattice);
+	out     << std::fixed
+	        <<"  " <<std::setw(2) << nativeContacts
 		<<"  " <<std::setw(2) << nonNativeContacts
+		<<"  " <<std::setw(5) << fractionNativeContacts
 		;
 
 }
