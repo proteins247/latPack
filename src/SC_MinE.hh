@@ -4,6 +4,8 @@
 
 #include "ell/StateCollector.hh"
 
+enum OUT_MODE { OUT_NO, OUT_E, OUT_ES };
+
 namespace ell
 {
 
