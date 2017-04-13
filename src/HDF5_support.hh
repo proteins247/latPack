@@ -5,20 +5,18 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include "hdf5.h"
 
+// for debugging: (comment SC_MinE.hh and uncomment enum)
 #include "SC_MinE.hh"           // defines enum OUT_MODE
-// for debugging:
 // enum OUT_MODE { OUT_NO, OUT_E, OUT_ES };
 
 /*
-this file should be designed so that the other files don't need
+This file should be designed so that the other files don't need
 to know the hdf5 types.
 
-how can we catch sigint sigkill etc? wouldn't want to lose the file
-due to an interrupt.... (see <csignals>)
-
-we end up setting up for writing hdf5 files in a specific format
+We end up setting up for writing hdf5 files in a specific format
 - attributes can only be written for the entire system
 at the root level of the hierarchy
 - we write trajectory groups one at a time, and they have a fixed structure
@@ -29,6 +27,9 @@ but with writes to an HDF5 file. hence things proceed in sequence:
 - trajectory data to trajectory groups, one by one
 
 disadvantage is that there's no flexibility
+
+1. HDF5TrajWriter 
+2. HDF5TrajAnalyzer
 
 */
 
@@ -66,8 +67,6 @@ public:
         //   HDF5 library's own buffering is sufficient. But if I wrote data each
         //   time this is called, I'd have to do a hyperslab selection each time
         void write_buffered_traj(unsigned int step, float energy, std::string *structure);
-
-        // void read_buffered_traj(unsigned int &step, float &energy, std::string *structure);
 
         // Perform final write (flush buffers) and close group
         void close_trajectory_group();
@@ -123,12 +122,71 @@ protected:
         // A count of how many structures stored
         size_t structure_count;
 
+protected:
         // Write data stored in buffers to file
         void flush_buffers();
 
         // Write any buffered data (if any) and close group (if open) and file
         //   (called by d'tor)
         void close_file();      
+};
+
+
+/*
+This second class is for opening already written trajectory h5 files.
+
+facilities are provided for opening trajectory groups, reading trajectory data,
+and writing additional datasets.
+
+ */
+class HDF5TrajAnalyzer {
+public:
+        HDF5TrajAnalyzer(const char* filepath, std::vector<std::string> * dataset_names, size_t chunk_size = 16384);
+        ~HDF5TrajAnalyzer();
+
+        size_t get_group_count();
+
+        void open_trajectory_group(size_t index);
+
+        void close_trajectory_group();
+
+        ssize_t read_structure_traj(std::string *structure);
+
+        ssize_t write_analysis(std::unordered_map<std::string, float> &data);
+
+protected:
+        hid_t file_id;
+        herr_t status;
+
+        // the number of groups in the root of the file
+        // (corresponds to the number of trajectories)
+        size_t group_count;
+
+        // group associated stuff
+        hid_t group_id;
+        bool group_is_open;
+
+        // additional datasets to add to the hdf5 file
+        std::vector<std::string> * dataset_names;
+        std::unordered_map<std::string, hid_t> datasets;
+
+        size_t chunk_size;
+
+        hid_t dataset_structures;  // hid_t to the "structures" dataset in a group
+        hid_t memspace, filespace;        // dataspaces
+        hid_t memtype;          // hdf5 type used for reading from dataset_structures
+
+        char * structure;       // storage place for read string
+
+        hsize_t trajectory_size[1];
+        hsize_t chunk_dims[1] = {chunk_size};         // Our chunk size
+        hsize_t read_write_dims[1] = {1};             // we read one at a time
+        hsize_t read_offset[1] = {0};              // Var to store offset to do hyperslab selection
+        hsize_t write_offset[1] = {0};             // same but for writes
+
+protected:        // functions:
+        void close_file();
+
 };
 
 class File_exists_error {

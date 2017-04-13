@@ -1,5 +1,5 @@
 #include "HDF5_support.hh"
-
+// #include <iostream>
 
 HDF5TrajWriter::HDF5TrajWriter(const char* filepath, OUT_MODE sim_out_mode_, size_t max_structure_length_, size_t chunk_size_)
         : chunk_size(chunk_size_), // default value is over 9000 (16384)
@@ -189,6 +189,8 @@ HDF5TrajWriter::delete_last_group()
         group_ids.pop_back();
 }
 
+//////////////////////////////////////////////////
+// protected:
 void
 HDF5TrajWriter::flush_buffers()
 {
@@ -250,4 +252,147 @@ HDF5TrajWriter::close_file()
                 delete[] structures;
         }
         status = H5Fclose(file_id);
+}
+
+
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+//////////////////////////////////////////////////
+
+
+HDF5TrajAnalyzer::HDF5TrajAnalyzer(const char* filepath, std::vector<std::string> * dataset_names_,
+                                   size_t chunk_size_)
+        : dataset_names(dataset_names_), chunk_size(chunk_size_)
+{
+        // open file in read/write mode
+        file_id = H5Fopen(filepath, H5F_ACC_RDWR, H5P_DEFAULT);
+        
+        // read relevant attributes
+        H5G_info_t group_info;
+        status = H5Gget_info(file_id, &group_info);
+        group_count = group_info.nlinks;
+
+}
+
+HDF5TrajAnalyzer::~HDF5TrajAnalyzer()
+{
+        close_file();
+}
+
+size_t
+HDF5TrajAnalyzer::get_group_count()
+{
+        return group_count;
+}
+
+void
+HDF5TrajAnalyzer::open_trajectory_group(size_t index)
+{
+        if (group_is_open)
+                throw Group_is_open_error{};
+
+        // open the group
+        std::string groupname = "traj" + std::to_string(index);
+        group_id = H5Gopen2(file_id, groupname.c_str(),  H5P_DEFAULT);
+        group_is_open = true;
+        
+        // open the structures dataspace
+        dataset_structures = H5Dopen(group_id, "structures", H5P_DEFAULT);
+        filespace = H5Dget_space(dataset_structures);
+        H5Sget_simple_extent_dims(filespace, trajectory_size, NULL);
+
+        // for reading and writing. simple memspace of size 1
+        memspace = H5Screate_simple(1, read_write_dims, NULL); 
+
+        // create memtype
+        hid_t filetype = H5Dget_type(dataset_structures);
+        size_t sdim = H5Tget_size(filetype);
+        memtype = H5Tcopy (H5T_C_S1);
+        status = H5Tset_size (memtype, sdim);
+
+        // allocation of space to read data
+        structure = new char[sdim];
+
+        // chunking for new datasets
+        hid_t prop = H5Pcreate(H5P_DATASET_CREATE);
+        status = H5Pset_chunk(prop, 1, chunk_dims);
+
+        // creation of datasets
+        for (auto &name : * dataset_names) {
+                hid_t dataset = H5Dcreate2(group_id, name.c_str(), H5T_NATIVE_FLOAT, filespace,
+                                           H5P_DEFAULT, prop, H5P_DEFAULT);
+                datasets.insert({name, dataset});
+        }
+
+        // reset offsets
+        read_offset[0] = 0;
+        write_offset[0] = 0;
+
+        // close those resources
+        H5Tclose(filetype);
+        H5Pclose(prop);
+}
+
+void
+HDF5TrajAnalyzer::close_trajectory_group()
+{
+        // close the datasets
+        for (auto it=datasets.begin(); it!=datasets.end(); ++it)
+                H5Dclose(it->second);
+
+        delete[] structure;
+        H5Sclose(filespace);
+        H5Sclose(memspace);
+        H5Tclose(memtype);
+        H5Dclose(dataset_structures);
+        H5Gclose(group_id);
+        group_is_open = false;
+}
+
+ssize_t
+HDF5TrajAnalyzer::read_structure_traj(std::string *structure_str)
+{
+        if (read_offset[0] == trajectory_size[0])
+                return -1;
+
+        // setup reading filespace
+        // filespace is the dataspace of dataset_structures
+
+        status = H5Sselect_hyperslab(filespace, H5S_SELECT_SET, read_offset, NULL,
+                                     read_write_dims, NULL);
+        // perform read operation
+        status = H5Dread(dataset_structures, memtype, memspace, filespace, H5P_DEFAULT, structure);
+        *structure_str = structure;
+
+        // return the index of current read (increase offset for next time)
+        return read_offset[0]++;
+}
+
+ssize_t
+HDF5TrajAnalyzer::write_analysis(std::unordered_map<std::string, float> &data)
+{
+        if (write_offset[0] == trajectory_size[0])
+                return -1;
+
+        // select filespace for writing
+        status = H5Sselect_hyperslab(filespace, H5S_SELECT_SET, write_offset, NULL,
+                                     read_write_dims, NULL);
+
+        // write to datasets
+        for (auto &dataset : datasets) {
+                H5Dwrite(dataset.second, H5T_NATIVE_FLOAT, memspace, filespace,
+                         H5P_DEFAULT, &data[dataset.first]);
+        }
+        
+        // return writing position, incrementing it for next write as well
+        return write_offset[0]++;
+}
+
+// protected:
+void
+HDF5TrajAnalyzer::close_file()
+{
+        if (group_is_open)
+                close_trajectory_group();
+        H5Fclose(file_id);
 }
