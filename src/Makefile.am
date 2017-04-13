@@ -91,6 +91,8 @@ latMapTraj_SOURCES =	\
 					biu/LatticeProteinUtil.cc \
 					biu/SuperPos_Kabsch.hh \
 					biu/SuperPos_Kabsch.cc \
+					HDF5_support.hh \
+					HDF5_support.cc \
 					latMapTraj.cc
 
 #######################   LatFold PROGRAM   ########################
