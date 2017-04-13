@@ -736,6 +736,9 @@ int main(int argc, char** argv) {
 		// // restart RNG
 		// biu::RNF::getRNG().setSeed(seed + doneRuns);
 
+		if (outHDF)
+			hdf5writer->create_trajectory_group();
+
 		///////////////////  BEGIN CHAIN GROWTH ///////////////////////////
 			
 		  // holds the energy of the current structure to extend 
@@ -1028,31 +1031,25 @@ int main(int argc, char** argv) {
 				 */
 				WAC_MinEnergy wac_e(minEnergy);
 				WAC_MaxLength wac_l(simTime);
-				if (outHDF) {
-					WAC_Signal wac_s(&stopFlag);
-					WAC_OR wac_or(wac_e, wac_l);
-					WAC_OR wac(wac_or, wac_s);
-				} else
-					WAC_OR wac(wac_e, wac_l);
+				WAC_Signal wac_s(&stopFlag);
+				WAC_OR wac_or(wac_e, wac_l);
+				WAC_OR wac(wac_or, wac_s);
 
 				
 				/* 
 				 * Executing walk
 				 */
 		
-				if (outHDF)
-					hdf5writer->create_trajectory_group();
-
 				// build StateCollector
 				switch(simOutMode)
 				{
 				case OUT_ES:
-					sc = outHDF ? new SC_OutAbs(hdf5writer, absMoveStr.length(), outFreq, totalSteps)
+					sc = outHDF ? new SC_OutAbs(hdf5writer.get(), absMoveStr.length(), outFreq, totalSteps)
 						: new SC_OutAbs(*outstream, absMoveStr.length(), outFreq, totalSteps);
 					// sc = new SC_OutAbs(*simOut, absMoveStr.length(), outFreq, totalSteps);
 					break;
 				case OUT_E:
-					sc = outHDF ? new SC_OutEnergy(hdf5writer, outFreq, totalSteps)
+					sc = outHDF ? new SC_OutEnergy(hdf5writer.get(), outFreq, totalSteps)
 						: new SC_OutEnergy(*outstream, outFreq, totalSteps);
 					// sc = new SC_OutEnergy(*simOut, outFreq, totalSteps);
 					break;

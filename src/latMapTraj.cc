@@ -3,6 +3,8 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <csignal>
+#include <cstring>
 
 #include <biu/OptionParser.hh>
 #include <biu/LatticeDescriptorSQR.hh>
@@ -16,6 +18,7 @@
 #include <biu/SuperPos_Kabsch.hh>
 
 #include "version.hh"
+#include "HDF5_support.hh"
 
 /*!
  * Performs structural calculations on a latFold trajectory.
@@ -100,10 +103,11 @@ printEvaluation( const biu::DPointVec & pos1
 
 //////////////////////////////////////////////////////////////////////////
 
+// additional function added for contact counting capability - VZ
 void
 printContacts( const biu::IPointVec & ref
 	       , const biu::IPointVec & pos
-	       , biu::LatticeModel * lattice
+	       , biu::LatticeModel & lattice
 	       , std::ostream& out = std::cout)
 {
 	int nativeContacts;
@@ -118,6 +122,43 @@ printContacts( const biu::IPointVec & ref
 
 }
 
+//////////////////////////////////////////////////////////////////////////
+
+// later function added to calculate all values in a single function, place into dict
+void
+evaluateStructure( const biu::DPointVec & refDPos,
+		   const biu::DPointVec & DPos,
+		   const biu::IPointVec & refIPos,
+		   const biu::IPointVec & IPos,
+		   biu::LatticeModel & lattice,
+		   std::unordered_map<std::string, float> & data)
+{
+	float rmsd = biu::LatticeProteinUtil::cRMSD( refDPos, DPos );
+	float gdt_ts = biu::LatticeProteinUtil::GDT_TS( refDPos, DPos );
+	float gdt_ha = biu::LatticeProteinUtil::GDT_HA( refDPos, DPos );
+
+	int nativeContacts;
+	int nonNativeContacts;
+	float fractionNativeContacts; // the fraction of nativeContacts out of total possible
+	biu::LatticeProteinUtil::countContacts(refIPos, IPos, nativeContacts, nonNativeContacts, fractionNativeContacts, lattice);
+	data["RMSD"] = rmsd;
+	data["GDT_TS"] = gdt_ts;
+	data["GDT_HA"] = gdt_ha;
+	data["Native Contacts"] = (float)nativeContacts;
+	data["Non-Native Contacts"] = (float)nonNativeContacts;
+	data["Fraction Native"] = fractionNativeContacts;
+}		   
+
+//////////////////////////////////////////////////////////////////////////
+
+// csignal for SIGINT, SIGTERM handling
+volatile sig_atomic_t stopFlag = 0;
+
+static void
+handler(int signum)
+{
+	stopFlag = signum;
+}
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -129,6 +170,17 @@ printContacts( const biu::IPointVec & ref
 int
 main( int argc, char** argv ) 
 {
+
+	// setup interrupt catching
+	struct sigaction sa;
+
+	memset( &sa, 0, sizeof(sa) );
+	sa.sa_handler = handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART; /* Restart functions if
+				     interrupted by handler */
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGTERM, &sa, NULL);
 
 	//////////////////////////////////////////////////////////////
 	// parameter parsing and checking
@@ -159,7 +211,7 @@ main( int argc, char** argv )
 	// setup parameters etc.
 	//////////////////////////////////////////////////////////////////////
 	
-	// latMapTraj doesn't deal with side chains
+	// currently, latMapTraj doesn't deal with side chains
 	const bool sideChain = false;
 
 	const double cAlphaDist = opts.getDoubleVal("cAdist");
@@ -207,9 +259,10 @@ main( int argc, char** argv )
 	  // create lattice
 	biu::LatticeModel lattice(latDescr);
 	
-	  // get ref structure and trajetory file
+	  // get ref structure and trajectory file
 	const std::string refIn = opts.getStrVal("ref");
 	const std::string trajFilename = opts.getStrVal("traj");
+	const bool hdf5Traj = opts.getBoolVal("hdf5");
 	  // the according ref move sequences
 	biu::MoveSequence refMoveSeq;
 
@@ -226,85 +279,164 @@ main( int argc, char** argv )
 							     , *latDescr
 							     , sideChain
 							     );	
-	// open I/O
-	std::ostream* outstream = &std::cout; // could replace with file one day
-	std::ifstream trajstream(trajFilename);
-	if (!trajstream.is_open()) {
-		std::cerr << "\n   ERROR : can not open trajectory file '" << trajFilename << "' !\n\n";
-		return -1;
-	}
-	if (trajstream.bad()) {
-		std::cerr << "\n   Error: cannot read trajectory file from '" << trajFilename << "' !\n";
-		return -1;
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	// process the in file line by line...
-	//////////////////////////////////////////////////////////////////////
-	std::string line;
 	std::string currMoveStr;
 	biu::MoveSequence currMoveSeq;
 	size_t moveStrLength;
-	while (std::getline(trajstream, line)) {
-		currMoveStr = parseTrajLine(line, alphabet);
-		if (currMoveStr.empty()) {
-			// wasn't a trajectory line; output the line unchanged
-			*outstream << line << std::endl;
-			continue;
+
+	if (!hdf5Traj) {
+		// Text file trajectory
+		// open I/O
+		std::ostream* outstream = &std::cout; // could replace with file one day
+		std::ifstream trajstream(trajFilename);
+		if (!trajstream.is_open()) {
+			std::cerr << "\n   ERROR : can not open trajectory file '" << trajFilename << "' !\n\n";
+			return -1;
+		}
+		if (trajstream.bad()) {
+			std::cerr << "\n   Error: cannot read trajectory file from '" << trajFilename << "' !\n";
+			return -1;
 		}
 
-		*outstream << line;
+		//////////////////////////////////////////////////////////////////////
+		// process the in file line by line...
+		//////////////////////////////////////////////////////////////////////
+		std::string line;
+		while (std::getline(trajstream, line)) {
+			currMoveStr = parseTrajLine(line, alphabet);
+			if (currMoveStr.empty()) {
+				// wasn't a trajectory line; output the line unchanged
+				*outstream << line << std::endl;
+				continue;
+			}
+			
+			// print original line
+			*outstream << line;
 		
-		// now we do processing on the structure and append data
-		moveStrLength = currMoveStr.length();
-		if (moveStrLength > ref.length()) {
-			*outstream << std::endl;
-			continue;
-		}
+			// now we do processing on the structure and append data
+			moveStrLength = currMoveStr.length();
+			if (moveStrLength > ref.length()) {
+				*outstream << std::endl;
+				continue;
+			}
 
-		*outstream << std::string(ref.length() - moveStrLength + 1, ' ');
-
-		biu::MoveSequence::const_iterator first = refMoveSeq.begin();
-		biu::MoveSequence::const_iterator last = refMoveSeq.begin() + moveStrLength;
-		biu::MoveSequence subRefMoveSeq(first, last);
-		currMoveSeq = biu::LatticeProteinUtil::toMoveSequence(
-								      currMoveStr
-								      , *latDescr
-								      , sideChain
-								      );
-		biu::DPointVec refPos = biu::LatticeProteinUtil::toDblPoints(
-									  subRefMoveSeq
-									  , *latDescr
-									  , sideChain
-									  , cAlphaDist
-									  );
-		biu::DPointVec currPos = biu::LatticeProteinUtil::toDblPoints(
-									      currMoveSeq
+			biu::MoveSequence::const_iterator first = refMoveSeq.begin();
+			biu::MoveSequence::const_iterator last = refMoveSeq.begin() + moveStrLength;
+			biu::MoveSequence subRefMoveSeq(first, last);
+			currMoveSeq = biu::LatticeProteinUtil::toMoveSequence(
+									      currMoveStr
 									      , *latDescr
 									      , sideChain
-									      , cAlphaDist
 									      );
-		biu::SuperPos_Kabsch::bestsuperposition( 
-							refPos
-							, currPos
-							, latDescr->getAutomorphisms() );
+			biu::DPointVec refPos = biu::LatticeProteinUtil::toDblPoints(
+										     subRefMoveSeq
+										     , *latDescr
+										     , sideChain
+										     , cAlphaDist
+										     );
+			biu::DPointVec currPos = biu::LatticeProteinUtil::toDblPoints(
+										      currMoveSeq
+										      , *latDescr
+										      , sideChain
+										      , cAlphaDist
+										      );
+			biu::SuperPos_Kabsch::bestsuperposition( 
+								refPos
+								, currPos
+								, latDescr->getAutomorphisms() );
 
-		printEvaluation( refPos, currPos, *outstream, outPrec );
+			biu::IPointVec refIntPos = biu::LatticeProteinUtil::toIntPoints(
+											subRefMoveSeq
+											, *latDescr
+											, sideChain
+											);
+			biu::IPointVec currIntPos = biu::LatticeProteinUtil::toIntPoints(
+											 currMoveSeq
+											 , *latDescr
+											 , sideChain
+											 );
 
-		biu::IPointVec refIntPos = biu::LatticeProteinUtil::toIntPoints(
-										subRefMoveSeq
-										, *latDescr
-										, sideChain
-										);
-		biu::IPointVec currIntPos = biu::LatticeProteinUtil::toIntPoints(
-										 currMoveSeq
-										 , *latDescr
-										 , sideChain
-										 );
-		printContacts( refIntPos, currIntPos, &lattice, *outstream);
-		*outstream << std::endl;
+			// print spaces
+			*outstream << std::string(ref.length() - moveStrLength + 1, ' ');
+			// print analysis measurements
+			printEvaluation( refPos, currPos, *outstream, outPrec );
+			printContacts( refIntPos, currIntPos, lattice, *outstream);
+			*outstream << std::endl;
+		}
+	} else {
+		// handle hdf5
+		std::vector<std::string> names = {
+			"RMSD",
+			"GDT_TS",
+			"GDT_HA",
+			"Native Contacts",
+			"Non-Native Contacts",
+			"Fraction Native"};
+		std::unordered_map<std::string, float> data;
+		for (auto &name : names)
+			data.insert({name, 0.0});
+
+		HDF5TrajAnalyzer analyzer(trajFilename.c_str(), &names);
+		size_t groupCount = analyzer.get_group_count();
+
+		// go trajectory by trajectory
+		for (size_t trajNum = 1; trajNum <= groupCount; trajNum++) {
+
+			analyzer.open_trajectory_group(trajNum);
+
+			while ( analyzer.read_structure_traj(&currMoveStr) >= 0 && !stopFlag ) {
+				moveStrLength = currMoveStr.length();
+				if (moveStrLength > ref.length()) {
+					std::cerr << "Unexpected moveStrLength > ref length\n";
+					raise(SIGINT);
+					// we'll exit by SIGINT here to close the HDF5 file
+				}
+
+				biu::MoveSequence::const_iterator first = refMoveSeq.begin();
+				biu::MoveSequence::const_iterator last = refMoveSeq.begin() + moveStrLength;
+				biu::MoveSequence subRefMoveSeq(first, last);
+				currMoveSeq = biu::LatticeProteinUtil::toMoveSequence(
+										      currMoveStr
+										      , *latDescr
+										      , sideChain
+										      );
+				biu::DPointVec refPos = biu::LatticeProteinUtil::toDblPoints(
+											     subRefMoveSeq
+											     , *latDescr
+											     , sideChain
+											     , cAlphaDist
+											     );
+				biu::DPointVec currPos = biu::LatticeProteinUtil::toDblPoints(
+											      currMoveSeq
+											      , *latDescr
+											      , sideChain
+											      , cAlphaDist
+											      );
+				biu::IPointVec refIntPos = biu::LatticeProteinUtil::toIntPoints(
+												subRefMoveSeq
+												, *latDescr
+												, sideChain
+												);
+				biu::IPointVec currIntPos = biu::LatticeProteinUtil::toIntPoints(
+												 currMoveSeq
+												 , *latDescr
+												 , sideChain
+												 );
+				evaluateStructure( refPos, currPos, refIntPos, currIntPos, lattice, data);
+				analyzer.write_analysis(data);
+				
+			}
+
+			if (stopFlag) {
+				// explicitly call destructor because we're going to exit by SIGINT
+				analyzer.~HDF5TrajAnalyzer(); 
+				sa.sa_handler = SIG_DFL;
+				sigaction(SIGINT, &sa, NULL);
+				raise(SIGINT);
+			}
+			
+			analyzer.close_trajectory_group();
+		}
 	}
-
 	//////////////////////////////////////////////////////////////////////
 	// clear data structures
 	//////////////////////////////////////////////////////////////////////
@@ -312,95 +444,6 @@ main( int argc, char** argv )
 	delete latDescr;
 
 	return 0;
-	// current end
-	// latMap code below
-
-	// if (outMode >= OUT_VERBOSE) {
-	// 	std::cout <<" abs1 : " 
-	// 			<<biu::LatticeProteinUtil::toString( moves1, *latDescr, sideChain )
-	// 			<<std::endl;
-	// 	std::cout <<" abs2 : " 
-	// 			<<biu::LatticeProteinUtil::toString( moves2, *latDescr, sideChain )
-	// 			<<std::endl;
-	// }
-
-
-	// if (outMode >= OUT_VERBOSE) {
-	// 	std::cout <<" pos1 : ";
-	// 	printPoints(pos1, std::cout);
-	// 	std::cout <<" pos2 : ";
-	// 	printPoints(pos2, std::cout);
-	// }
-	
-	// //////////////////////////////////////////////////////////////////////
-	// // run superpositioning
-	// //////////////////////////////////////////////////////////////////////
-	
-	// if (outMode >= OUT_VERBOSE) {
-	// 	std::cout <<"\n ==> superpositioning :\n";
-	// }
-	
-	// // TODO: try reflection ! maybe trigger via parameter !
-	
-	// biu::SuperPos_Kabsch::bestsuperposition( 
-	// 								pos1
-	// 								, pos2
-	// 								, latDescr->getAutomorphisms() );
-	
-	// if (outMode >= OUT_VERBOSE) {
-	// 	std::cout <<" sup1 : ";
-	// 	printPoints(pos1, std::cout);
-	// 	std::cout <<" sup2 : ";
-	// 	printPoints(pos2, std::cout);
-	// }
-	
-	// //////////////////////////////////////////////////////////////////////
-	// // calculate distances
-	// //////////////////////////////////////////////////////////////////////
-	
-	// if (outMode >= OUT_VERBOSE) {
-	// 	std::cout <<"\n ==> distance :\n";
-	// }
-	//   // print distance evaluation of whole proteins
-	// printEvaluation( pos1, pos2, std::cout, outPrec );
-	
-	// if (sideChain) {
-	// 	std::cout <<"\n ==> backbone data only :\n";
-	// 	  // get backbone data only
-	// 	biu::DPointVec pos1bb(pos1.size());
-	// 	biu::DPointVec pos2bb(pos2.size());
-	// 	  // copy backbone data
-	// 	for (size_t i=0; i<pos1.size(); i+=2) {
-	// 		pos1bb[i/2] = pos1[i];
-	// 		pos2bb[i/2] = pos2[i];
-	// 	}
-	// 	  // superposition backbone data
-	// 	biu::SuperPos_Kabsch::bestsuperposition( 
-	// 									pos1bb
-	// 									, pos2bb
-	// 									, latDescr->getAutomorphisms() );
-	// 	  // print distance evaluation of protein backbones
-	// 	printEvaluation( pos1bb, pos2bb, std::cout, outPrec );
-	// }
-	
-	// if (sideChain) {
-	// 	std::cout <<"\n ==> sidechain data only :\n";
-	// 	  // get sidechain data only
-	// 	biu::DPointVec pos1sc(pos1.size());
-	// 	biu::DPointVec pos2sc(pos2.size());
-	// 	  // copy sidechain data
-	// 	for (size_t i=1; i<pos1.size(); i+=2) {
-	// 		pos1sc[i/2] = pos1[i];
-	// 		pos2sc[i/2] = pos2[i];
-	// 	}
-	// 	  // superposition sidechain data
-	// 	biu::SuperPos_Kabsch::bestsuperposition( 
-	// 									pos1sc
-	// 									, pos2sc
-	// 									, latDescr->getAutomorphisms() );
-	// 	  // print distance evaluation of protein sidechains
-	// 	printEvaluation( pos1sc, pos2sc, std::cout, outPrec );
-	// }
 	
 }
 
@@ -420,6 +463,9 @@ initAllowedArguments(biu::OptionMap & allowedArgs, std::string &infoText )
 	allowedArgs.push_back(biu::COption(
 							"cAdist", true, biu::COption::DOUBLE,
 							"the C_alpha atom distance to scale the lattice protein to", "3.8"));
+	allowedArgs.push_back(biu::COption(
+							"hdf5", true, biu::COption::BOOL,
+							"traj file is HDF5 format (as opposed to text)"));
 	// allowedArgs.push_back(biu::COption(
 	// 						"outPrec", true, biu::COption::INT,
 	// 						"output precision, i.e. number of decimal places given", "3"));

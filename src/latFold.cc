@@ -702,12 +702,9 @@ int main(int argc, char** argv) {
 	 */
 	WAC_MinEnergy wac_e(minEnergy);
 	WAC_MaxLength wac_l(maxLength);
-	if (outHDF) {
-		WAC_Signal wac_s(&stopFlag);
-		WAC_OR wac_or(wac_e, wac_l);
-		WAC_OR wac(wac_or, wac_s);
-	} else
-		WAC_OR wac(wac_e, wac_l);
+	WAC_Signal wac_s(&stopFlag);
+	WAC_OR wac_or(wac_e, wac_l);
+	WAC_OR wac(wac_or, wac_s);
 	
 	/* 
 	 * Executing walk
@@ -779,11 +776,11 @@ int main(int argc, char** argv) {
 		switch(simOutMode)
 		{
 		case OUT_ES:
-			sc = outHDF ? new SC_OutAbs(hdf5writer, absMoveStr.length(), outFreq, 0)
+			sc = outHDF ? new SC_OutAbs(hdf5writer.get(), absMoveStr.length(), outFreq, 0)
 				: new SC_OutAbs(*outstream, absMoveStr.length(), outFreq, 0);
 			break;
 		case OUT_E:
-			sc = outHDF ? new SC_OutEnergy(hdf5writer, outFreq, 0)
+			sc = outHDF ? new SC_OutEnergy(hdf5writer.get(), outFreq, 0)
 				: new SC_OutEnergy(*outstream, outFreq, 0);
 			break;
 		case OUT_NO:
