@@ -251,7 +251,7 @@ namespace biu
 			       int & nativeContacts,
 			       int & nonNativeContacts,
 			       float & fractionNativeContacts,
-			       biu::LatticeModel * lattice);
+			       biu::LatticeModel & lattice);
 		
 	};
 

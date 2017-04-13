@@ -450,7 +450,7 @@ namespace biu
 		       int & nativeContacts,
 		       int & nonNativeContacts,
 		       float & fractionNativeContacts,
-		       biu::LatticeModel * lattice) {
+		       biu::LatticeModel & lattice) {
 		static unsigned int currLen = 0;
 		static IntPairSet nativeContactsSet;
 		static int totalNativeContacts = 0;
@@ -466,7 +466,7 @@ namespace biu
 			// rebuild / add to nativeContactsSet
 			for (size_t i=0; i<currLen-3; i++) {
 				for (size_t j=i+3; j<currLen; j++) {
-					if (lattice->areNeighbored(ref.at(i), ref.at(j)))
+					if (lattice.areNeighbored(ref.at(i), ref.at(j)))
 						nativeContactsSet.insert(IntPair(i,j));
 				}
 			}
@@ -475,7 +475,7 @@ namespace biu
 
 		for (size_t i=0; i<currLen-3; i++) {
 			for (size_t j=i+3; j<currLen; j++) {
-				if (lattice->areNeighbored(pos.at(i), pos.at(j))) {
+				if (lattice.areNeighbored(pos.at(i), pos.at(j))) {
 					if (nativeContactsSet.count(IntPair(i,j))) {
 						nativeContacts++;
 					} else {
