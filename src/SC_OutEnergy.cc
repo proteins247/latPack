@@ -36,7 +36,7 @@ namespace ell
 		// note, stateCount, totalCount starts at 1 (original structure)
 		//   subtract 1 to get step number
 		
-		if (writer) {
+		if (writer && !((stateCount-1) % outFreq)) {
 		        writer->write_buffered_traj(totalCount - 1, s.getEnergy(), nullptr);
 		}
 		// else print to stream
