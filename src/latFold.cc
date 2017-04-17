@@ -111,7 +111,7 @@ static const std::string runsInfo =
 static const std::string latticeInfo =
 	"which lattice to use: CUB, SQR or FCC";
 static const std::string ofileInfo =
-	"write output of simulations to filename (HDF5). if equal to 'STDOUT' it is written to standard output (text)";
+	"write output of simulations to filename (HDF5). if equal to 'STDOUT' it is written to standard output (text). Note, file cannot exist already (will not overwrite).";
 static const std::string timingInfo =
 	"print cpu-time used";
 static const std::string verbosityInfo =
@@ -702,8 +702,8 @@ int main(int argc, char** argv) {
 	 */
 	WAC_MinEnergy wac_e(minEnergy);
 	WAC_MaxLength wac_l(maxLength);
-	WAC_Signal wac_s(&stopFlag);
 	WAC_OR wac_or(wac_e, wac_l);
+	WAC_Signal wac_s(&stopFlag);
 	WAC_OR wac(wac_or, wac_s);
 	
 	/* 
@@ -750,7 +750,7 @@ int main(int argc, char** argv) {
 		if (minEnergy != DEFAULT_MINE)
 			hdf5writer->write_attribute("Min. energy", (float)minEnergy);
 		if (simOutMode != OUT_NO)
-			hdf5writer->write_attribute("Out. freq", outFreq);
+			hdf5writer->write_attribute("Out freq.", outFreq);
 	}
 	
 	if (verbosity > 0) {
@@ -869,7 +869,7 @@ int main(int argc, char** argv) {
 		}
 		
 		if (outHDF)
-			hdf5writer->close_trajectory_group();
+			hdf5writer->close_trajectory_group(successfulRunMinE, successfulRunFinal);
 		
 		delete sc;
 	}

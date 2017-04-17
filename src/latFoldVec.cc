@@ -204,8 +204,8 @@ static const std::string finalInfo =
 	"if present, each folding simulation run is aborted if the given (or "
 	"a symmetric) structure is visited.";
 static const std::string finalStepsInfo =
-	"after full elongation, sim will run this number of additional steps or "
-	"until final structure is reached. Option relevant only if -final is present";
+	"after full elongation, sim will run this number of additional steps (or "
+	"until final structure is reached if -final is present).";
 static const std::string finalOnlyInfo =
 	"if present, run will abort only if final is reached. Only in effect if "
 	"-final option is present";
@@ -217,7 +217,7 @@ static const std::string runsInfo =
 static const std::string latticeInfo =
 	"which lattice to use: CUB, SQR or FCC";
 static const std::string ofileInfo =
-	"write output of simulations to filename (HDF5). if equal to 'STDOUT' it is written to standard output (text)";
+	"write output of simulations to filename (HDF5). if equal to 'STDOUT' it is written to standard output (text). Note, file cannot exist already (will not overwrite).";
 static const std::string timingInfo =
 	"print cpu-time used";
 static const std::string verbosityInfo =
@@ -360,8 +360,8 @@ int main(int argc, char** argv) {
 	double kT;
 	double maxLength;
 	bool sequenceDependentSimLength = false;
-	bool simForFinal = false;
-	int finalSteps;
+	bool simFullLengthCustom = false;
+	size_t finalSteps = UINT_MAX;
 	double minEnergy;
 	biu::LatticeDescriptor* latticeDescriptor = NULL;
 	biu::LatticeModel * lattice = NULL;
@@ -542,7 +542,7 @@ int main(int argc, char** argv) {
 			absMoveStrFinal = parser.getStrVal("final");
 			if (parser.argExist("finalSteps")) {
 				finalSteps = parser.getIntVal("finalSteps");
-				simForFinal = true;
+				simFullLengthCustom = true;
 			}
 		}
 		
@@ -708,7 +708,7 @@ int main(int argc, char** argv) {
 		if (minEnergy != DEFAULT_MINE)
 			hdf5writer->write_attribute("Min. energy", (float)minEnergy);
 		if (simOutMode != OUT_NO)
-			hdf5writer->write_attribute("Out. freq", outFreq);
+			hdf5writer->write_attribute("Out freq.", outFreq);
 	}
 
 	if (verbosity > 0) {
@@ -1029,11 +1029,11 @@ int main(int argc, char** argv) {
 				/*
 				 * Building Walk related objects
 				 */
-				WAC_MinEnergy wac_e(minEnergy);
+				WAC_Signal wac_s(&stopFlag);    // stop upon change to stopFlag
+				WAC_MinEnergy wac_e(minEnergy); // default minEnergy is (double)INT_MIN
+				WAC_OR wac_or(wac_s, wac_e);	// contains wac_s and wac_e
 				WAC_MaxLength wac_l(simTime);
-				WAC_Signal wac_s(&stopFlag);
-				WAC_OR wac_or(wac_e, wac_l);
-				WAC_OR wac(wac_or, wac_s);
+				WAC_OR wac(wac_or, wac_l);	// contains wac_e, wac_l, and wac_s
 
 				
 				/* 
@@ -1060,21 +1060,30 @@ int main(int argc, char** argv) {
 				
 				
 				  // perform simulation
-				if (((curLength+1) == seqStr.size()) && parser.argExist("final")) {
-					  // run that checks for final structure 
-					  // (after full elongation only)
-					if (simForFinal) {
+				if ( (curLength+1) == seqStr.size() ) {
+					// wac for after full elongation only
+					// this code is awkward for lack of copy assignment operator
+					if (simFullLengthCustom) {
+						// simulation after full elongation for different step count
 						WAC_MaxLength wac_final_length((size_t)finalSteps);
-						WAC_OR intermediateWac(wac_e, wac_final_length);
-						WAC_OR curWac(intermediateWac, *wac_final);
-						// so min_E OR final length OR final structure
-						WalkMC::walkMC(s, sc, &curWac, kT);
-					} else {
-						WAC_OR curWac(wac, *wac_final);
-						// so min_E OR normal length OR final structure
+						WAC_OR curWac(wac_or, wac_final_length);
+						// curWac: wac_signal or wac_enegy or wac_final_length
 						WalkMC::walkMC(s, sc, &curWac, kT);
 					}
-					successfulRunFinal = wac_final->abort(sc);
+					else if (parser.argExist("final")) {
+						WAC_OR curWac(wac, *wac_final);
+						// curWac: wac_signal or wac_energy or normal length or final structure
+						WalkMC::walkMC(s, sc, &curWac, kT);
+						successfulRunFinal = wac_final->abort(sc);
+					}
+					else if (parser.argExist("final") && simFullLengthCustom) {
+						WAC_MaxLength wac_final_length((size_t)finalSteps);
+						WAC_OR intermediateWac(wac_or, wac_final_length);
+						WAC_OR curWac(intermediateWac, *wac_final);
+						// curWac: wac_signal or wac_energy or wac_final_length or final structure
+						WalkMC::walkMC(s, sc, &curWac, kT);
+						successfulRunFinal = wac_final->abort(sc);
+					}
 				} else {
 					  // "normal run"
 					WalkMC::walkMC(s, sc, &wac, kT);
@@ -1114,7 +1123,7 @@ int main(int argc, char** argv) {
 		} // for all elongations
 	
 		if (outHDF)
-			hdf5writer->close_trajectory_group();
+			hdf5writer->close_trajectory_group(successfulRunMinE, successfulRunFinal);
 
 		  // check if last run was successful or aborted
 		if (runWasAborted) {
