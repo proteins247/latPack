@@ -11,7 +11,6 @@ HDF5TrajWriter::HDF5TrajWriter(const char* filepath, OUT_MODE sim_out_mode_, siz
                 throw File_exists_error{};
         if (max_structure_length > 0) {
                 str_memtype = H5Tcopy(H5T_C_S1);
-                // str_filetype = H5Tcopy(H5T_FORTRAN_S1);
                 str_filetype = H5Tcopy(H5T_C_S1);
                 status = H5Tset_size(str_memtype, max_structure_length+1);
                 status = H5Tset_size(str_filetype, max_structure_length+1);
@@ -58,6 +57,9 @@ HDF5TrajWriter::create_trajectory_group()
         // enable chunking, chunksize set by chunk_dims[0]
         hid_t prop = H5Pcreate(H5P_DATASET_CREATE);
         status = H5Pset_chunk(prop, 1, chunk_dims);
+
+        // enable compression level 6
+        status = H5Pset_deflate (prop, 6);         
 
         // create datasets
         dataset_steps = H5Dcreate2(group, "steps", H5T_NATIVE_UINT, dataspace,
@@ -123,8 +125,8 @@ HDF5TrajWriter::write_attribute(const char* name, std::string attr)
         size_t strlen = attr.size();
 
         // copy the string type
-        hid_t filetype = H5Tcopy(H5T_FORTRAN_S1);
-        status = H5Tset_size(filetype, strlen);
+        hid_t filetype = H5Tcopy(H5T_C_S1);
+        status = H5Tset_size(filetype, strlen+1);
         hid_t memtype = H5Tcopy(H5T_C_S1);
         status = H5Tset_size(memtype, strlen+1);
         
@@ -163,7 +165,8 @@ HDF5TrajWriter::write_buffered_traj(unsigned int step, float energy, std::string
 }
 
 void
-HDF5TrajWriter::close_trajectory_group()
+HDF5TrajWriter::close_trajectory_group(bool successfulRunMinE, bool foundFinalStructure)
+// default values of false for both function args.
 {
         // perform final writes to file if the buffers still contain stuff
         if (steps.size() > 0)
@@ -173,9 +176,46 @@ HDF5TrajWriter::close_trajectory_group()
         status = H5Dclose(dataset_energies);
         if (sim_out_mode == OUT_ES)
                 status = H5Dclose(dataset_structures);
+        
+        // write attributes on sim success
+        {
+                hid_t filetype = H5Tcopy(H5T_C_S1);
+                status = H5Tset_size(filetype, 4);
+                hid_t memtype = H5Tcopy(H5T_C_S1);
+                status = H5Tset_size(memtype, 4);
+        
+                // create dataspace
+                hsize_t attr_dims[1] = {1};
+                hid_t dataspace = H5Screate_simple(1, attr_dims, NULL);
+
+                // create attribute
+                hid_t attribute1 = H5Acreate2(group_ids.back(), "Reached min E",
+                                              filetype, dataspace, 
+                                              H5P_DEFAULT, H5P_DEFAULT);
+                hid_t attribute2 = H5Acreate2(group_ids.back(), "Found final struct",
+                                              filetype, dataspace, 
+                                              H5P_DEFAULT, H5P_DEFAULT);
+
+                // write attributes
+                if (successfulRunMinE)
+                        status = H5Awrite(attribute1, memtype, "yes");
+                else
+                        status = H5Awrite(attribute1, memtype, "no ");
+                if (foundFinalStructure)
+                        status = H5Awrite(attribute2, memtype, "yes");
+                else
+                        status = H5Awrite(attribute2, memtype, "no ");
+
+                // close resources
+                status = H5Aclose(attribute1);
+                status = H5Aclose(attribute2);
+                status = H5Sclose(dataspace);
+                status = H5Tclose(memtype);
+                status = H5Tclose(filetype);
+        } // end sim success attributes writing
 
         status = H5Gclose(group_ids.back());
-        group_is_open = false;
+        group_is_open = false; 
 }
 
 void
@@ -316,6 +356,9 @@ HDF5TrajAnalyzer::open_trajectory_group(size_t index)
         // chunking for new datasets
         hid_t prop = H5Pcreate(H5P_DATASET_CREATE);
         status = H5Pset_chunk(prop, 1, chunk_dims);
+
+        // enable compression level 6
+        status = H5Pset_deflate (prop, 6);         
 
         // creation of datasets
         for (auto &name : * dataset_names) {
