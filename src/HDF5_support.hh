@@ -69,7 +69,8 @@ public:
         void write_buffered_traj(unsigned int step, float energy, std::string *structure);
 
         // Perform final write (flush buffers) and close group
-        void close_trajectory_group();
+        void close_trajectory_group(bool successfulRunMinE = false,
+                                    bool foundFinalStructure = false);
 
         // Delete the last used HDF5 group
         // memory/space is freed so long as the file has not been closed
@@ -141,15 +142,21 @@ and writing additional datasets.
  */
 class HDF5TrajAnalyzer {
 public:
+        // filepath - name of file
+        // dataset_names - pointer to vector of names of new datasets to create in each trajectory group
+        // chunk_size - chunking for data in new datasets
         HDF5TrajAnalyzer(const char* filepath, std::vector<std::string> * dataset_names, size_t chunk_size = 16384);
         ~HDF5TrajAnalyzer();
 
         size_t get_group_count();
 
+        // Open an HDF5 group corresponding to index. First traj is index = 1 (traj1).
         void open_trajectory_group(size_t index);
 
+        // Close currently open trajectory group. (only one can be open at a time)
         void close_trajectory_group();
 
+        // Read the trajectory
         ssize_t read_structure_traj(std::string *structure);
 
         ssize_t write_analysis(std::unordered_map<std::string, float> &data);
