@@ -33,8 +33,8 @@ namespace ell
 		  //  call handler of superclass
 		SC_MinE::add(s);
 
-		// note, stateCount, totalCount starts at 1 (original structure)
-		//   subtract 1 to get step number
+		// note, stateCount, totalCount starts at 1 (original structure, step 0)
+		//   so subtract 1 to get step number
 		
 		if (writer && !((stateCount-1) % outFreq)) {
 		        writer->write_buffered_traj(totalCount - 1, s.getEnergy(), nullptr);
@@ -42,8 +42,23 @@ namespace ell
 		// else print to stream
 		else if  ( !((stateCount-1) % outFreq) ) {
 			out << std::setw(10) << totalCount - 1 << " "
-			    << std::setw(6) << std::fixed << std::setprecision(2) << s.getEnergy() << std::endl;
+			    << std::setw(6) << std::fixed << std::setprecision(2)
+			    << s.getEnergy() << std::endl;
 		}
+	}
+        
+        void
+	SC_OutEnergy::outputLast() {
+	        const State& s = *getLastAdded();
+
+		if (writer) {
+		        writer->write_buffered_traj(totalCount - 1, s.getEnergy(), nullptr);
+		} else {
+			out << std::setw(10) << totalCount - 1 << " "
+			    << std::setw(6) << std::fixed << std::setprecision(2)
+			    << s.getEnergy() << std::endl;
+		}
+
 	}
 
 }

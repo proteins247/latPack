@@ -40,8 +40,8 @@ namespace ell
 		  //  call handler of superclass
 		SC_MinE::add(s);
 		
-		// note, stateCount, totalCount starts at 1 (original structure)
-		//   subtract 1 to get step number
+		// note, stateCount, totalCount starts at 1 (original structure, step 0)
+		//   so subtract 1 to get step number
 		
 		if (writer && !((stateCount-1) % outFreq)) {
  			// extract structure information
@@ -54,8 +54,8 @@ namespace ell
 			std::string abs = s.toString();
 			abs = abs.substr(0, cutoff);
 			out << std::setw(10) << totalCount - 1 << " "
-			    << std::setw(6) << std::fixed << std::setprecision(2) << s.getEnergy() << " "
-			    << abs << std::endl;
+			    << std::setw(6) << std::fixed << std::setprecision(2) << s.getEnergy()
+			    << " " << abs << std::endl;
                         // below is added for debugging
                         // const S_LP* slp = dynamic_cast<const S_LP*>(&s);
                         // biu::LatticeProtein_I* latProt = slp->getProtein();
@@ -65,6 +65,25 @@ namespace ell
                         // }
 
 		}
+	}
+
+        void
+	SC_OutAbs::outputLast() {
+	        const State& s = *getLastAdded();
+
+		if (writer) {
+ 			// extract structure information
+		        std::string abs = (s.toString()).substr(0, cutoff);
+			writer->write_buffered_traj(totalCount - 1, s.getEnergy(), &abs);
+		} else {
+			// extract structure information
+			std::string abs = s.toString();
+			abs = abs.substr(0, cutoff);
+			out << std::setw(10) << totalCount - 1 << " "
+			    << std::setw(6) << std::fixed << std::setprecision(2) << s.getEnergy()
+			    << " " << abs << std::endl;
+		}
+
 	}
 
 }

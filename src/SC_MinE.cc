@@ -37,5 +37,10 @@ namespace ell
 		return minE;
 	}
 
+	void
+	SC_MinE::outputLast()
+	{
+	}
+
 
 }

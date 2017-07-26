@@ -40,6 +40,9 @@ namespace ell
 		  //! This function is used to track all accepted intermediate States.
 		  //! @param s the accepted State
 		virtual void add(const State& s);
+
+		//! print the last state. 
+		virtual void outputLast();
 			
 	};
 

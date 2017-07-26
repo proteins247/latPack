@@ -30,6 +30,9 @@ namespace ell
 	
 		  //! access to the minimal energy seen so far
 		virtual double getMinE() const;
+
+		//! print the last state. For SC_MinE, the function is empty
+		virtual void outputLast();
 		
 	};
 
