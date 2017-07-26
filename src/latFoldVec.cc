@@ -193,6 +193,8 @@ static const std::string infotext =
 	
 static const std::string seqInfo =
 	"protein sequence (sequence valid for alphabet from energy file)";
+static const std::string titleInfo =
+	"Give trajectory a title; most relevant for HDF5 output";
 static const std::string ktInfo =
 	"kT parameter for metropolis criterion "
 	"(double value from [0, infinity))";
@@ -259,6 +261,9 @@ int main(int argc, char** argv) {
 	options.push_back(biu::COption(
 			"seq", !optional, biu::COption::STRING, seqInfo));
 	
+	options.push_back(biu::COption(
+			"title", optional, biu::COption::STRING, titleInfo));
+
 	options.push_back(biu::COption(	
 			"energyFile", !optional, biu::COption::STRING, 
 			"the contact energy function file that contains also the alphabet"));
@@ -353,6 +358,7 @@ int main(int argc, char** argv) {
 	biu::Alphabet * alph = NULL;
 	biu::EnergyMatrix * energyMatrix = NULL;
 	biu::DistanceEnergyFunction * energy = NULL;
+	std::string title;
 	std::string seqStr;
 	std::string absMoveStr;
 	std::string absMoveStrFinal;
@@ -392,6 +398,9 @@ int main(int argc, char** argv) {
 			giveVersion();
 			return 0;
 		}
+
+		if (parser.argExist("title"))
+			title = parser.getStrVal("title");
 		
 		if (parser.argExist("lat"))
 		{
@@ -666,6 +675,8 @@ int main(int argc, char** argv) {
 	
 	  // output parameter setting
 	if (verbosity > 0) {
+		if (parser.argExist("title"))
+			*outstream << "Title : " << title;
 		*outstream	<< "\n Parameter setup :"
 					<< "\n ================="
 					<< "\n  - Lattice     : " << lattice->getDescriptor()->getName()
@@ -691,6 +702,8 @@ int main(int argc, char** argv) {
 	}
 	
 	if (outHDF) {
+		if (parser.argExist("title"))
+			hdf5writer->write_attribute("Title", title);
 		hdf5writer->write_attribute("Lattice", lattice->getDescriptor()->getName());
 		hdf5writer->write_attribute("Energy file", parser.getStrVal("energyFile"));
 		hdf5writer->write_attribute("Alphabet", alphString);
@@ -1030,9 +1043,9 @@ int main(int argc, char** argv) {
 				 * Building Walk related objects
 				 */
 				WAC_Signal wac_s(&stopFlag);    // stop upon change to stopFlag
-				WAC_MinEnergy wac_e(minEnergy); // default minEnergy is (double)INT_MIN
+				WAC_MinEnergy wac_e(minEnergy); // stop if minEnergy (default minEnergy is (double)INT_MIN)
 				WAC_OR wac_or(wac_s, wac_e);	// contains wac_s and wac_e
-				WAC_MaxLength wac_l(simTime);
+				WAC_MaxLength wac_l(simTime);	// stop if length reached
 				WAC_OR wac(wac_or, wac_l);	// contains wac_e, wac_l, and wac_s
 
 				
@@ -1060,22 +1073,23 @@ int main(int argc, char** argv) {
 				
 				
 				  // perform simulation
-				if ( (curLength+1) == seqStr.size() ) {
-					// wac for after full elongation only
+				if ( ((curLength+1) == seqStr.size()) &&
+				     (parser.argExist("final") || simFullLengthCustom) ) {
+					// protein is full length, and last stage of simulation has a final
+					//   target structure or a custom simulation length
 					// this code is awkward for lack of copy assignment operator
-					if (simFullLengthCustom) {
-						// simulation after full elongation for different step count
-						WAC_MaxLength wac_final_length((size_t)finalSteps);
-						WAC_OR curWac(wac_or, wac_final_length);
-						// curWac: wac_signal or wac_enegy or wac_final_length
-						WalkMC::walkMC(s, sc, &curWac, kT);
-					}
-					else if (parser.argExist("final")) {
+					if (parser.argExist("final")) {
 						WAC_OR curWac(wac, *wac_final);
 						// curWac: wac_signal or wac_energy or normal length or final structure
 						WalkMC::walkMC(s, sc, &curWac, kT);
 						successfulRunFinal = wac_final->abort(sc);
 					}
+					else if (simFullLengthCustom) { // simulation after full elongation for different step count
+						WAC_MaxLength wac_final_length((size_t)finalSteps);
+						WAC_OR curWac(wac_or, wac_final_length);
+						// curWac: wac_signal or wac_enegy or wac_final_length
+						WalkMC::walkMC(s, sc, &curWac, kT);
+					} 
 					else if (parser.argExist("final") && simFullLengthCustom) {
 						WAC_MaxLength wac_final_length((size_t)finalSteps);
 						WAC_OR intermediateWac(wac_or, wac_final_length);
@@ -1097,6 +1111,10 @@ int main(int argc, char** argv) {
 					sigaction(SIGINT, &sa, NULL);
 					raise(SIGINT);
 				}
+
+				// normal printing of final structure (if excluded by outFreq)
+				if ( ((sc->size()-1) % outFreq) )
+					sc->outputLast();
 
 				  // update 
 				curEnergy = sc->getLastAdded()->getEnergy();

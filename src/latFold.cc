@@ -96,6 +96,8 @@ static const std::string absInfo =
 	"L/R:+-y, "
 	"U/D:+-z) "
 	"[defaults to a series of equal moves e.g. 'F' for SQR-lattice]";
+static const std::string titleInfo =
+	"Give trajectory a title; most relevant for HDF5 output";
 static const std::string ktInfo =
 	"kT parameter for metropolis criterion "
 	"(double value from [0, infinity))";
@@ -160,6 +162,12 @@ int main(int argc, char** argv) {
 			optional, 
 			biu::COption::STRING, 
 			absInfo));
+
+	options.push_back(biu::COption(
+			"title", 
+			optional, 
+			biu::COption::STRING, 
+			titleInfo));
 	
 	options.push_back(biu::COption(	
 			"energyFile", 
@@ -311,6 +319,7 @@ int main(int argc, char** argv) {
 	biu::Alphabet * alph = NULL;
 	biu::EnergyMatrix * energyMatrix = NULL;
 	biu::DistanceEnergyFunction * energy = NULL;
+	std::string title;
 	std::string seqStr;
 	std::string absMoveStr;
 	std::string absMoveStrFinal;
@@ -346,6 +355,10 @@ int main(int argc, char** argv) {
 			giveVersion();
 			return 0;
 		}
+
+		if (parser.argExist("title"))
+			title = parser.getStrVal("title");
+
 		
 		if (parser.argExist("lat"))
 		{
@@ -711,6 +724,8 @@ int main(int argc, char** argv) {
 	 */
 	  // output parameter setting
 	if (verbosity > 0) {
+		if (parser.argExist("title"))
+			*outstream << "Title : " << title;
 		*outstream	<< "\n Parameter setup :"
 					<< "\n ================="
 					<< "\n  - Lattice     : " << lattice->getDescriptor()->getName()
@@ -734,6 +749,8 @@ int main(int argc, char** argv) {
 	}
 
 	if (outHDF) {
+		if (parser.argExist("title"))
+			hdf5writer->write_attribute("Title", title);
 		hdf5writer->write_attribute("Lattice", lattice->getDescriptor()->getName());
 		hdf5writer->write_attribute("Energy file", parser.getStrVal("energyFile"));
 		hdf5writer->write_attribute("Alphabet", alphString);
@@ -825,6 +842,10 @@ int main(int argc, char** argv) {
 			raise(SIGINT);
 		}
 
+		// normal printing of final structure (if excluded by outFreq)
+		if ( ((sc->size()-1) % outFreq) )
+			sc->outputLast();
+			
 		  // get final structure
 		double finalEnergy = sc->getLastAdded()->getEnergy();
 		std::string finalAbsMoveStr = sc->getLastAdded()->toString();
