@@ -3815,13 +3815,13 @@ if test x"$debuger" = x"yes"; then
 #define DEBUG 1
 _ACEOF
 
-	CXXFLAGS="$CXXFLAGS -g -Wall -Werror -Wno-uninitialized -O0 -pedantic -march=native "
+	CXXFLAGS="$CXXFLAGS -std=c++0x -g -Wall -Wno-uninitialized -O0 -pedantic -march=native "
 else
 	cat >>confdefs.h <<\_ACEOF
 #define NDEBUG 1
 _ACEOF
 
-	CXXFLAGS="$CXXFLAGS -O2 -march=native "
+	CXXFLAGS="$CXXFLAGS -std=c++0x -O2 -march=native "
 fi
 
 { $as_echo "$as_me:$LINENO: checking wether to build with gcov code coverage information (GCC only)" >&5
