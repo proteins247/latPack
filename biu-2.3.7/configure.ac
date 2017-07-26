@@ -69,10 +69,10 @@ AC_ARG_ENABLE(debug,
 AC_MSG_RESULT($debuger)
 if test x"$debuger" = x"yes"; then
 	AC_DEFINE(DEBUG)
-	CXXFLAGS="$CXXFLAGS -g -Wall -Werror -Wno-uninitialized -O0 -pedantic -march=native "
+	CXXFLAGS="$CXXFLAGS -std=c++0x -g -Wall -Wno-uninitialized -O0 -pedantic -march=native "
 else
 	AC_DEFINE(NDEBUG)
-	CXXFLAGS="$CXXFLAGS -O2 -march=native "
+	CXXFLAGS="$CXXFLAGS -std=c++0x -O2 -march=native "
 fi
 
 AC_MSG_CHECKING([wether to build with gcov code coverage information (GCC only)])
