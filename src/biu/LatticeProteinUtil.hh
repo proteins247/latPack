@@ -244,6 +244,17 @@ namespace biu
 		GDT_HA(	const biu::DPointVec & pos1
 				, const biu::DPointVec & pos2 );
 
+
+		/*!
+		 * Count the number of native and non-native contacts and calculate
+		 * the fraction of native contacts out of the total native contacts.
+		 * 
+		 * @param ref the native structure
+		 * 
+		 * @return void, but arguments nativeContacts, nonNativeContacts, 
+		 * and fractionNativeContacts are modified.
+		 *
+		 */
 		static
 		void
 		countContacts( const biu::IPointVec & ref,
