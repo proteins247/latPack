@@ -65,7 +65,8 @@ namespace biu
 		 * 						move string
 		 * @param isRibosomeBound true if last residue should be anchored to a wall
 		 * 						added by VZ to this class
-		 * 						default false saves changes to existing code
+		 * 						default value of false avoids 
+		 *                                              changes to existing code.
 		 */
 		LatticeProtein_Ipnt(const LatticeModel* lattice, 
 						const DistanceEnergyFunction* energy, 
@@ -81,9 +82,9 @@ namespace biu
 		// copy constructors
 
 		// VZ: property of RibosomeBound is inherited unless downcasting fails
-		LatticeProtein_Ipnt(const LatticeProtein& latProt); 
+		LatticeProtein_Ipnt(const LatticeProtein& latProt);
 		// VZ: property of RibosomeBound is inherited
-		LatticeProtein_Ipnt(const LatticeProtein_Ipnt& latProt); 
+		LatticeProtein_Ipnt(const LatticeProtein_Ipnt& latProt);
 						
 		/*! Destruction of the lattice protein object.
 		 */
