@@ -219,50 +219,56 @@ bool COptionParser::isCastable(std::string val, int type) const {
 	std::string dump;
 
 	switch (type) {
-		case COption::STRING :	return true;
-		case COption::CHAR	:	char ac;
-										if (!(ss >> ac)) {
-											return false;
-										} else {
-											if ((ss >> dump) && dump.size() > 0 && dump.find_first_not_of(" \t")!=std::string::npos)
-												return false;
-											else
-												return true;
-										}
-		case COption::INT		:	int ai;
-										if (!(ss >> ai)) {
-											return false;
-										} else {
-											if ((ss >> dump) && dump.size() > 0 && dump.find_first_not_of(" \t")!=std::string::npos)
-												return false;
-											else
-												return true;
-										}
-		case COption::DOUBLE	:	double ad;
-										if (!(ss >> ad)) {
-											return false;
-										} else {
-											if ((ss >> dump) && dump.size() > 0 && dump.find_first_not_of(" \t")!=std::string::npos)
-												return false;
-											else
-												return true;
-										}
-		case COption::FLOAT	:	float af;
-										if (!(ss >> af)) {
-											return false;
-										} else {
-											if ((ss >> dump) && dump.size() > 0 && dump.find_first_not_of(" \t")!=std::string::npos)
-												return false;
-											else
-												return true;
-										}
-		default : return false;
+		case COption::STRING :
+			return true;
+		case COption::CHAR	:
+			char ac;
+			if (!(ss >> ac)) {
+				return false;
+			} else {
+				if ((ss >> dump) && dump.size() > 0 && dump.find_first_not_of(" \t")!=std::string::npos)
+					return false;
+				else
+					return true;
+			}
+		case COption::INT :
+			int ai;
+			if (!(ss >> ai)) {
+				return false;
+			} else {
+				if ((ss >> dump) && dump.size() > 0 && dump.find_first_not_of(" \t")!=std::string::npos)
+					return false;
+				else
+					return true;
+			}
+		case COption::DOUBLE :
+			double ad;
+			if (!(ss >> ad)) {
+				return false;
+			} else {
+				if ((ss >> dump) && dump.size() > 0 && dump.find_first_not_of(" \t")!=std::string::npos)
+					return false;
+				else
+					return true;
+			}
+		case COption::FLOAT :
+			float af;
+			if (!(ss >> af)) {
+				return false;
+			} else {
+				if ((ss >> dump) && dump.size() > 0 && dump.find_first_not_of(" \t")!=std::string::npos)
+					return false;
+				else
+					return true;
+			}
+		default :
+			return false;
 	}
 } // isCastable()
 
 // parst Parameter
 void COptionParser::parseOpt(int argc, char** argv) {
-	std::vector<int> optStart;
+	std::vector<int> optStart; // Stores indices where argv holds an option flag
 	OptionMap::size_type i,j,last;
 	std::string actOpt, actOptName, actVal;
 	for (int k=1; k < argc; k++) { // merke mir alle potentiellen optionsstarts
@@ -280,21 +286,27 @@ void COptionParser::parseOpt(int argc, char** argv) {
 		}
 	}
 	for (i=0; i<optStart.size(); i++) { // gehe optionen durch
-		actOpt = std::string(argv[optStart[i]]);
+		actOpt = std::string(argv[optStart[i]]); // current option flag
 		if (i+1<optStart.size())  // entweder argumente bis zur naechsten option
+			                  // (either argue arguments to the next option
 			last = optStart[i+1];
 		else  // oder alle nachfolgenden argumente bis zum ende zusammenfuegen
+		      // or all subsequent arguments to the end)
 			last = argc;
-		for(j=optStart[i]+1; j<last; j++)  // erzeuge komplette option
+
+		for (j=optStart[i]+1; j<last; j++)  // erzeuge komplette option (create complete option)
+			                            // appends all argv up to the next flag to actOpt
 			actOpt.append(" "+std::string(argv[j]));
-		actOptName = actOpt.substr(1,actOpt.find("=",0)-1); // optionsname zum pruefen
-		for(j=0; j< opt.size(); j++) { // suche eintrag in opt
-			if (opt[j].option==actOptName)
+
+		actOptName = actOpt.substr(1, actOpt.find("=",0)-1); // optionsname zum pruefen (option name to check)
+		for (j=0; j<opt.size(); j++) { // suche eintrag in opt (search entry in opt)
+			                       // (finds int j such that opt[j] is our option)
+			if (opt[j].option == actOptName)
 				break;
 		}
-		if (j != opt.size()) {	// dann option tatsaechlich verfuegbar
-			if (opt[j].retType==COption::BOOL) { // extrabehandlund der booleans
-				if(actOpt.size() > actOptName.size()+1) { // dann falsche benutzung
+		if (j != opt.size()) {	// dann option tatsaechlich verfuegbar (Then option is actually available)
+			if (opt[j].retType == COption::BOOL) { // extrabehandlund der booleans (handling booleans)
+				if (actOpt.size() > actOptName.size()+1) { // dann falsche benutzung (wrong use)
 					coutError(ERR_WR_USE, actOptName, "is a boolean and no input argument = '"+actOpt+"'");
 				} else { // merken
 					opt[j].strValue = "true";
@@ -302,21 +314,24 @@ void COptionParser::parseOpt(int argc, char** argv) {
 				}
 			} else {
 				if (actOpt.find("=",0) == std::string::npos) { // dann keine zuweisung obwohl kein bool
+					                                       // (then no assignment although no bool)
 					coutError(ERR_WR_USE, actOptName, "is an input argument. use '='");
 				} else {
 					actVal = actOpt.substr(actOptName.size()+2);
 					if (actVal.size() == 0) {
 						coutError(ERR_WR_VAL, actOptName, "is given with empty input");
 					} else if (isCastable(actVal, opt[j].retType)) {  // wenn typecast moeglich
-						opt[j].strValue = actVal;					// dann speichere
+						                                          // (typecast possible)
+						opt[j].strValue = actVal; // dann speichere (then save)
 						opt[j].exist = true;
 					} else {  // fehler da typecast nicht moeglich
+						  // (error, typecast not possible)
 						coutError(ERR_WR_VAL, actOptName, "in argument '"+actOpt+"'");
 					}
 				}
 			}
-		} else { // fehlermeldung
-			coutError(ERR_NO_OPT,actOptName, "in argument '"+actOpt+"'");
+		} else { // fehlermeldung (error message)
+			coutError(ERR_NO_OPT, actOptName, "in argument '" + actOpt + "'");
 			break;
 		}
 	}
