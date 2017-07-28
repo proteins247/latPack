@@ -405,8 +405,9 @@ namespace biu
 		assertbiu(points != NULL, "no structure available");
 		// do the check
 		// old version had orientation-free plane. now the plane is fixed
+		// All points must have an x-coordinate less than or equal to that of the last point
 		IntPoint anchorPoint = points->back();
-		int max_x=anchorPoint.getX();
+		int max_x = anchorPoint.getX();
 		if (points->size() < 2)
 			return true;
 		for (biu::IPointVec::iterator it = points->begin(); it != points->end()-1; ++it) {
