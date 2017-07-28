@@ -174,7 +174,7 @@ static const std::string infotext =
 	" lattices using the specified move set and a metropolis walk within"
 	" chain elongation steps.\n"
 	"\n"
-	"The simulation stops after the whole chain is elongated.\n"
+	"The minimum protein length that will be simulated is 5."
 	"\n"
 	"The energy function is contact based and has to be"
 	" provided as a text file that contains the alphabet"
@@ -192,22 +192,28 @@ static const std::string infotext =
 	;
 	
 static const std::string seqInfo =
-	"protein sequence (sequence valid for alphabet from energy file)";
+	"protein sequence (sequence valid for alphabet from energy file). length >= 4";
 static const std::string titleInfo =
-	"Give trajectory a title; most relevant for HDF5 output";
+	"Give simulations a title/label; most relevant for HDF5 output";
 static const std::string ktInfo =
 	"kT parameter for metropolis criterion "
 	"(double value from [0, infinity))";
-static const std::string maxstepsInfo =
-	"each intermediate simulation ends after [maxSteps] states";
+static const std::string maxStepsInfo =
+	"each intermediate simulation ends after [maxSteps] steps. It's called maxSteps because simulation can be interrupted by minE or final criteria";
+static const std::string elongationInfo =
+	"a custom elongation schedule, given as a sequence of L - 4 integers, where L is the length of the protein sequence. example: if the sequence (-seq) has length of 8, -elongationSchedule=50 55 60 50. this options overrides -maxSteps";
+static const std::string maxStepsIncreaseInfo =
+	"length-proportional MC simulation. Either the custom elongation schedule or maxSteps is multiplied by sequence length to obtain the number of MC steps for each protein length";
 static const std::string minenergyInfo =
 	"walk ends if energy gets below or equal to [minE]";
 static const std::string finalInfo =
 	"if present, each folding simulation run is aborted if the given (or "
 	"a symmetric) structure is visited.";
-static const std::string finalStepsInfo =
-	"after full elongation, sim will run this number of additional steps (or "
-	"until final structure is reached if -final is present).";
+static const std::string fullLengthStepsInfo =
+	"after full elongation, sim will run this custom number of steps (or "
+	"until final structure is reached if -final is present). By default, the number of "
+	"steps run on the final structure is given by -maxSteps or -elongationSchedule";
+// below currently not an option
 static const std::string finalOnlyInfo =
 	"if present, run will abort only if final is reached. Only in effect if "
 	"-final option is present";
@@ -219,7 +225,7 @@ static const std::string runsInfo =
 static const std::string latticeInfo =
 	"which lattice to use: CUB, SQR or FCC";
 static const std::string ofileInfo =
-	"write output of simulations to filename (HDF5). if equal to 'STDOUT' it is written to standard output (text). Note, file cannot exist already (will not overwrite).";
+	"write output of simulations to filename (HDF5 format). if argument is 'STDOUT' or this argument is not present, output is written to standard output (plain text). Note, file cannot exist already (will not overwrite).";
 static const std::string timingInfo =
 	"print cpu-time used";
 static const std::string verbosityInfo =
@@ -231,7 +237,9 @@ static const std::string helpInfo =
 static const std::string moveSetInfo =
 	"which move set to use: PullM or PivotM";
 static const std::string ribosomeInfo =
-	"simulate with a non-interacting wall that acts as a barrier and anchors the last residue. 3D-only";
+	"simulate with a non-interacting wall that acts as a barrier and anchors the last residue. follows convention that synthesis is from N term to C term";
+static const std::string ribosomeReleaseInfo =
+	"simulate as unbound from ribosome (no constraints) after last residue added";
 
 // csignal for SIGINT, SIGTERM handling
 volatile sig_atomic_t stopFlag = 0;
@@ -243,6 +251,9 @@ static void handler(int signum)
 
 
 int main(int argc, char** argv) {
+
+	// If we receive a SIGINT or SIGTERM, stopFlag will change to nonzero
+	//  but we will continue execution until a point where we can handle it.
 	struct sigaction sa;
 
 	memset( &sa, 0, sizeof(sa) );
@@ -286,15 +297,21 @@ int main(int argc, char** argv) {
 			"kT",  optional, biu::COption::DOUBLE, ktInfo, DEFAULT_KT));
 	
 	options.push_back(biu::COption(
-			"maxSteps", optional, biu::COption::DOUBLE, maxstepsInfo, "20"));
+			"maxSteps", optional, biu::COption::INT, maxStepsInfo, "20"));
+
+	options.push_back(biu::COption(
+			"elongationSchedule", optional, biu::COption::STRING, elongationInfo));
 	
 	options.push_back(biu::COption(
-			"maxStepsIncrease", optional, biu::COption::BOOL, 
-			"the '-maxSteps' value per elongation is not fixed but multiplied with the sequence length to obtain the simulation time per elongation"));
+			"maxStepsIncrease", optional, biu::COption::BOOL, maxStepsIncreaseInfo));
 	
+	options.push_back(biu::COption(
+			"fullLengthSteps", optional, biu::COption::INT, fullLengthStepsInfo));
+		
 	{
-	std::ostringstream stringStream;
-	stringStream << DEFAULT_MINE;
+		// the next two lines seem like deprecated code, so I commented them out
+	// std::ostringstream stringStream;
+	// stringStream << DEFAULT_MINE;
 	options.push_back(biu::COption(
 			"minE", 
 			optional,
@@ -304,9 +321,6 @@ int main(int argc, char** argv) {
 	
 	options.push_back(biu::COption(
 			"final", optional, biu::COption::STRING, finalInfo));
-		
-	options.push_back(biu::COption(
-			"finalSteps", optional, biu::COption::INT, finalStepsInfo));
 		
 	options.push_back(biu::COption(
 			"seed", optional, biu::COption::INT, seedInfo, 
@@ -325,13 +339,16 @@ int main(int argc, char** argv) {
 			"ribosome", optional, biu::COption::BOOL, ribosomeInfo));
 	
 	options.push_back(biu::COption(
+			"ribosomeRelease", optional, biu::COption::BOOL, ribosomeReleaseInfo));
+	
+	options.push_back(biu::COption(
 			"out", optional, biu::COption::CHAR,
 			"output mode along the folding simulation: (N)o, (E)nergy, (S)tructure+Energy",
 			"N"));
 	
 	options.push_back(biu::COption(
 			"outFreq", optional, biu::COption::INT,
-			"output frequency. print information every INT steps. in effect only if -out=E or -out=S",
+			"output frequency. print information every INT steps. has effect only if -out=E or -out=S",
 			DEFAULT_OUTFREQ));
 
 	options.push_back(biu::COption(
@@ -364,10 +381,8 @@ int main(int argc, char** argv) {
 	std::string absMoveStrFinal;
 	std::string moves;
 	double kT;
-	double maxLength;
+	std::vector<unsigned int> elongationSchedule;
 	bool sequenceDependentSimLength = false;
-	bool simFullLengthCustom = false;
-	size_t finalSteps = UINT_MAX;
 	double minEnergy;
 	biu::LatticeDescriptor* latticeDescriptor = NULL;
 	biu::LatticeModel * lattice = NULL;
@@ -379,6 +394,7 @@ int main(int argc, char** argv) {
 	ell::SC_MinE* sc;
 	double minE;
 	bool ribosome;
+	bool ribosomeRelease;
 	bool timing;
 	size_t verbosity;
 	OUT_MODE simOutMode = OUT_NO;
@@ -511,7 +527,9 @@ int main(int argc, char** argv) {
 		    }
 		    // check size
 		    if (seqStr.size()/alphElementLength < 4) {
-		    	std::cerr	<< "Error: seq must have at least length 4."
+		    	std::cerr	<< "Error: seq ("
+					<< seqStr
+					<< ") must have at least length 4."
 		    				<< std::endl;
 		    	return PARSE_ERROR;
 		    }
@@ -527,14 +545,44 @@ int main(int argc, char** argv) {
 			}
 		}
 		
-		if (parser.argExist("maxSteps")) 
+		if (parser.argExist("maxSteps")) // Note, an argument always exists if it has a default value
 		{
 			
-			maxLength = parser.getDoubleVal("maxSteps"); 
-			if (maxLength < 0.0) {
-				std::cerr << "Error: maxSteps must be >= 0." << std::endl;
+			int maxSteps = parser.getIntVal("maxSteps"); 
+			if (maxSteps <= 0) {
+				std::cerr << "Error: maxSteps must be > 0" << std::endl;
 				return PARSE_ERROR;
 			}
+			std::vector<unsigned int> schedule(seqStr.size(), (unsigned int)maxSteps);
+			elongationSchedule = schedule;
+		}
+
+		if (parser.argExist("elongationSchedule")) {
+			// Parse the elongationSchedule string into a vector of uints
+			std::istringstream scheduleReader(parser.getStrVal("elongationSchedule"));
+			std::string buffer;
+			std::vector<unsigned int> schedule;
+			unsigned int value;
+			while (scheduleReader >> buffer) {
+				try {
+					value = (unsigned int) std::stoi(buffer);
+				} catch (std::invalid_argument) {
+					std::cerr << "Error: In reading elongation schedule, '"
+						  << buffer
+						  << "' could not be converted to int."
+						  << std::endl;
+					return PARSE_ERROR;
+				}
+				schedule.push_back(value);
+			}
+			if (schedule.size() != seqStr.size() - 4) {
+				std::cerr << "Error: -elongationSchedule requires sequence length - 4 ("
+					  << seqStr.size() - 4
+					  << ") ints"
+					  << std::endl;
+				return PARSE_ERROR;
+			}
+			std::copy(schedule.begin(), schedule.end(), elongationSchedule.begin() + 4);
 		}
 		
 		sequenceDependentSimLength = parser.argExist("maxStepsIncrease");
@@ -549,19 +597,36 @@ int main(int argc, char** argv) {
 		if (parser.argExist("final"))
 		{
 			absMoveStrFinal = parser.getStrVal("final");
-			if (parser.argExist("finalSteps")) {
-				finalSteps = parser.getIntVal("finalSteps");
-				simFullLengthCustom = true;
+			if (absMoveStrFinal.size() != seqStr.size() - 1) {
+				std::cerr << "Warning: given '-final' move string, "
+					  << absMoveStrFinal
+					  << ", doesn't correspond to given protein: "
+					  << seqStr
+					  << std::endl;
+			}
+			if (!latticeDescriptor->getAlphabet()->isAlphabetString(absMoveStrFinal)) {
+				std::string moveAlphStr = latticeDescriptor->getAlphabet()->getString(latticeDescriptor->getAlphabet()->getElement(0));
+				for (size_t i=1; i<latticeDescriptor->getAlphabet()->getAlphabetSize();i++) {
+					moveAlphStr += ",";
+					moveAlphStr += latticeDescriptor->getAlphabet()->getString(latticeDescriptor->getAlphabet()->getElement(i));
+				}
+				std::cerr	<<"Error: given '-final' move string '"
+						<<absMoveStrFinal
+						<<"' is not valid for the absolute move alphabet {"
+						<<moveAlphStr
+						<<"} !\n";
+				return PARSE_ERROR;
 			}
 		}
-		
+
+		if (parser.argExist("fullLengthSteps")) {
+			unsigned int fullLengthSteps = parser.getIntVal("fullLengthSteps");
+			elongationSchedule.back() = fullLengthSteps;
+		}
+
 		if (parser.argExist("seed")) 
 		{
 			seed = parser.getIntVal("seed");
-			if (seed < 0) {
-				std::cerr << "Error: seed must be > 0." << std::endl;
-				return PARSE_ERROR;
-			}
 		}
 		
 		if (parser.argExist("runs"))
@@ -588,6 +653,7 @@ int main(int argc, char** argv) {
 		
 		// ribosome options
 		ribosome = parser.argExist("ribosome");
+		ribosomeRelease = parser.argExist("ribosomeRelease");
 
 		  // check for simulation output mode
 		switch (parser.getCharVal("out")) {
@@ -686,13 +752,22 @@ int main(int argc, char** argv) {
 					<< "\n  - Sequence    : " << seqStr
 					<< "\n  - Move set    : " << moves
          				<< "\n  - Ribosome?   : " << (ribosome ? "tethered" : "untethered")
+         				<< "\n  - Ribo release: " << (ribosomeRelease ? "yes" : "no")
 					<< "\n  - Simulations : " << runs
              				<< "\n  - Seed (rand) : " << seed << " (" << modified_seed + seed << ")"
 					<< "\n  - kT (MC)     : " << kT
-					<< "\n  - Max. steps  : " << maxLength
+				<< "\n  - Max. steps  : " << elongationSchedule[0]
 					;
+		if (parser.argExist("elongationSchedule")) {
+			*outstream << "\n  - Elongation  : ";
+			std::ostringstream schedule;
+			for (auto it=elongationSchedule.begin()+4; it!=elongationSchedule.end(); ++it) {
+				schedule << *it << " ";
+			}
+			*outstream << schedule.str();
+		}
 		if (sequenceDependentSimLength) {
-			*outstream << "\n  + steps incr. : (maxSteps * seqLength)";
+			*outstream << "\n  + steps incr. : (steps * seqLength)";
 		}
 		if (minEnergy != DEFAULT_MINE)
 			*outstream << "\n  - Min. Energy : " << minEnergy;
@@ -711,11 +786,23 @@ int main(int argc, char** argv) {
 		hdf5writer->write_attribute("Sequence", seqStr);
 		hdf5writer->write_attribute("Move set", moves);
 		hdf5writer->write_attribute("Ribosome", (ribosome ? "tethered" : "untethered"));
+		hdf5writer->write_attribute("Ribosome release", (ribosomeRelease ? "tethered" : "untethered"));
 		hdf5writer->write_attribute("Simulations", (unsigned int)runs);
 		hdf5writer->write_attribute("Seed", (unsigned int)seed);
 		hdf5writer->write_attribute("Modified seed", (unsigned int)(modified_seed + seed));
 		hdf5writer->write_attribute("kT", (float)kT);
-		hdf5writer->write_attribute("Max. steps", (unsigned int)maxLength);
+		hdf5writer->write_attribute("Max. steps", elongationSchedule[0]);
+
+		{
+			std::ostringstream schedule;
+			if (parser.argExist("elongationSchedule"))
+				for (auto it=elongationSchedule.begin()+4; it!=elongationSchedule.end(); ++it)
+					schedule << *it << " ";
+			hdf5writer->write_attribute("Custom elongation schedule",
+						    parser.argExist("elongationSchedule") ?
+						    schedule.str() : "no");
+		}
+
 		hdf5writer->write_attribute("Proportional sim",
 					    sequenceDependentSimLength ? "true" : "false" );
 		if (minEnergy != DEFAULT_MINE)
@@ -746,9 +833,6 @@ int main(int argc, char** argv) {
 	  // start simulation runs
 	for (int doneRuns=0; doneRuns<runs; doneRuns++)
 	{
-		// // restart RNG
-		// biu::RNF::getRNG().setSeed(seed + doneRuns);
-
 		if (outHDF)
 			hdf5writer->create_trajectory_group();
 
@@ -768,10 +852,8 @@ int main(int argc, char** argv) {
 		localTime.start();
 		
 		if (verbosity > 0)
-		{
 			*outstream 	<< " performing co-translational folding simulation " << (doneRuns+1)
 						<< "\n";
-		}
 	
 		  // hold the current chain length
 	//	size_t curLength = 2;
@@ -1009,52 +1091,56 @@ int main(int argc, char** argv) {
 			bool seqShared = true;
 			bool isAbsMove = true;
 			  // create lattice protein instance
-			biu::LatticeProtein_Ipnt 
-				latProt(lattice,energy,&seq,seqShared,absMoveStr,isAbsMove,ribosome);
+			biu::LatticeProtein_Ipnt latProt(lattice,energy,&seq,seqShared,absMoveStr,isAbsMove,ribosome);
+			if ((curLength+1) == seqStr.size() && ribosomeRelease && ribosome) {
+				// Release from ribosome if chain is complete.
+				biu::LatticeProtein_Ipnt
+					latProt_tmp(lattice,energy,&seq,seqShared,absMoveStr,isAbsMove,!ribosome);
+				latProt = latProt_tmp;
+			}
 			  // update energy
 			curEnergy = latProt.getEnergy();
 	
 			///////////////////  BEGIN FOLDING SIMULATION  ///////////////////////////
-			if (maxLength > 0) {
 			
-				/*
-				 * Building State related objects
-				 */
-				// shared PullMoveDecoder
-				biu::LatticeMoveSet* moveSet;
-				S_LP* s;
-				if (moves == OPTION_PULLM) {
-					moveSet = new biu::PullMoveSet(&pmd, true);
-					s = new S_LP_PullM(&latProt, moveSet);
-				}
-				else if (moves == OPTION_PIVOTM) {
-					moveSet = new biu::PivotMoveSet(lattice);
-					s = new S_LP_PivotM(&latProt, moveSet);
-				}
+			/*
+			 * Building State related objects
+			 */
+			// shared PullMoveDecoder
+			biu::LatticeMoveSet* moveSet;
+			S_LP* s;
+			if (moves == OPTION_PULLM) {
+				moveSet = new biu::PullMoveSet(&pmd, true);
+				s = new S_LP_PullM(&latProt, moveSet);
+			}
+			else if (moves == OPTION_PIVOTM) {
+				moveSet = new biu::PivotMoveSet(lattice);
+				s = new S_LP_PivotM(&latProt, moveSet);
+			}
 			
-				  // set simulation time
-				size_t simTime = (size_t)maxLength;
-				  // set simulation length depending on sequence length
-				if (sequenceDependentSimLength) {
-					simTime = (size_t)(maxLength * (double)seq.size());
-				}
+			// set simulation time
+			size_t simTime = elongationSchedule[curLength];
+			// set simulation length depending on sequence length
+			if (sequenceDependentSimLength) {
+				simTime *= seq.size();
+			}
 
-				/*
-				 * Building Walk related objects
-				 */
-				WAC_Signal wac_s(&stopFlag);    // stop upon change to stopFlag
-				WAC_MinEnergy wac_e(minEnergy); // stop if minEnergy (default minEnergy is (double)INT_MIN)
-				WAC_OR wac_or(wac_s, wac_e);	// contains wac_s and wac_e
-				WAC_MaxLength wac_l(simTime);	// stop if length reached
-				WAC_OR wac(wac_or, wac_l);	// contains wac_e, wac_l, and wac_s
+			/*
+			 * Building Walk related objects
+			 */
+			WAC_Signal wac_s(&stopFlag);    // stop upon change to stopFlag
+			WAC_MinEnergy wac_e(minEnergy); // stop if minEnergy (default minEnergy is (double)INT_MIN)
+			WAC_OR wac_or(wac_s, wac_e);	// contains wac_s and wac_e
+			WAC_MaxLength wac_l(simTime);	// stop if length reached
+			WAC_OR wac(wac_or, wac_l);	// contains wac_e, wac_l, and wac_s
 
 				
-				/* 
-				 * Executing walk
-				 */
+			/* 
+			 * Executing walk
+			 */
 		
-				// build StateCollector
-				switch(simOutMode)
+			// build StateCollector
+			switch(simOutMode)
 				{
 				case OUT_ES:
 					sc = outHDF ? new SC_OutAbs(hdf5writer.get(), absMoveStr.length(), outFreq, totalSteps)
@@ -1072,71 +1158,52 @@ int main(int argc, char** argv) {
 				}
 				
 				
-				  // perform simulation
-				if ( ((curLength+1) == seqStr.size()) &&
-				     (parser.argExist("final") || simFullLengthCustom) ) {
-					// protein is full length, and last stage of simulation has a final
-					//   target structure or a custom simulation length
-					// this code is awkward for lack of copy assignment operator
-					if (parser.argExist("final")) {
-						WAC_OR curWac(wac, *wac_final);
-						// curWac: wac_signal or wac_energy or normal length or final structure
-						WalkMC::walkMC(s, sc, &curWac, kT);
-						successfulRunFinal = wac_final->abort(sc);
-					}
-					else if (simFullLengthCustom) { // simulation after full elongation for different step count
-						WAC_MaxLength wac_final_length((size_t)finalSteps);
-						WAC_OR curWac(wac_or, wac_final_length);
-						// curWac: wac_signal or wac_enegy or wac_final_length
-						WalkMC::walkMC(s, sc, &curWac, kT);
-					} 
-					else if (parser.argExist("final") && simFullLengthCustom) {
-						WAC_MaxLength wac_final_length((size_t)finalSteps);
-						WAC_OR intermediateWac(wac_or, wac_final_length);
-						WAC_OR curWac(intermediateWac, *wac_final);
-						// curWac: wac_signal or wac_energy or wac_final_length or final structure
-						WalkMC::walkMC(s, sc, &curWac, kT);
-						successfulRunFinal = wac_final->abort(sc);
-					}
-				} else {
-					  // "normal run"
-					WalkMC::walkMC(s, sc, &wac, kT);
-				}
-				
-				// if SIGINT or SIGTERM was caught
-				if (stopFlag) {
-					if (outHDF)
-						hdf5writer.reset(); // unique_ptr reset deletes object
-					sa.sa_handler = SIG_DFL;
-					sigaction(SIGINT, &sa, NULL);
-					raise(SIGINT);
-				}
-
-				// normal printing of final structure (if excluded by outFreq)
-				if ( ((sc->size()-1) % outFreq) )
-					sc->outputLast();
-
-				  // update 
-				curEnergy = sc->getLastAdded()->getEnergy();
-				absMoveStr = sc->getLastAdded()->toString();
-				totalSteps += sc->size() - 1;
-				if (absMoveStr.find("(") != std::string::npos) {
-					absMoveStr = absMoveStr.substr(0,absMoveStr.find("("));
-				}
-				assertbiu( absMoveStr.size() == (latticeDescriptor->getAlphabet()->getElementLength()*curLength), "resulting move string is of wrong length");
-				
-				  // check if lower energy bound was reached
-				if (parser.argExist("minE") && curEnergy < minEnergy+DELTA_E_ADD) {
-					successfulRunMinE = true;
-				}
-				minE = sc->getMinE();
-				
-				delete sc;
-				delete s;  // who is deleting this? --> get segfault for explicit deletion
-				delete moveSet;
-				
-				///////////////////  END FOLDING SIMULATION  ///////////////////
+			// perform simulation...
+			// if protein is full length, and last stage of simulation has a final
+			//   target structure
+			if ( ((curLength+1) == seqStr.size()) && parser.argExist("final") ) {
+				// curWac: wac_signal or wac_energy or normal length or final structure
+				WAC_OR curWac(wac, *wac_final);
+				WalkMC::walkMC(s, sc, &curWac, kT);
+				successfulRunFinal = wac_final->abort(sc);
+			} else {
+				// "normal run"
+				WalkMC::walkMC(s, sc, &wac, kT);
 			}
+				
+			// if SIGINT or SIGTERM was caught
+			if (stopFlag) {
+				if (outHDF)
+					hdf5writer.reset(); // unique_ptr reset deletes object
+				sa.sa_handler = SIG_DFL;
+				sigaction(SIGINT, &sa, NULL);
+				raise(SIGINT);
+			}
+
+			// normal printing of final structure (if excluded by outFreq)
+			if ( ((sc->size()-1) % outFreq) )
+				sc->outputLast();
+
+			// update 
+			curEnergy = sc->getLastAdded()->getEnergy();
+			absMoveStr = sc->getLastAdded()->toString();
+			totalSteps += sc->size() - 1;
+			if (absMoveStr.find("(") != std::string::npos) {
+				absMoveStr = absMoveStr.substr(0,absMoveStr.find("("));
+			}
+			assertbiu( absMoveStr.size() == (latticeDescriptor->getAlphabet()->getElementLength()*curLength), "resulting move string is of wrong length");
+				
+			// check if lower energy bound was reached
+			if (parser.argExist("minE") && curEnergy < minEnergy+DELTA_E_ADD) {
+				successfulRunMinE = true;
+			}
+			minE = sc->getMinE();
+				
+			delete sc;
+			delete s;  // who is deleting this? --> get segfault for explicit deletion
+			delete moveSet;
+				
+			///////////////////  END FOLDING SIMULATION  ///////////////////
 			
 		} // for all elongations
 	
