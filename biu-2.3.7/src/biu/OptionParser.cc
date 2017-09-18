@@ -59,28 +59,33 @@ void COptionParser::coutLineBreaking(std::string text, std::ostream &os,const in
 	std::string line = "", emptyHead = std::string(emptyHeadSize, ' ');
 
 	size_t nextCutPos = std::max(lineLength-emptyHeadSize,0);
+	std::ostringstream oss;
 
 	bool firstOut = true, cutted = false;
 
 	while ((int)text.size() >  (lineLength-emptyHeadSize)) {
 		cutted = false;
 			// suche zeilenumbruch zum trennen
+		        // (search line break to separate)
 		nextCutPos = text.find_last_of("\n",lineLength-emptyHeadSize);
-		if (nextCutPos == text.npos) { 	// nixs -> suche leerzeichen zum trennen
+		if (nextCutPos == text.npos) { 	// nixs -> suche leerzeichen zum trennen (search blank to separate)
 			nextCutPos = text.find_last_of(" ",lineLength-emptyHeadSize);
 		}
-		if (nextCutPos == text.npos) {	// notwendige worttrennung
+		if (nextCutPos == text.npos) {	// notwendige worttrennung (necessary word separation)
 			nextCutPos = lineLength-emptyHeadSize;
 			cutted = true;
 		}
 		line += text.substr(0, nextCutPos);
 		text = text.substr(nextCutPos+(cutted?0:1));
-		os <<line <<std::endl;
+		// currently there is a bug
+		os << line << std::endl;
+		// std::cerr << line << std::endl;
 		firstOut = false;
 		line = emptyHead;
 	}
 	if (text.size() > 0)
 		os <<(firstOut?"":emptyHead) <<text<<std::endl;
+	os.flush();
 
 }
 
