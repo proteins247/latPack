@@ -201,24 +201,31 @@ static const std::string ktInfo =
 static const std::string maxStepsInfo =
 	"each intermediate simulation ends after [maxSteps] steps. It's called maxSteps because simulation can be interrupted by minE or final criteria";
 static const std::string elongationInfo =
-	"a custom elongation schedule, given as a sequence of L - 4 integers, where L is the length of the protein sequence. example: if the sequence (-seq) has length of 8, -elongationSchedule=50 55 60 50. this options overrides -maxSteps";
+	"a custom elongation schedule, given as a sequence of L - 4 integers, "
+	"where L is the length of the protein sequence. example: if the sequence "
+	"(-seq) has length of 8, \"-elongationSchedule=50 55 60 50\" is valid. "
+	"This option overrides -maxSteps. Note that the i'th number in "
+	"-elongationSchedule corresponds to the number of simulations steps when "
+	"i+4 residues are present.\nTo wit, the 1st number corresponds to the "
+	"number of steps when 5 residues are present, and the last number "
+	"corresponds to the number of steps when all residues are present. "
+	"Each number therefore corresponds to the translation time for the "
+	"(n+5)th residue.";
 static const std::string maxStepsIncreaseInfo =
 	"length-proportional MC simulation. Either the custom elongation schedule or maxSteps is multiplied by sequence length to obtain the number of MC steps for each protein length";
 static const std::string minenergyInfo =
 	"walk ends if energy gets below or equal to [minE]";
 static const std::string finalInfo =
-	"if present, each folding simulation run is aborted if the given (or "
-	"a symmetric) structure is visited.";
+	"if present, each folding simulation run is aborted if the given "
+	"(or a symmetric) structure is visited.";
 static const std::string fullLengthStepsInfo =
-	"after full elongation, sim will run this custom number of steps (or "
-	"until final structure is reached if -final is present). By default, the number of "
-	"steps run on the final structure is given by -maxSteps or -elongationSchedule";
+	"after full elongation, sim will run this custom number of steps (or until final structure is reached if -final is present). By default, the number of steps run on the final structure is given by -maxSteps or -elongationSchedule";
 // below currently not an option
 static const std::string finalOnlyInfo =
 	"if present, run will abort only if final is reached. Only in effect if "
 	"-final option is present";
 static const std::string seedInfo =
-	"seed for random number generator "
+	"seed for random number generator. should be <= 2^31 - 1 "
 	"[uses biu::RNG_ARS4x32, a counter-based generator from the Random123 library]";
 static const std::string runsInfo =
 	"number of folding simulations to perform";
@@ -308,16 +315,11 @@ int main(int argc, char** argv) {
 	options.push_back(biu::COption(
 			"fullLengthSteps", optional, biu::COption::INT, fullLengthStepsInfo));
 		
-	{
-		// the next two lines seem like deprecated code, so I commented them out
-	// std::ostringstream stringStream;
-	// stringStream << DEFAULT_MINE;
 	options.push_back(biu::COption(
 			"minE", 
 			optional,
 			biu::COption::DOUBLE,
 			minenergyInfo ));
-	}
 	
 	options.push_back(biu::COption(
 			"final", optional, biu::COption::STRING, finalInfo));
@@ -368,6 +370,7 @@ int main(int argc, char** argv) {
 	options.push_back(biu::COption(
 			"version", true, biu::COption::BOOL,
 			"version information of this program"));
+
 
 	biu::COptionParser parser(options, argc, argv, infotext);
 	

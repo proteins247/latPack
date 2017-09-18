@@ -1,19 +1,25 @@
 #include "HDF5_support.hh"
-// #include <iostream>
 
-HDF5TrajWriter::HDF5TrajWriter(const char* filepath, OUT_MODE sim_out_mode_, size_t max_structure_length_, size_t chunk_size_)
-        : chunk_size(chunk_size_), // default value is over 9000 (16384)
-          sim_out_mode(sim_out_mode_),
-          max_structure_length(max_structure_length_) // default value is 0
+HDF5TrajWriter::HDF5TrajWriter(const char* filepath,
+                               OUT_MODE sim_out_mode_,
+                               size_t max_structure_length_,
+                               size_t chunk_size_)
+        : sim_out_mode(sim_out_mode_),
+          max_structure_length(max_structure_length_), // default value is 0
+          chunk_size(chunk_size_) // default value is over 9000 (16384)
 {
         file_id = H5Fcreate(filepath, H5F_ACC_EXCL, H5P_DEFAULT, H5P_DEFAULT);
+
         if (is_invalid())
                 throw File_exists_error{};
-        if (max_structure_length > 0) {
+
+        if (max_structure_length > 0)
+        {
                 str_memtype = H5Tcopy(H5T_C_S1);
                 str_filetype = H5Tcopy(H5T_C_S1);
                 status = H5Tset_size(str_memtype, max_structure_length+1);
                 status = H5Tset_size(str_filetype, max_structure_length+1);
+
                 // allocate 2D array for structures
                 structures = new char[chunk_size * (max_structure_length+1)];
                 structure_count = 0;
@@ -28,73 +34,81 @@ HDF5TrajWriter::~HDF5TrajWriter()
         close_file();
 }
 
-
 bool
 HDF5TrajWriter::is_invalid()
 {
         if (file_id < 0)
+        {
                 return true;
+        }
         return false;
 }
 
 void
 HDF5TrajWriter::create_trajectory_group()
 {
-        // can't open a trajectory group if another is already open
+        // Can't open a trajectory group if another is already open
         if (group_is_open)
+        {
                 throw Group_is_open_error{};
+        }
 
-        int traj_num = group_ids.size() + 1;
-        std::string groupname = "traj" + std::to_string(traj_num);
+        std::string groupname = "traj" + std::to_string(group_ids.size() + 1);
         hid_t group = H5Gcreate(file_id, groupname.c_str(),
                                 H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
         group_ids.push_back(group);
         
-        // create dataspace with unlimited dimensions
-        dims[0] = {0};          // (re)set dims of dataspace to 0
+        // (Re)set dims of dataspace to 0
+        dims[0] = {0};          
+        // Reset offset
+        offset[0] = {0};
+
+        // Create dataspace with unlimited dimensions:
         hid_t dataspace = H5Screate_simple(1, dims, maxdims);
 
-        // enable chunking, chunksize set by chunk_dims[0]
+        // Enable chunking, chunksize set by chunk_dims[0]
         hid_t prop = H5Pcreate(H5P_DATASET_CREATE);
         status = H5Pset_chunk(prop, 1, chunk_dims);
 
-        // enable compression level 6
+        // Enable compression level 6
         status = H5Pset_deflate (prop, 6);         
 
-        // create datasets
-        dataset_steps = H5Dcreate2(group, "steps", H5T_NATIVE_UINT, dataspace,
+        // Create datasets
+        dataset_steps = H5Dcreate2(group, "steps",
+                                   H5T_NATIVE_UINT, dataspace,
                                    H5P_DEFAULT, prop, H5P_DEFAULT);
-        dataset_energies = H5Dcreate2(group, "energies", H5T_NATIVE_FLOAT, dataspace,
+        dataset_energies = H5Dcreate2(group, "energies",
+                                      H5T_NATIVE_FLOAT, dataspace,
                                       H5P_DEFAULT, prop, H5P_DEFAULT);
-        if (sim_out_mode == OUT_ES) {
-                dataset_structures = H5Dcreate2(group, "structures", str_filetype, dataspace,
+        if (sim_out_mode == OUT_ES)
+        {
+                dataset_structures = H5Dcreate2(group, "structures",
+                                                str_filetype, dataspace,
                                                 H5P_DEFAULT, prop, H5P_DEFAULT);
         }
-        // close resources
+
+        // Close resources
         H5Pclose(prop);
         H5Sclose(dataspace);
 
         group_is_open = true;
-
-        // reset offset
-        offset[0] = {0};
 }
 
 void
 HDF5TrajWriter::write_attribute(const char* name, unsigned int attr)
 {
         hsize_t attr_dims[1] = {1};
-        // create dataspace
+        // Create dataspace
         hid_t dataspace = H5Screate_simple(1, attr_dims, NULL);
 
-        // create attribute
-        hid_t attribute = H5Acreate2(file_id, name, H5T_NATIVE_UINT, dataspace, 
+        // Create attribute
+        hid_t attribute = H5Acreate2(file_id, name, H5T_NATIVE_UINT, dataspace,
                                      H5P_DEFAULT, H5P_DEFAULT);
 
-        // write attribute
+        // Write attribute
         status = H5Awrite(attribute, H5T_NATIVE_UINT, &attr);
 
-        // close resources
+        // Close resources
         status = H5Aclose(attribute);
         status = H5Sclose(dataspace);
 }
@@ -103,17 +117,17 @@ void
 HDF5TrajWriter::write_attribute(const char* name, float attr)
 {
         hsize_t attr_dims[1] = {1};
-        // create dataspace
+        // Create dataspace
         hid_t dataspace = H5Screate_simple(1, attr_dims, NULL);
 
-        // create attribute
-        hid_t attribute = H5Acreate2(file_id, name, H5T_NATIVE_FLOAT, dataspace, 
+        // Create attribute
+        hid_t attribute = H5Acreate2(file_id, name, H5T_NATIVE_FLOAT, dataspace,
                                      H5P_DEFAULT, H5P_DEFAULT);
 
-        // write attribute
+        // Write attribute
         status = H5Awrite(attribute, H5T_NATIVE_FLOAT, &attr);
 
-        // close resources
+        // Close resources
         status = H5Aclose(attribute);
         status = H5Sclose(dataspace);
 }
@@ -124,38 +138,44 @@ HDF5TrajWriter::write_attribute(const char* name, std::string attr)
         hsize_t attr_dims[1] = {1};
         size_t strlen = attr.size();
 
-        // copy the string type
-        hid_t filetype = H5Tcopy(H5T_C_S1);
-        status = H5Tset_size(filetype, strlen+1);
-        hid_t memtype = H5Tcopy(H5T_C_S1);
-        status = H5Tset_size(memtype, strlen+1);
+        // Copy the string type
+        hid_t strtype = H5Tcopy(H5T_C_S1);
+        status = H5Tset_size(strtype, strlen+1);
+        // hid_t memtype = H5Tcopy(H5T_C_S1);
+        // status = H5Tset_size(memtype, strlen+1);
         
-        // create dataspace
+        // Create dataspace
         hid_t dataspace = H5Screate_simple(1, attr_dims, NULL);
 
-        // create attribute
-        hid_t attribute = H5Acreate2(file_id, name, filetype, dataspace, 
+        // Create attribute
+        hid_t attribute = H5Acreate2(file_id, name, strtype, dataspace, 
                                      H5P_DEFAULT, H5P_DEFAULT);
 
-        // write attribute
-        status = H5Awrite(attribute, memtype, attr.c_str());
+        // Write attribute
+        status = H5Awrite(attribute, strtype, attr.c_str());
 
-        // close resources
+        // Close resources
         status = H5Aclose(attribute);
         status = H5Sclose(dataspace);
-        status = H5Tclose(memtype);
-        status = H5Tclose(filetype);
+        // status = H5Tclose(memtype);
+        status = H5Tclose(strtype);
         
 }
 
 void
-HDF5TrajWriter::write_buffered_traj(unsigned int step, float energy, std::string *structure)
+HDF5TrajWriter::write_buffered_traj(unsigned int step,
+                                    float energy,
+                                    std::string *structure)
 {
         steps.push_back(step);
         energies.push_back(energy);
-        if (structure) { // if not given as nullptr 
-                structure->copy(&structures[structure_count*(max_structure_length+1)],
-                                max_structure_length );
+        current_step = step;
+        current_energy = energy;
+        if (structure)   // If not given as nullptr
+        {
+                structure->copy(
+                        &structures[structure_count*(max_structure_length+1)],
+                        max_structure_length );
                 structures[structure_count*(max_structure_length+1) + structure->size()] = '\0';
                 structure_count++;
         }
@@ -165,10 +185,11 @@ HDF5TrajWriter::write_buffered_traj(unsigned int step, float energy, std::string
 }
 
 void
-HDF5TrajWriter::close_trajectory_group(bool successfulRunMinE, bool foundFinalStructure)
-// default values of false for both function args.
+HDF5TrajWriter::close_trajectory_group(bool successfulRunMinE,
+                                       bool foundFinalStructure)
+        // Default values of false for both function args.
 {
-        // perform final writes to file if the buffers still contain stuff
+        // Perform final writes to file if the buffers still contain stuff
         if (steps.size() > 0)
                 flush_buffers();
 
@@ -177,12 +198,12 @@ HDF5TrajWriter::close_trajectory_group(bool successfulRunMinE, bool foundFinalSt
         if (sim_out_mode == OUT_ES)
                 status = H5Dclose(dataset_structures);
         
-        // write attributes on sim success
+        // Write attributes on sim success
         {
-                hid_t filetype = H5Tcopy(H5T_C_S1);
-                status = H5Tset_size(filetype, 4);
-                hid_t memtype = H5Tcopy(H5T_C_S1);
-                status = H5Tset_size(memtype, 4);
+                hid_t strtype = H5Tcopy(H5T_C_S1);
+                status = H5Tset_size(strtype, 4);
+                // hid_t memtype = H5Tcopy(H5T_C_S1);
+                // status = H5Tset_size(memtype, 4);
         
                 // create dataspace
                 hsize_t attr_dims[1] = {1};
@@ -190,28 +211,37 @@ HDF5TrajWriter::close_trajectory_group(bool successfulRunMinE, bool foundFinalSt
 
                 // create attribute
                 hid_t attribute1 = H5Acreate2(group_ids.back(), "Reached min E",
-                                              filetype, dataspace, 
+                                              strtype, dataspace, 
                                               H5P_DEFAULT, H5P_DEFAULT);
                 hid_t attribute2 = H5Acreate2(group_ids.back(), "Found final struct",
-                                              filetype, dataspace, 
+                                              strtype, dataspace, 
+                                              H5P_DEFAULT, H5P_DEFAULT);
+                hid_t attribute3 = H5Acreate2(group_ids.back(), "Last E",
+                                              H5T_NATIVE_FLOAT, dataspace,
+                                              H5P_DEFAULT, H5P_DEFAULT);
+                hid_t attribute4 = H5Acreate2(group_ids.back(), "Last step",
+                                              H5T_NATIVE_UINT, dataspace,
                                               H5P_DEFAULT, H5P_DEFAULT);
 
                 // write attributes
                 if (successfulRunMinE)
-                        status = H5Awrite(attribute1, memtype, "yes");
+                        status = H5Awrite(attribute1, strtype, "yes");
                 else
-                        status = H5Awrite(attribute1, memtype, "no ");
+                        status = H5Awrite(attribute1, strtype, "no ");
                 if (foundFinalStructure)
-                        status = H5Awrite(attribute2, memtype, "yes");
+                        status = H5Awrite(attribute2, strtype, "yes");
                 else
-                        status = H5Awrite(attribute2, memtype, "no ");
+                        status = H5Awrite(attribute2, strtype, "no ");
+
+                status = H5Awrite(attribute3, H5T_NATIVE_FLOAT, &current_energy);
+                status = H5Awrite(attribute4, H5T_NATIVE_UINT, &current_step);
 
                 // close resources
                 status = H5Aclose(attribute1);
                 status = H5Aclose(attribute2);
                 status = H5Sclose(dataspace);
-                status = H5Tclose(memtype);
-                status = H5Tclose(filetype);
+                // status = H5Tclose(memtype);
+                status = H5Tclose(strtype);
         } // end sim success attributes writing
 
         status = H5Gclose(group_ids.back());
@@ -221,10 +251,9 @@ HDF5TrajWriter::close_trajectory_group(bool successfulRunMinE, bool foundFinalSt
 void
 HDF5TrajWriter::delete_last_group()
 {
-        unsigned int group_count = group_ids.size();
-        std::string group_name = "traj" + std::to_string(group_count);
-        // By removing the link from root to the group, which is the only link that exists,
-        //   the group should be deleted.
+        std::string group_name = "traj" + std::to_string(group_ids.size());
+        // By removing the link from root to the group, which is the
+        //   only link that exists, the group should be deleted.
         status = H5Ldelete(file_id, group_name.c_str(), H5P_DEFAULT);
         group_ids.pop_back();
 }
