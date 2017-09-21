@@ -728,6 +728,7 @@ int main(int argc, char** argv) {
 			*outstream << "Title : " << title;
 		*outstream	<< "\n Parameter setup :"
 					<< "\n ================="
+					<< "\n  - Version     : " << BIN_PACKAGE_VERSION
 					<< "\n  - Lattice     : " << lattice->getDescriptor()->getName()
 					<< "\n  - Energy file : " << parser.getStrVal("energyFile")
 					<< "\n  - Alphabet    : " << alphString
@@ -751,6 +752,7 @@ int main(int argc, char** argv) {
 	if (outHDF) {
 		if (parser.argExist("title"))
 			hdf5writer->write_attribute("Title", title);
+		hdf5writer->write_attribute("Version", BIN_PACKAGE_VERSION);
 		hdf5writer->write_attribute("Lattice", lattice->getDescriptor()->getName());
 		hdf5writer->write_attribute("Energy file", parser.getStrVal("energyFile"));
 		hdf5writer->write_attribute("Alphabet", alphString);

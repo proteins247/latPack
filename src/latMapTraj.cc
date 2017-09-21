@@ -144,6 +144,7 @@ evaluateStructure( const biu::DPointVec & refDPos,
 	data["RMSD"] = rmsd;
 	data["GDT_TS"] = gdt_ts;
 	data["GDT_HA"] = gdt_ha;
+	data["End-end Distance"] = DPos.front().distance(DPos.back());
 	data["Native Contacts"] = (float)nativeContacts;
 	data["Non-Native Contacts"] = (float)nonNativeContacts;
 	data["Fraction Native"] = fractionNativeContacts;
@@ -368,6 +369,7 @@ main( int argc, char** argv )
 			"RMSD",
 			"GDT_TS",
 			"GDT_HA",
+			"End-end Distance",
 			"Native Contacts",
 			"Non-Native Contacts",
 			"Fraction Native"};

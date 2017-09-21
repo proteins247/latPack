@@ -162,6 +162,9 @@ protected:
  * Facilities are provided for opening trajectory groups, reading
  * trajectory data, and writing additional datasets.
  *
+ * This analyzer class could be improved to handle hdf5 files which
+ * the analyzer has previously examined
+ *
  */
 class HDF5TrajAnalyzer {
 public:
