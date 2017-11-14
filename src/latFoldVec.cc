@@ -550,7 +550,8 @@ int main(int argc, char** argv) {
 		
 		if (parser.argExist("maxSteps")) // Note, an argument always exists if it has a default value
 		{
-			
+			// By default, we run the same number of steps for each elongation.
+			// So we fill our elongationSchedule vector with the same value
 			int maxSteps = parser.getIntVal("maxSteps"); 
 			if (maxSteps <= 0) {
 				std::cerr << "Error: maxSteps must be > 0" << std::endl;
@@ -560,8 +561,10 @@ int main(int argc, char** argv) {
 			elongationSchedule = schedule;
 		}
 
-		if (parser.argExist("elongationSchedule")) {
-			// Parse the elongationSchedule string into a vector of uints
+		if (parser.argExist("elongationSchedule"))
+		{
+			// But if the user gave a custom schedule,
+			// parse the elongationSchedule string into a vector of uints
 			std::istringstream scheduleReader(parser.getStrVal("elongationSchedule"));
 			std::string buffer;
 			std::vector<unsigned int> schedule;
@@ -586,6 +589,7 @@ int main(int argc, char** argv) {
 				return PARSE_ERROR;
 			}
 			std::copy(schedule.begin(), schedule.end(), elongationSchedule.begin() + 4);
+			// Note the offset, since later, we acces using: elongationSchedule[currentLength]
 		}
 		
 		sequenceDependentSimLength = parser.argExist("maxStepsIncrease");
