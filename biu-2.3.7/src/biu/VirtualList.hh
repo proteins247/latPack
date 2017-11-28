@@ -14,29 +14,29 @@
 
 namespace biu {
 
-    //------------------------------------------------------------
-    // CLASS VirtualList
+	//------------------------------------------------------------
+	// CLASS VirtualList
     
 	//! Implementation of virtual lists that can be iterated STL-ish
-    //!
-    //! An example of usage is provided in testVirtualList.cc
-    //!
-    //! The elements of virtual lists are constructed on demand and exist
+	//!
+	//! An example of usage is provided in testVirtualList.cc
+	//!
+	//! The elements of virtual lists are constructed on demand and exist
 	//! only as long as an iterator points to them
-    //!
-    //! The class VirtualList<T> is an abstract class that serves
-    //! as base class for concrete virtual lists of elements T.
-    //!
-    //! Child classes have to implement the abstract methods
-    //!
-    //!   virtual T* next(ItState *itstate, T* elem) const = 0;
-    //!   virtual T* first(ItState **itstate) const = 0;
-    //!
-    //! and usually refine the iterator state (class ItState) by
-    //! deriving from the nested class ItState.
-    //!
+	//!
+	//! The class VirtualList<T> is an abstract class that serves
+	//! as base class for concrete virtual lists of elements T.
+	//!
+	//! Child classes have to implement the abstract methods
+	//!
+	//!   virtual T* next(ItState *itstate, T* elem) const = 0;
+	//!   virtual T* first(ItState **itstate) const = 0;
+	//!
+	//! and usually refine the iterator state (class ItState) by
+	//! deriving from the nested class ItState.
+	//!
 	//! class T must implement a clone() function
-    //!
+	//!
 	//! @author Sebastian Will <will@@informatik.uni-freiburg.de>
 	//!
 	template<class T> class VirtualList {
@@ -83,8 +83,8 @@ namespace biu {
 			//!
 			//! Since only VirtualList<T> should use this, this constructor is private
 			Iterator( const VirtualList<T> *parent_,
-					  ItState *itstate_,
-					  T* elem_ )
+				  ItState *itstate_,
+				  T* elem_ )
 				: parent(parent_), itstate(itstate_), elem(elem_) {}
 
 		public:
@@ -139,8 +139,8 @@ namespace biu {
 
 		};
 	  
-	  VirtualList() {}
-	  virtual ~VirtualList() {}
+		VirtualList() {}
+		virtual ~VirtualList() {}
 
 		//! @returns iterator pointing at first element of list 
 		Iterator begin() const {

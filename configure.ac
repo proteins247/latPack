@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 #
 AC_PREREQ(2.59)
-AC_INIT([LatPack],[1.9.1-6], [http://www.bioinf.uni-freiburg.de/Software/LatPack/])
+AC_INIT([LatPack],[1.9.1-7], [http://www.bioinf.uni-freiburg.de/Software/LatPack/])
 AC_CONFIG_SRCDIR([src/latFit.cc])
 AC_CONFIG_AUX_DIR([.])
 

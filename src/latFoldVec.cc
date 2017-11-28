@@ -192,7 +192,7 @@ static const std::string infotext =
 	;
 	
 static const std::string seqInfo =
-	"protein sequence (sequence valid for alphabet from energy file). length >= 4";
+	"protein sequence (sequence valid for alphabet from energy file). length > 4";
 static const std::string titleInfo =
 	"Give simulations a title/label; most relevant for HDF5 output";
 static const std::string ktInfo =
@@ -906,6 +906,13 @@ int main(int argc, char** argv) {
 			{
 				bool isSelfavoiding = true;
 				double energyGain = 0.0;
+				
+				if (ribosome && (actNeigh->getX() < 0)) {
+					// Ribosome is a plane parallel to yz axes
+					// Disallow extension in -x.
+					continue;
+				}
+				
 				  // get correct last position according to current neighbor vector
 				actStruct[cL] = actStruct[cL-1] + *actNeigh;
 				
@@ -1023,6 +1030,13 @@ int main(int argc, char** argv) {
 				{
 					bool isSelfavoiding = true;
 					double energyGain = 0.0;
+
+					if (ribosome && (actNeigh->getX() < 0)) {
+						// Ribosome is a plane parallel to yz axes
+						// Disallow extension in -x.
+						continue;
+					}
+				
 					  // get correct last position according to current neighbor vector
 					actStruct[curLength] = actStruct[curLength-1] + *actNeigh;
 					
