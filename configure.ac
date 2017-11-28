@@ -30,10 +30,10 @@ AC_ARG_ENABLE(debug,
 AC_MSG_RESULT($debuger)
 if test x"$debuger" = x"yes"; then
 	AC_DEFINE(DEBUG)
-	CXXFLAGS="$CXXFLAGS -std=c++0x -g -Wall -Wno-uninitialized -O0 -pedantic -march=native "
+	CXXFLAGS="$CXXFLAGS -std=c++0x -g -Wall -Wno-uninitialized -O0 -pedantic -maes"
 else
 	AC_DEFINE(NDEBUG)
-	CXXFLAGS="$CXXFLAGS -std=c++0x -O2 -march=native "
+	CXXFLAGS="$CXXFLAGS -std=c++0x -O2 -maes"
 fi
 
 
