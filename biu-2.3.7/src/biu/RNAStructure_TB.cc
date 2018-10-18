@@ -389,7 +389,7 @@ namespace biu
 				isAllowedBasePair(i, j) 						//Match (More probable to fail)
 			&& (*validTreeStruc)[i].pair == INVALID_INDEX  		//Free
 			&& (*validTreeStruc)[j].pair == INVALID_INDEX		//Free
-			&& (size_t) abs(j-i) > RNAStructure_TB::MIN_LOOP_LENGTH 		//Loop size
+				&& (size_t) abs(int(j-i)) > RNAStructure_TB::MIN_LOOP_LENGTH 		//Loop size
 			&& areOnSameLevel(i,j)
 			);													//Nested  (On the same level) (High cost)
 	}
@@ -429,7 +429,7 @@ namespace biu
 					isAllowedBasePair(k, j) 						//Match (More probable to fail)
 				&& (*validTreeStruc)[j].pair == i					//Paired (More probable to fail than free)
 				&& (*validTreeStruc)[k].pair == INVALID_INDEX  		//Free
-				&& (size_t) abs(j-k) > RNAStructure_TB::MIN_LOOP_LENGTH 		//Loop size (Less probable to fail)
+					&& (size_t) abs(int(j-k)) > RNAStructure_TB::MIN_LOOP_LENGTH 		//Loop size (Less probable to fail)
 				&& (areOnSameLevel(i,k) || areOnSameLevel(k,j)) 	//k on one of the levels (High cost)
 				);
 	}
@@ -446,7 +446,7 @@ namespace biu
 				 	isAllowedBasePair(k, i) 						//Match (More probable to fail)
 				&& (*validTreeStruc)[i].pair == j					//Paired (More probable to fail than free)
 				&& (*validTreeStruc)[k].pair == INVALID_INDEX  		//Free
-				&& (size_t) abs(i-k) > RNAStructure_TB::MIN_LOOP_LENGTH 		//Loop size (Less probable to fail)
+					&& (size_t) abs(int(i-k)) > RNAStructure_TB::MIN_LOOP_LENGTH 		//Loop size (Less probable to fail)
 				&& (areOnSameLevel(i,k) || areOnSameLevel(k,j)) 	//k on one of the levels (High cost)
 				);
 	}
@@ -607,13 +607,13 @@ namespace biu
 		if ((*validTreeStruc)[i].pair!=INVALID_INDEX){ //i is the paired one
 			return
 					(*validTreeStruc)[j].pair==INVALID_INDEX
-				&& 	(size_t) abs(i-j) > RNAStructure_TB::MIN_LOOP_LENGTH 		//Loop size (Less probable to fail)
+				&& 	(size_t) abs(int(i-j)) > RNAStructure_TB::MIN_LOOP_LENGTH 		//Loop size (Less probable to fail)
 				&& 	(areOnSameLevel(i,j) || areOnSameLevel(j,(*validTreeStruc)[i].pair));
 
 		}else if ((*validTreeStruc)[j].pair!=INVALID_INDEX){//j is the paired one
 			return
 					(*validTreeStruc)[i].pair==INVALID_INDEX
-				&& 	(size_t) abs(i-j) > RNAStructure_TB::MIN_LOOP_LENGTH 		//Loop size (Less probable to fail)
+				&& 	(size_t) abs(int(i-j)) > RNAStructure_TB::MIN_LOOP_LENGTH 		//Loop size (Less probable to fail)
 				&& 	(areOnSameLevel(i,j) || areOnSameLevel(i,(*validTreeStruc)[j].pair));
 
 		}else return false;//both unpaired
@@ -632,7 +632,7 @@ namespace biu
 				isAllowedBasePair(i, j) 						//Match (More probable to fail)
 				&& (*validTreeStruc)[j].pair!=INVALID_INDEX
 				&& (*validTreeStruc)[i].pair==INVALID_INDEX
-				&& (size_t) abs(i-j) > RNAStructure_TB::MIN_LOOP_LENGTH 		//Loop size (Less probable to fail)
+				&& (size_t) abs(int(i-j)) > RNAStructure_TB::MIN_LOOP_LENGTH 		//Loop size (Less probable to fail)
 				&& (areOnSameLevel(i,j) || areOnSameLevel(j,(*validTreeStruc)[i].pair));
 
 	}

@@ -811,7 +811,7 @@ int main(int argc, char** argv) {
 
 		if (parser.argExist("fullLengthSteps"))
 			hdf5writer->write_attribute("Full length steps",
-						    parser.getIntVal("fullLengthSteps"));
+						    (unsigned int)parser.getIntVal("fullLengthSteps"));
 
 		hdf5writer->write_attribute("Proportional sim",
 					    sequenceDependentSimLength ? "true" : "false" );
