@@ -220,10 +220,6 @@ static const std::string finalInfo =
 	"(or a symmetric) structure is visited.";
 static const std::string fullLengthStepsInfo =
 	"after full elongation, sim will run this custom number of steps (or until final structure is reached if -final is present). By default, the number of steps run on the final structure is given by -maxSteps or -elongationSchedule";
-// below currently not an option
-static const std::string finalOnlyInfo =
-	"if present, run will abort only if final is reached. Only in effect if "
-	"-final option is present";
 static const std::string seedInfo =
 	"seed for random number generator. should be <= 2^31 - 1 "
 	"[uses biu::RNG_ARS4x32, a counter-based generator from the Random123 library]";
@@ -774,9 +770,10 @@ int main(int argc, char** argv) {
 			}
 			*outstream << schedule.str();
 		}
-		if (sequenceDependentSimLength) {
+		if (sequenceDependentSimLength)
 			*outstream << "\n  + steps incr. : (steps * seqLength)";
-		}
+		if (parser.argExist("fullLengthSteps"))
+			*outstream << "\n  + Full steps  : " << parser.getIntVal("fullLengthSteps");
 		if (minEnergy != DEFAULT_MINE)
 			*outstream << "\n  - Min. Energy : " << minEnergy;
 		if (simOutMode != OUT_NO)
@@ -795,7 +792,7 @@ int main(int argc, char** argv) {
 		hdf5writer->write_attribute("Sequence", seqStr);
 		hdf5writer->write_attribute("Move set", moves);
 		hdf5writer->write_attribute("Ribosome", (ribosome ? "tethered" : "untethered"));
-		hdf5writer->write_attribute("Ribosome release", (ribosomeRelease ? "tethered" : "untethered"));
+		hdf5writer->write_attribute("Ribosome release", (ribosomeRelease ? "yes" : "no"));
 		hdf5writer->write_attribute("Simulations", (unsigned int)runs);
 		hdf5writer->write_attribute("Seed", (unsigned int)seed);
 		hdf5writer->write_attribute("Modified seed", (unsigned int)(modified_seed + seed));
@@ -811,6 +808,10 @@ int main(int argc, char** argv) {
 						    parser.argExist("elongationSchedule") ?
 						    schedule.str() : "no");
 		}
+
+		if (parser.argExist("fullLengthSteps"))
+			hdf5writer->write_attribute("Full length steps",
+						    parser.getIntVal("fullLengthSteps"));
 
 		hdf5writer->write_attribute("Proportional sim",
 					    sequenceDependentSimLength ? "true" : "false" );

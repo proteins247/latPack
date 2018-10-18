@@ -99,6 +99,8 @@ HDF5TrajWriter::write_attribute(const char* name, unsigned int attr)
 {
         hsize_t attr_dims[1] = {1};
         // Create dataspace
+        // Note that I should have used H5SCreate(H5S_SCALAR)
+        //   to store a single value. This creates a 1-sized array.
         hid_t dataspace = H5Screate_simple(1, attr_dims, NULL);
 
         // Create attribute
