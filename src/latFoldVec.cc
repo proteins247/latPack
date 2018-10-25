@@ -192,7 +192,7 @@ static const std::string infotext =
 	;
 	
 static const std::string seqInfo =
-	"protein sequence (sequence valid for alphabet from energy file). length > 4";
+	"protein sequence (sequence valid for alphabet from energy file). length >= 4 (although length = 4 will not produce MC dynamics)";
 static const std::string titleInfo =
 	"Give simulations a title/label; most relevant for HDF5 output";
 static const std::string ktInfo =
@@ -219,7 +219,7 @@ static const std::string finalInfo =
 	"if present, each folding simulation run is aborted if the given "
 	"(or a symmetric) structure is visited.";
 static const std::string fullLengthStepsInfo =
-	"after full elongation, sim will run this custom number of steps (or until final structure is reached if -final is present). By default, the number of steps run on the final structure is given by -maxSteps or -elongationSchedule";
+	"after full elongation, sim will run additional number of steps (or until final structure is reached if -final is present). By default, the number of steps run on the final structure is given by -maxSteps or last number in -elongationSchedule. If -ribosomeRelease is present, chain will be free.";
 static const std::string seedInfo =
 	"seed for random number generator. should be <= 2^31 - 1 "
 	"[uses biu::RNG_ARS4x32, a counter-based generator from the Random123 library]";
@@ -242,7 +242,7 @@ static const std::string moveSetInfo =
 static const std::string ribosomeInfo =
 	"simulate with a non-interacting wall that acts as a barrier and anchors the last residue. follows convention that synthesis is from N term to C term";
 static const std::string ribosomeReleaseInfo =
-	"simulate as unbound from ribosome (no constraints) after last residue added";
+	"simulate as unbound from ribosome (no constraints) after last residue added. (requires -fullLengthSteps)";
 
 // csignal for SIGINT, SIGTERM handling
 volatile sig_atomic_t stopFlag = 0;
@@ -553,8 +553,8 @@ int main(int argc, char** argv) {
 				std::cerr << "Error: maxSteps must be > 0" << std::endl;
 				return PARSE_ERROR;
 			}
-			std::vector<unsigned int> schedule(seqStr.size(), (unsigned int)maxSteps);
-			elongationSchedule = schedule;
+			// makes elongationSchedule size seqStr.size()
+			elongationSchedule = std::vector<unsigned int>(seqStr.size(), (unsigned int)maxSteps);
 		}
 
 		if (parser.argExist("elongationSchedule"))
@@ -578,14 +578,15 @@ int main(int argc, char** argv) {
 				schedule.push_back(value);
 			}
 			if (schedule.size() != seqStr.size() - 4) {
-				std::cerr << "Error: -elongationSchedule requires sequence length - 4 ("
+				std::cerr << "Error: -elongationSchedule requires sequence length - 4 (="
 					  << seqStr.size() - 4
 					  << ") ints"
 					  << std::endl;
 				return PARSE_ERROR;
 			}
 			std::copy(schedule.begin(), schedule.end(), elongationSchedule.begin() + 4);
-			// Note the offset, since later, we acces using: elongationSchedule[currentLength]
+			// i.e. copy `schedule` to elongationSchedule[4:]
+			// Note the offset, since later, we access using: elongationSchedule[currentLength]
 		}
 		
 		sequenceDependentSimLength = parser.argExist("maxStepsIncrease");
@@ -624,7 +625,8 @@ int main(int argc, char** argv) {
 
 		if (parser.argExist("fullLengthSteps")) {
 			unsigned int fullLengthSteps = parser.getIntVal("fullLengthSteps");
-			elongationSchedule.back() = fullLengthSteps;
+			elongationSchedule.push_back(fullLengthSteps);
+			// lengthens elongationSchedule by 1
 		}
 
 		if (parser.argExist("seed")) 
@@ -759,16 +761,17 @@ int main(int argc, char** argv) {
          				<< "\n  - Ribo release: " << (ribosomeRelease ? "yes" : "no")
 					<< "\n  - Simulations : " << runs
              				<< "\n  - Seed (rand) : " << seed << " (" << modified_seed + seed << ")"
-					<< "\n  - kT (MC)     : " << kT
-				<< "\n  - Max. steps  : " << elongationSchedule[0]
-					;
+					<< "\n  - kT (MC)     : " << kT;
 		if (parser.argExist("elongationSchedule")) {
 			*outstream << "\n  - Elongation  : ";
 			std::ostringstream schedule;
-			for (auto it=elongationSchedule.begin()+4; it!=elongationSchedule.end(); ++it) {
-				schedule << *it << " ";
+			for (unsigned int i = 4; i < seqStr.size(); ++i) {
+				schedule << elongationSchedule[i] << " ";
 			}
 			*outstream << schedule.str();
+		}
+		else {
+			*outstream << "\n  - Max. steps  : " << elongationSchedule[0];
 		}
 		if (sequenceDependentSimLength)
 			*outstream << "\n  + steps incr. : (steps * seqLength)";
@@ -801,9 +804,10 @@ int main(int argc, char** argv) {
 
 		{
 			std::ostringstream schedule;
-			if (parser.argExist("elongationSchedule"))
-				for (auto it=elongationSchedule.begin()+4; it!=elongationSchedule.end(); ++it)
-					schedule << *it << " ";
+			if (parser.argExist("elongationSchedule")) {
+				for (unsigned int i = 4; i < seqStr.size(); ++i)
+					schedule << elongationSchedule[i] << " ";
+			}
 			hdf5writer->write_attribute("Custom elongation schedule",
 						    parser.argExist("elongationSchedule") ?
 						    schedule.str() : "no");
@@ -996,8 +1000,15 @@ int main(int argc, char** argv) {
 		
 		assertbiu( absMoveStr.size() == (latticeDescriptor->getAlphabet()->getElementLength()*curLength), "absolute moves initialization was not successful");
 		
-	
-		for (curLength++; (!runWasAborted) && curLength < seqStr.size()/alphElementLength; curLength++) {
+		// Stopping criterion. Increase by 1 in the case of free chain simulation following translation.
+		unsigned int stopLength = seqStr.size() / alphElementLength;
+		if (parser.argExist("fullLengthSteps"))
+			++stopLength;
+
+		// curLength = 3 --> curLength = 4
+		// "current length" is a misnomer. For each iteration, a residue is added.
+		// Thus, the chain length simulated is actually curLength + 1.
+		for (curLength++; (!runWasAborted) && curLength < stopLength; curLength++) {
 			
 			// TODO : walk accepts only elongatable structures (SAC specialization)
 			// TODO : mem-leak ?!? (no global folding mode [maxSteps == 0])
@@ -1007,7 +1018,8 @@ int main(int argc, char** argv) {
 			biu::Sequence seq = alph->getSequence( seqStr.substr(0,(curLength+1)*alphElementLength) );
 	
 			///////////////////  ELONGATE CHAIN  ///////////////////////////
-			
+
+			if (curLength < seqStr.size() / alphElementLength)
 			{
 				  // the set of all valid elongations including Boltzmann weight
 				std::set< std::pair<std::string,double> > elongations;
@@ -1116,12 +1128,21 @@ int main(int argc, char** argv) {
 			bool isAbsMove = true;
 			  // create lattice protein instance
 			biu::LatticeProtein_Ipnt latProt(lattice,energy,&seq,seqShared,absMoveStr,isAbsMove,ribosome);
-			if ((curLength+1) == seqStr.size() && ribosomeRelease && ribosome) {
-				// Release from ribosome if chain is complete.
-				biu::LatticeProtein_Ipnt
-					latProt_tmp(lattice,energy,&seq,seqShared,absMoveStr,isAbsMove,!ribosome);
-				latProt = latProt_tmp;
+
+			if (ribosome && !latProt.isRibosomeValid())
+			{
+				std::cerr      << "Error: cannot anchor move sequence \'"
+					       << absMoveStr << "\'"
+					       << " to a wall. Not ribosome valid"
+					       << std::endl;
+				return DATA_ERROR;
 			}
+
+			if (curLength == seqStr.size() && ribosomeRelease && ribosome) {
+				// Release from ribosome if chain is complete.
+				latProt = biu::LatticeProtein_Ipnt(lattice,energy,&seq,seqShared,absMoveStr,isAbsMove,!ribosome);
+			}
+
 			  // update energy
 			curEnergy = latProt.getEnergy();
 	
