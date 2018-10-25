@@ -150,6 +150,7 @@ namespace biu
 			energy = latProt2.energy;
 			selfavoiding = latProt2.selfavoiding;
 			connected = latProt2.connected;
+			ribosomeBound = latProt2.ribosomeBound;
 			 // inform the object that the structure has changed
 			updateProperties();
 		}
@@ -169,7 +170,8 @@ namespace biu
 						|| *energyFunc == *(latProt2.getEnergyFunction()))
 				&& (seqShared == latProt2.isSequenceShared())
 				&& ((seqShared && sequence == latProt2.getSequenceRef())
-						|| *sequence == *(latProt2.getSequenceRef()));
+						|| *sequence == *(latProt2.getSequenceRef()))
+             	                && (ribosomeBound == latProt2.isRibosomeBound());
 		if (equal) {
 				// check if data is based on points too
 			const LatticeProtein_Ipnt* l2 = dynamic_cast<const LatticeProtein_Ipnt*>(&latProt2);
