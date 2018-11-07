@@ -1206,7 +1206,7 @@ int main(int argc, char** argv) {
 			// perform simulation...
 			// if protein is full length, and last stage of simulation has a final
 			//   target structure
-			if ( ((curLength+1) == seqStr.size()) && parser.argExist("final") ) {
+			if ( ((curLength+1) >= seqStr.size()) && parser.argExist("final") ) {
 				// curWac: wac_signal or wac_energy or normal length or final structure
 				WAC_OR curWac(wac, *wac_final);
 				WalkMC::walkMC(s, sc, &curWac, kT);
