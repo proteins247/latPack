@@ -690,7 +690,8 @@ int main(int argc, char** argv) {
 				// seqStr.size()-1 is the size of the move string for the structure
 			}
 			catch (File_exists_error) {
-				std::cerr << "The filename "<<filename<<" already exists.\n";
+				std::cerr << "Could not create output file at "
+					  << filename << std::endl;
 				return IO_ERROR;
 			}
 		} 

@@ -8,7 +8,8 @@ HDF5TrajWriter::HDF5TrajWriter(const char* filepath,
           max_structure_length(max_structure_length_), // default value is 0
           chunk_size(chunk_size_) // default value is over 9000 (16384)
 {
-        file_id = H5Fcreate(filepath, H5F_ACC_EXCL, H5P_DEFAULT, H5P_DEFAULT);
+        // file_id = H5Fcreate(filepath, H5F_ACC_EXCL, H5P_DEFAULT, H5P_DEFAULT);
+        file_id = H5Fcreate(filepath, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
 
         if (is_invalid())
                 throw File_exists_error{};
