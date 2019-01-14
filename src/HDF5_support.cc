@@ -206,8 +206,7 @@ HDF5TrajWriter::close_trajectory_group(bool successfulRunMinE,
                 // status = H5Tset_size(memtype, 4);
         
                 // create dataspace
-                hsize_t attr_dims[1] = {1};
-                hid_t dataspace = H5Screate_simple(1, attr_dims, NULL);
+                hid_t dataspace = H5Screate(H5S_SCALAR);
 
                 // create attribute
                 hid_t attribute1 = H5Acreate2(group_ids.back(), "Reached min E",
