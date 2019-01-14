@@ -228,7 +228,7 @@ static const std::string runsInfo =
 static const std::string latticeInfo =
 	"which lattice to use: CUB, SQR or FCC";
 static const std::string ofileInfo =
-	"write output of simulations to filename (HDF5 format). if argument is 'STDOUT' or this argument is not present, output is written to standard output (plain text). Note, file cannot exist already (will not overwrite).";
+	"write output of simulations to filename (HDF5 format). if argument is 'STDOUT' or this argument is not present, output is written to standard output (plain text).";
 static const std::string timingInfo =
 	"print cpu-time used";
 static const std::string verbosityInfo =

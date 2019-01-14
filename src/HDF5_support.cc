@@ -98,11 +98,8 @@ HDF5TrajWriter::create_trajectory_group()
 void
 HDF5TrajWriter::write_attribute(const char* name, unsigned int attr)
 {
-        hsize_t attr_dims[1] = {1};
         // Create dataspace
-        // Note that I should have used H5SCreate(H5S_SCALAR)
-        //   to store a single value. This creates a 1-sized array.
-        hid_t dataspace = H5Screate_simple(1, attr_dims, NULL);
+        hid_t dataspace = H5Screate(H5S_SCALAR);
 
         // Create attribute
         hid_t attribute = H5Acreate2(file_id, name, H5T_NATIVE_UINT, dataspace,
@@ -119,9 +116,8 @@ HDF5TrajWriter::write_attribute(const char* name, unsigned int attr)
 void
 HDF5TrajWriter::write_attribute(const char* name, float attr)
 {
-        hsize_t attr_dims[1] = {1};
         // Create dataspace
-        hid_t dataspace = H5Screate_simple(1, attr_dims, NULL);
+        hid_t dataspace = H5Screate(H5S_SCALAR);
 
         // Create attribute
         hid_t attribute = H5Acreate2(file_id, name, H5T_NATIVE_FLOAT, dataspace,
@@ -138,7 +134,7 @@ HDF5TrajWriter::write_attribute(const char* name, float attr)
 void
 HDF5TrajWriter::write_attribute(const char* name, std::string attr)
 {
-        hsize_t attr_dims[1] = {1};
+        // hsize_t attr_dims[1] = {1};
         size_t strlen = attr.size();
 
         // Copy the string type
@@ -148,7 +144,8 @@ HDF5TrajWriter::write_attribute(const char* name, std::string attr)
         // status = H5Tset_size(memtype, strlen+1);
         
         // Create dataspace
-        hid_t dataspace = H5Screate_simple(1, attr_dims, NULL);
+        hid_t dataspace = H5Screate(H5S_SCALAR);
+        // hid_t dataspace = H5Screate_simple(1, attr_dims, NULL);
 
         // Create attribute
         hid_t attribute = H5Acreate2(file_id, name, strtype, dataspace, 
