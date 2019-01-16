@@ -386,7 +386,7 @@ HDF5TrajAnalyzer::open_trajectory_group(size_t index)
         status = H5Pset_chunk(prop, 1, chunk_dims);
 
         // enable compression level 6
-        status = H5Pset_deflate (prop, 6);         
+        status = H5Pset_deflate (prop, 6);
 
         // creation of datasets
         for (auto &name : * dataset_names) {
@@ -410,6 +410,7 @@ HDF5TrajAnalyzer::close_trajectory_group()
         // close the datasets
         for (auto it=datasets.begin(); it!=datasets.end(); ++it)
                 H5Dclose(it->second);
+        datasets.clear();
 
         delete[] structure;
         H5Sclose(filespace);
