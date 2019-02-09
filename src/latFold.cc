@@ -205,7 +205,7 @@ int main(int argc, char** argv) {
 	options.push_back(biu::COption(
 			"maxSteps", 
 			optional, 
-			biu::COption::INT, 
+			biu::COption::DOUBLE,
 			maxstepsInfo, 
 			DEFAULT_MAXSTEPS));
 	
@@ -525,7 +525,7 @@ int main(int argc, char** argv) {
 		
 		if (parser.argExist("maxSteps")) 
 		{
-			int tmp = parser.getIntVal("maxSteps");
+			long long int tmp = (long long int)parser.getDoubleVal("maxSteps");
 			if (tmp < 0) {
 				std::cerr << "Error: maxSteps must be >= 0." << std::endl;
 				return PARSE_ERROR;
