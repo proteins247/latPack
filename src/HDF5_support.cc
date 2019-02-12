@@ -186,8 +186,10 @@ HDF5TrajWriter::write_buffered_traj(unsigned int step,
 
 void
 HDF5TrajWriter::close_trajectory_group(bool successfulRunMinE,
-                                       bool foundFinalStructure)
-        // Default values of false for both function args.
+                                       bool foundFinalStructure,
+                                       double targetFraction,
+                                       double targetEnergy)
+        // Default values of false for both boolean args.
 {
         // Perform final writes to file if the buffers still contain stuff
         if (steps.size() > 0)
@@ -200,47 +202,48 @@ HDF5TrajWriter::close_trajectory_group(bool successfulRunMinE,
         
         // Write attributes on sim success
         {
-                hid_t strtype = H5Tcopy(H5T_C_S1);
-                status = H5Tset_size(strtype, 4);
-                // hid_t memtype = H5Tcopy(H5T_C_S1);
-                // status = H5Tset_size(memtype, 4);
-        
                 // create dataspace
                 hid_t dataspace = H5Screate(H5S_SCALAR);
 
                 // create attribute
                 hid_t attribute1 = H5Acreate2(group_ids.back(), "Reached min E",
-                                              strtype, dataspace, 
+                                              H5T_NATIVE_UINT, dataspace, 
                                               H5P_DEFAULT, H5P_DEFAULT);
                 hid_t attribute2 = H5Acreate2(group_ids.back(), "Found final struct",
-                                              strtype, dataspace, 
+                                              H5T_NATIVE_UINT, dataspace, 
                                               H5P_DEFAULT, H5P_DEFAULT);
                 hid_t attribute3 = H5Acreate2(group_ids.back(), "Last E",
                                               H5T_NATIVE_FLOAT, dataspace,
                                               H5P_DEFAULT, H5P_DEFAULT);
                 hid_t attribute4 = H5Acreate2(group_ids.back(), "Last step",
-                                              H5T_NATIVE_UINT, dataspace,
+                                              H5T_NATIVE_ULLONG, dataspace,
+                                              H5P_DEFAULT, H5P_DEFAULT);
+                hid_t attribute5 = H5Acreate2(group_ids.back(), "Fraction target conf",
+                                              H5T_NATIVE_DOUBLE, dataspace,
+                                              H5P_DEFAULT, H5P_DEFAULT);
+                hid_t attribute6 = H5Acreate2(group_ids.back(), "Target conf energy",
+                                              H5T_NATIVE_DOUBLE, dataspace,
                                               H5P_DEFAULT, H5P_DEFAULT);
 
                 // write attributes
-                if (successfulRunMinE)
-                        status = H5Awrite(attribute1, strtype, "yes");
-                else
-                        status = H5Awrite(attribute1, strtype, "no ");
-                if (foundFinalStructure)
-                        status = H5Awrite(attribute2, strtype, "yes");
-                else
-                        status = H5Awrite(attribute2, strtype, "no ");
+                unsigned truefalse = successfulRunMinE;
+                status = H5Awrite(attribute1, H5T_NATIVE_UINT, &truefalse);
+                truefalse = foundFinalStructure;
+                status = H5Awrite(attribute2, H5T_NATIVE_UINT, &truefalse);
 
                 status = H5Awrite(attribute3, H5T_NATIVE_FLOAT, &current_energy);
-                status = H5Awrite(attribute4, H5T_NATIVE_UINT, &current_step);
+                status = H5Awrite(attribute4, H5T_NATIVE_ULLONG, &current_step);
+                status = H5Awrite(attribute5, H5T_NATIVE_DOUBLE, &targetFraction);
+                status = H5Awrite(attribute6, H5T_NATIVE_DOUBLE, &targetEnergy);
 
                 // close resources
                 status = H5Aclose(attribute1);
                 status = H5Aclose(attribute2);
+                status = H5Aclose(attribute3);
+                status = H5Aclose(attribute4);
+                status = H5Aclose(attribute5);
+                status = H5Aclose(attribute6);
                 status = H5Sclose(dataspace);
-                // status = H5Tclose(memtype);
-                status = H5Tclose(strtype);
         } // end sim success attributes writing
 
         status = H5Gclose(group_ids.back());

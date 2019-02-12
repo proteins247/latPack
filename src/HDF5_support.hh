@@ -83,7 +83,9 @@ public:
 
         // Perform final write (flush buffers) and close group
         void close_trajectory_group(bool successfulRunMinE = false,
-                                    bool foundFinalStructure = false);
+                                    bool foundFinalStructure = false,
+                                    double targetFraction = 0.0,
+                                    double targetEnergy = 0.0);
 
         // Delete the last used HDF5 group. The memory/space is freed
         //   so long as the file has not been closed since the group's
