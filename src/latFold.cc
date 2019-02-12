@@ -224,6 +224,12 @@ int main(int argc, char** argv) {
 			"if present: each folding simulation run is aborted if the given"
 			" (or a symmetric) structure is visited."
 			));
+
+	options.push_back(biu::COption(
+			"countTarget", optional, biu::COption::STRING,
+			"if present: count number of times folding simulation visits the given"
+			" (or symmetric) structure."
+			));
 		
 	options.push_back(biu::COption(
 			"seed", 
@@ -323,6 +329,7 @@ int main(int argc, char** argv) {
 	std::string seqStr;
 	std::string absMoveStr;
 	std::string absMoveStrFinal;
+	std::string targetMoveStr;
 	std::string moves;
 	double kT;
 	size_t maxLength;
@@ -545,13 +552,14 @@ int main(int argc, char** argv) {
 			absMoveStrFinal = parser.getStrVal("final");
 		}
 		
+		if (parser.argExist("countTarget"))
+		{
+			targetMoveStr = parser.getStrVal("countTarget");
+		}
+		
 		if (parser.argExist("seed")) 
 		{
 			seed = parser.getIntVal("seed");
-			if (seed < 0) {
-				std::cerr << "Error: seed must be > 0." << std::endl;
-				return PARSE_ERROR;
-			}
 		}
 		
 		if (parser.argExist("runs"))
@@ -747,6 +755,10 @@ int main(int argc, char** argv) {
 			*outstream << "\n  - Min. Energy : " << minEnergy;
 		if (simOutMode != OUT_NO)
 		        *outstream << "\n  - Out freq.   : " << outFreq;
+		if (parser.argExist("countTarget"))
+			*outstream << "\n  - Target str. : " << targetMoveStr;
+		if (parser.argExist("final"))
+			*outstream << "\n  - Final str.  : " << absMoveStrFinal;
 		*outstream <<std::endl;
 	}
 
@@ -771,6 +783,10 @@ int main(int argc, char** argv) {
 			hdf5writer->write_attribute("Min. energy", (float)minEnergy);
 		if (simOutMode != OUT_NO)
 			hdf5writer->write_attribute("Out freq.", outFreq);
+		if (parser.argExist("final"))
+			hdf5writer->write_attribute("Final str", absMoveStrFinal);
+		if (parser.argExist("countTarget"))
+			hdf5writer->write_attribute("Count target str", targetMoveStr);
 	}
 	
 	if (verbosity > 0) {
@@ -810,6 +826,11 @@ int main(int argc, char** argv) {
 			sc = NULL;
 			*outstream 	<< "\n RUNTIME ERROR : state collector not set.. aborting here!" <<std::endl;
 			exit(-1);
+		}
+
+		if (parser.argExist("countTarget"))
+		{
+			sc->defineTarget(targetMoveStr, *latticeDescriptor);
 		}
 		
 		if (verbosity > 0)
@@ -864,6 +885,8 @@ int main(int argc, char** argv) {
 			*outstream	<< "  - final structure / E : " 
 						<<finalAbsMoveStr <<" " <<finalEnergy
 						<< "\n";
+			if (parser.argExist("countTarget"))
+				*outstream      << "  - target count fraction  : " << sc->getTargetCountFraction() <<"\n";
 		}
 
 		  // print out local time used for current simulation
@@ -893,7 +916,10 @@ int main(int argc, char** argv) {
 		}
 		
 		if (outHDF)
-			hdf5writer->close_trajectory_group(successfulRunMinE, successfulRunFinal);
+			hdf5writer->close_trajectory_group(
+				successfulRunMinE, successfulRunFinal,
+				sc->getTargetCountFraction(),
+				sc->getTargetEnergy());
 		
 		delete sc;
 	}

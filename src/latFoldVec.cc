@@ -218,6 +218,9 @@ static const std::string minenergyInfo =
 static const std::string finalInfo =
 	"if present, each folding simulation run is aborted if the given "
 	"(or a symmetric) structure is visited.";
+static const std::string targetInfo =
+	"if present: count number of times folding simulation visits the given"
+	" (or symmetric) structure.";
 static const std::string fullLengthStepsInfo =
 	"after full elongation, sim will run additional number of steps (or until final structure is reached if -final is present). By default, the number of steps run on the final structure is given by -maxSteps or last number in -elongationSchedule. If -ribosomeRelease is present, chain will be free.";
 static const std::string seedInfo =
@@ -321,6 +324,9 @@ int main(int argc, char** argv) {
 			"final", optional, biu::COption::STRING, finalInfo));
 		
 	options.push_back(biu::COption(
+			"countTarget", optional, biu::COption::STRING, targetInfo));
+		
+	options.push_back(biu::COption(
 			"seed", optional, biu::COption::INT, seedInfo, 
 			DEFAULT_SEED));
 	
@@ -378,6 +384,7 @@ int main(int argc, char** argv) {
 	std::string seqStr;
 	std::string absMoveStr;
 	std::string absMoveStrFinal;
+	std::string targetMoveStr;
 	std::string moves;
 	double kT;
 	std::vector<unsigned int> elongationSchedule;
@@ -392,6 +399,8 @@ int main(int argc, char** argv) {
 	std::ostream* outstream = &std::cout;
 	ell::SC_MinE* sc;
 	double minE;
+	double targetCountFraction;
+	double targetConfEnergy;
 	bool ribosome;
 	bool ribosomeRelease;
 	bool timing;
@@ -623,6 +632,31 @@ int main(int argc, char** argv) {
 			}
 		}
 
+		if (parser.argExist("countTarget")) {
+			targetMoveStr = parser.getStrVal("countTarget");
+
+			if (targetMoveStr.size() != seqStr.size() - 1) {
+				std::cerr << "Warning: given '-countTarget' move string, "
+					  << targetMoveStr
+					  << ", doesn't correspond to given protein: "
+					  << seqStr
+					  << std::endl;
+			}
+			if (!latticeDescriptor->getAlphabet()->isAlphabetString(targetMoveStr)) {
+				std::string moveAlphStr = latticeDescriptor->getAlphabet()->getString(latticeDescriptor->getAlphabet()->getElement(0));
+				for (size_t i=1; i<latticeDescriptor->getAlphabet()->getAlphabetSize();i++) {
+					moveAlphStr += ",";
+					moveAlphStr += latticeDescriptor->getAlphabet()->getString(latticeDescriptor->getAlphabet()->getElement(i));
+				}
+				std::cerr	<<"Error: given '-countTarget' move string '"
+						<<targetMoveStr
+						<<"' is not valid for the absolute move alphabet {"
+						<<moveAlphStr
+						<<"} !\n";
+				return PARSE_ERROR;
+			}
+		}
+
 		if (parser.argExist("fullLengthSteps")) {
 			unsigned int fullLengthSteps = parser.getIntVal("fullLengthSteps");
 			elongationSchedule.push_back(fullLengthSteps);
@@ -782,6 +816,10 @@ int main(int argc, char** argv) {
 			*outstream << "\n  - Min. Energy : " << minEnergy;
 		if (simOutMode != OUT_NO)
 		        *outstream << "\n  - Out freq.   : " << outFreq;
+		if (parser.argExist("countTarget"))
+			*outstream << "\n  - Target str. : " << targetMoveStr;
+		if (parser.argExist("final"))
+			*outstream << "\n  - Final str.  : " << absMoveStrFinal;
 		*outstream <<std::endl;
 	}
 	
@@ -824,6 +862,10 @@ int main(int argc, char** argv) {
 			hdf5writer->write_attribute("Min. energy", (float)minEnergy);
 		if (simOutMode != OUT_NO)
 			hdf5writer->write_attribute("Out freq.", outFreq);
+		if (parser.argExist("final"))
+			hdf5writer->write_attribute("Final str", absMoveStrFinal);
+		if (parser.argExist("countTarget"))
+			hdf5writer->write_attribute("Count target str", targetMoveStr);
 	}
 
 	if (verbosity > 0) {
@@ -1203,11 +1245,17 @@ int main(int argc, char** argv) {
 					break;
 				}
 				
+			if (((curLength+1) >= seqStr.size()) && parser.argExist("countTarget"))
+			{
+				sc->defineTarget(targetMoveStr, *latticeDescriptor);
+			}
+
 				
 			// perform simulation...
 			// if protein is full length, and last stage of simulation has a final
 			//   target structure
 			if ( ((curLength+1) >= seqStr.size()) && parser.argExist("final") ) {
+
 				// curWac: wac_signal or wac_energy or normal length or final structure
 				WAC_OR curWac(wac, *wac_final);
 				WalkMC::walkMC(s, sc, &curWac, kT);
@@ -1244,7 +1292,9 @@ int main(int argc, char** argv) {
 				successfulRunMinE = true;
 			}
 			minE = sc->getMinE();
-				
+			targetCountFraction = sc->getTargetCountFraction();
+			targetConfEnergy = sc->getTargetEnergy();
+
 			delete sc;
 			delete s;  // who is deleting this? --> get segfault for explicit deletion
 			delete moveSet;
@@ -1254,7 +1304,9 @@ int main(int argc, char** argv) {
 		} // for all elongations
 	
 		if (outHDF)
-			hdf5writer->close_trajectory_group(successfulRunMinE, successfulRunFinal);
+			hdf5writer->close_trajectory_group(
+				successfulRunMinE, successfulRunFinal,
+				targetCountFraction, targetConfEnergy);
 
 		  // check if last run was successful or aborted
 		if (runWasAborted) {
@@ -1300,6 +1352,9 @@ int main(int argc, char** argv) {
 							latticeDescriptor->getSequence(absMoveStr) ) );
 		*outstream	<< "  - final structure / E : " <<absMoveStr <<" " << curEnergy
 					<< "\n";
+
+		if (parser.argExist("countTarget"))
+			*outstream      << "  - target count fraction  : " << targetCountFraction <<"\n";
 		
 		  // print out local time used for current simulation
 		if (verbosity > 0 && timing)
