@@ -2,7 +2,8 @@
 #define SC_MINE_HH_
 
 
-#include "ell/StateCollector.hh"
+// #include "ell/StateCollector.hh"
+#include "SC_CountTarget.hh"
 
 enum OUT_MODE { OUT_NO, OUT_E, OUT_ES };
 
@@ -13,7 +14,7 @@ namespace ell
 	 * 
 	 * @author Martin Mann
 	 */
-	class SC_MinE : public SC_Counting
+	class SC_MinE : public SC_CountTarget
 	{
 	protected:
 		  //! the minimal energy seen so far

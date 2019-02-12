@@ -99,6 +99,8 @@ latMapTraj_SOURCES =	\
 
 if with_latfold
 latFold_SOURCES =	\
+					SC_CountTarget.hh \
+					SC_CountTarget.cc \
 					SC_MinE.hh \
 					SC_MinE.cc \
 					SC_OutAbs.hh \
@@ -115,6 +117,8 @@ endif
 
 if with_latfold
 latFoldVec_SOURCES =	\
+					SC_CountTarget.hh \
+					SC_CountTarget.cc \
 					SC_MinE.hh \
 					SC_MinE.cc \
 					SC_OutAbs.hh \

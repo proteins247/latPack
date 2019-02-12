@@ -7,12 +7,12 @@ namespace ell
 {
 
 	SC_MinE::SC_MinE()
-	 :	SC_Counting(), minE((double)INT_MAX)
+	 :	SC_CountTarget(), minE((double)INT_MAX)
 	{
 	}
 
 	SC_MinE::SC_MinE(size_t previousCount)
-	 :	SC_Counting(previousCount), minE((double)INT_MAX)
+	 :	SC_CountTarget(previousCount), minE((double)INT_MAX)
 	{
 	}
 
@@ -25,7 +25,7 @@ namespace ell
 	void
 	SC_MinE::add(const State& s) {
 		  //  call handler of superclass
-		SC_Counting::add(s);
+		SC_CountTarget::add(s);
 
 		  // check for minimal energy
 		minE = std::min( s.getEnergy(), minE );

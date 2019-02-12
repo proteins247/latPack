@@ -107,21 +107,23 @@ am_latFit_OBJECTS = biu/LatticeDescriptorCKW.$(OBJEXT) \
 	biu/SuperPos_Kabsch.$(OBJEXT) latFit.$(OBJEXT)
 latFit_OBJECTS = $(am_latFit_OBJECTS)
 latFit_LDADD = $(LDADD)
-am__latFold_SOURCES_DIST = SC_MinE.hh SC_MinE.cc SC_OutAbs.hh \
-	SC_OutAbs.cc SC_OutEnergy.hh SC_OutEnergy.cc \
-	energyFileSupport.hh HDF5_support.hh HDF5_support.cc \
-	latFold.cc
-@with_latfold_TRUE@am_latFold_OBJECTS = SC_MinE.$(OBJEXT) \
-@with_latfold_TRUE@	SC_OutAbs.$(OBJEXT) SC_OutEnergy.$(OBJEXT) \
+am__latFold_SOURCES_DIST = SC_CountTarget.hh SC_CountTarget.cc \
+	SC_MinE.hh SC_MinE.cc SC_OutAbs.hh SC_OutAbs.cc \
+	SC_OutEnergy.hh SC_OutEnergy.cc energyFileSupport.hh \
+	HDF5_support.hh HDF5_support.cc latFold.cc
+@with_latfold_TRUE@am_latFold_OBJECTS = SC_CountTarget.$(OBJEXT) \
+@with_latfold_TRUE@	SC_MinE.$(OBJEXT) SC_OutAbs.$(OBJEXT) \
+@with_latfold_TRUE@	SC_OutEnergy.$(OBJEXT) \
 @with_latfold_TRUE@	HDF5_support.$(OBJEXT) latFold.$(OBJEXT)
 latFold_OBJECTS = $(am_latFold_OBJECTS)
 latFold_LDADD = $(LDADD)
-am__latFoldVec_SOURCES_DIST = SC_MinE.hh SC_MinE.cc SC_OutAbs.hh \
-	SC_OutAbs.cc SC_OutEnergy.hh SC_OutEnergy.cc \
-	energyFileSupport.hh HDF5_support.hh HDF5_support.cc \
-	latFoldVec.cc
-@with_latfold_TRUE@am_latFoldVec_OBJECTS = SC_MinE.$(OBJEXT) \
-@with_latfold_TRUE@	SC_OutAbs.$(OBJEXT) SC_OutEnergy.$(OBJEXT) \
+am__latFoldVec_SOURCES_DIST = SC_CountTarget.hh SC_CountTarget.cc \
+	SC_MinE.hh SC_MinE.cc SC_OutAbs.hh SC_OutAbs.cc \
+	SC_OutEnergy.hh SC_OutEnergy.cc energyFileSupport.hh \
+	HDF5_support.hh HDF5_support.cc latFoldVec.cc
+@with_latfold_TRUE@am_latFoldVec_OBJECTS = SC_CountTarget.$(OBJEXT) \
+@with_latfold_TRUE@	SC_MinE.$(OBJEXT) SC_OutAbs.$(OBJEXT) \
+@with_latfold_TRUE@	SC_OutEnergy.$(OBJEXT) \
 @with_latfold_TRUE@	HDF5_support.$(OBJEXT) latFoldVec.$(OBJEXT)
 latFoldVec_OBJECTS = $(am_latFoldVec_OBJECTS)
 latFoldVec_LDADD = $(LDADD)
@@ -404,6 +406,8 @@ latMapTraj_SOURCES = \
 
 #######################   LatFold PROGRAM   ########################
 @with_latfold_TRUE@latFold_SOURCES = \
+@with_latfold_TRUE@					SC_CountTarget.hh \
+@with_latfold_TRUE@					SC_CountTarget.cc \
 @with_latfold_TRUE@					SC_MinE.hh \
 @with_latfold_TRUE@					SC_MinE.cc \
 @with_latfold_TRUE@					SC_OutAbs.hh \
@@ -418,6 +422,8 @@ latMapTraj_SOURCES = \
 
 #######################   LatFoldVec PROGRAM   ########################
 @with_latfold_TRUE@latFoldVec_SOURCES = \
+@with_latfold_TRUE@					SC_CountTarget.hh \
+@with_latfold_TRUE@					SC_CountTarget.cc \
 @with_latfold_TRUE@					SC_MinE.hh \
 @with_latfold_TRUE@					SC_MinE.cc \
 @with_latfold_TRUE@					SC_OutAbs.hh \
@@ -567,6 +573,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/Exception.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/HDF5_support.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SC_CountTarget.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SC_MinE.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SC_OutAbs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SC_OutEnergy.Po@am__quote@
