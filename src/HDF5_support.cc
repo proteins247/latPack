@@ -188,7 +188,8 @@ void
 HDF5TrajWriter::close_trajectory_group(bool successfulRunMinE,
                                        bool foundFinalStructure,
                                        double targetFraction,
-                                       double targetEnergy)
+                                       double targetEnergy,
+				       size_t stepsToTarget)
         // Default values of false for both boolean args.
 {
         // Perform final writes to file if the buffers still contain stuff
@@ -224,6 +225,9 @@ HDF5TrajWriter::close_trajectory_group(bool successfulRunMinE,
                 hid_t attribute6 = H5Acreate2(group_ids.back(), "Target conf energy",
                                               H5T_NATIVE_DOUBLE, dataspace,
                                               H5P_DEFAULT, H5P_DEFAULT);
+                hid_t attribute7 = H5Acreate2(group_ids.back(), "Steps to target",
+                                              H5T_NATIVE_ULLONG, dataspace,
+                                              H5P_DEFAULT, H5P_DEFAULT);
 
                 // write attributes
                 unsigned truefalse = successfulRunMinE;
@@ -235,7 +239,8 @@ HDF5TrajWriter::close_trajectory_group(bool successfulRunMinE,
                 status = H5Awrite(attribute4, H5T_NATIVE_ULLONG, &current_step);
                 status = H5Awrite(attribute5, H5T_NATIVE_DOUBLE, &targetFraction);
                 status = H5Awrite(attribute6, H5T_NATIVE_DOUBLE, &targetEnergy);
-
+                status = H5Awrite(attribute7, H5T_NATIVE_ULLONG, &stepsToTarget);
+		
                 // close resources
                 status = H5Aclose(attribute1);
                 status = H5Aclose(attribute2);
@@ -243,6 +248,7 @@ HDF5TrajWriter::close_trajectory_group(bool successfulRunMinE,
                 status = H5Aclose(attribute4);
                 status = H5Aclose(attribute5);
                 status = H5Aclose(attribute6);
+                status = H5Aclose(attribute7);
                 status = H5Sclose(dataspace);
         } // end sim success attributes writing
 

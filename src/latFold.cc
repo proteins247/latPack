@@ -919,7 +919,8 @@ int main(int argc, char** argv) {
 			hdf5writer->close_trajectory_group(
 				successfulRunMinE, successfulRunFinal,
 				sc->getTargetCountFraction(),
-				sc->getTargetEnergy());
+				sc->getTargetEnergy(),
+				sc->getStepsToReachTarget());
 		
 		delete sc;
 	}
