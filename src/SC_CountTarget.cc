@@ -83,6 +83,10 @@ namespace ell
 	    {
 		++targetCount;
 		targetEnergy = s.getEnergy();
+		if (stepsToReachTarget == 0)
+		{
+		    stepsToReachTarget = totalCount;
+		}
 	    }
 	
 	}
@@ -96,6 +100,12 @@ namespace ell
     size_t
     SC_CountTarget::getTargetCount() const {
 	return targetCount;
+    }
+
+    // access to steps to reach target count
+    size_t
+    SC_CountTarget::getStepsToReachTarget() const {
+	return stepsToReachTarget;
     }
 
     // access to energy of target conf
