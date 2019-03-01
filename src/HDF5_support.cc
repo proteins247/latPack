@@ -76,7 +76,7 @@ HDF5TrajWriter::create_trajectory_group()
 
         // Create datasets
         dataset_steps = H5Dcreate2(group, "steps",
-                                   H5T_NATIVE_UINT, dataspace,
+                                   H5T_NATIVE_ULLONG, dataspace,
                                    H5P_DEFAULT, prop, H5P_DEFAULT);
         dataset_energies = H5Dcreate2(group, "energies",
                                       H5T_NATIVE_FLOAT, dataspace,
@@ -163,7 +163,7 @@ HDF5TrajWriter::write_attribute(const char* name, std::string attr)
 }
 
 void
-HDF5TrajWriter::write_buffered_traj(unsigned int step,
+HDF5TrajWriter::write_buffered_traj(uint64_t step,
                                     float energy,
                                     std::string *structure)
 {
@@ -296,7 +296,7 @@ HDF5TrajWriter::flush_buffers()
         hid_t memspace = H5Screate_simple(1, extend_dims, NULL); // RANK=1
 
         // write!
-        status = H5Dwrite(dataset_steps, H5T_NATIVE_UINT, memspace, filespace,
+        status = H5Dwrite(dataset_steps, H5T_NATIVE_ULLONG, memspace, filespace,
                           H5P_DEFAULT, steps.data());
         status = H5Dwrite(dataset_energies, H5T_NATIVE_FLOAT, memspace, filespace,
                           H5P_DEFAULT, energies.data());

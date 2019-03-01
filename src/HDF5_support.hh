@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <cstdint>
 #include "hdf5.h"
 
 // If debugging: comment out #include "SC_MinE.hh" and uncomment enum
@@ -77,7 +78,7 @@ public:
         //   store data or whether HDF5 library's own buffering is
         //   sufficient. But if I wrote data each time this is called,
         //   I'd have to do a hyperslab selection each time.
-        void write_buffered_traj(unsigned int step,
+        void write_buffered_traj(uint64_t step,
                                  float energy,
                                  std::string *structure);
 
@@ -126,7 +127,7 @@ protected:
         hid_t dataset_steps, dataset_energies, dataset_structures;
 
         // Stores the current step and current energy saved
-        unsigned int current_step;
+        uint64_t current_step;
         float current_energy;
 
         // Memory and file datatypes for writing structure strings
@@ -140,7 +141,7 @@ protected:
         hsize_t maxdims[1] = {H5S_UNLIMITED}; // maximum extensible size
 
         // Buffers to hold data in before writing
-        std::vector<unsigned int> steps;
+        std::vector<uint64_t> steps;
         std::vector<float> energies;
         char* structures;       // we need to manually manage char* to get
                                 //   a contiguous char array that we write with
