@@ -19,18 +19,35 @@ namespace ell
 	//! whether or not this SC does anything
 	bool targetDefined;
 
+	//! How long the target move string is
 	int moveStrSize;
+
+	//! How many times the target has been encountered.
 	size_t targetCount;
+
+	//! First passage time to target
 	size_t stepsToReachTarget = 0;
+
+	//! Energy of target conformation
 	double targetEnergy;
+	double targetEnergyFound = false;
+
+	// The following variables have been added to track protein degradation
+	bool trackSurvival = false;
+	double degradationRate = 0;
+	double survivalSum = 0;	
 
 	//! the set of all absolute move strings symmetric to the given 
 	//! structure
 	std::set<std::string> absMoveStrings;
 		
+	// From WAC_Final, but not needed.
 	// //! the letters of the current move alphabet to derive the move 
 	// //! string from the state string representation
 	// std::string moveAlphabet;
+
+	//! Calculate the probability of surviving till now.
+	virtual double calculateSurvival() const;
 		
     public:
 	
@@ -43,6 +60,8 @@ namespace ell
 
 	virtual void defineTarget(const std::string& absMoves,
 				  const biu::LatticeDescriptor& latticeDescr);
+
+	virtual void setDegradationRate(double degradationScale);
 
 	// This function is used to track all added intermediate States.
 	// @param s the added State
@@ -58,6 +77,9 @@ namespace ell
 
 	//! access to target count as fraction of count
 	virtual double getTargetCountFraction() const;
+
+	//! access survivalSum as fraction of total
+	virtual double getSurvivalSumFraction() const;
 
     };
 

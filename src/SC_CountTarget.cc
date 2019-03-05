@@ -4,8 +4,7 @@
 
 #include <biu/assertbiu.hh>
 
-// #include <algorithm>
-// #include <limits.h>
+#include <cmath>
 
 namespace ell
 {
@@ -26,7 +25,12 @@ namespace ell
     {
     }
 
-    // 
+    bool
+    SC_CountTarget::hasTarget() const {
+	return targetDefined;
+    }
+
+    // Define the target structure.
     void
     SC_CountTarget::defineTarget(const std::string& absMoves,
 				 const biu::LatticeDescriptor& latDescr)
@@ -55,9 +59,12 @@ namespace ell
 	
     }
 
-    bool
-    SC_CountTarget::hasTarget() const {
-	return targetDefined;
+    // Define the target structure.
+    void
+    SC_CountTarget::setDegradationRate(double degradationScale)
+    {
+	trackSurvival = true;
+	degradationRate = 1 / degradationScale;
     }
 
     // This function is used to track all added intermediate States.
@@ -72,7 +79,11 @@ namespace ell
 	    assertbiu(dynamic_cast<const S_LP*>(&s)!=NULL,
 		      "last state in state collector is no S_LP instance");
 	    // get string representation
+	    // We substring because s.toString() gives a string
+	    //   that's more than just the move string.
 	    std::string curMoves = s.toString().substr(0, moveStrSize);
+
+	    // Code from WAC_Final, not needed
 	    // // derive absolute move string
 	    // curMoves = curMoves.substr( 0
 	    // 				, curMoves.find_first_not_of(moveAlphabet));
@@ -82,10 +93,21 @@ namespace ell
 	    if (absMoveStrings.find(curMoves) != absMoveStrings.end())
 	    {
 		++targetCount;
-		targetEnergy = s.getEnergy();
+
+		if (!targetEnergyFound)
+		{
+		    targetEnergy = s.getEnergy();
+		}
+
+		// Record first passage time if this is first time at target
 		if (stepsToReachTarget == 0)
 		{
 		    stepsToReachTarget = totalCount;
+		}
+
+		if (trackSurvival)
+		{
+		    survivalSum += calculateSurvival();
 		}
 	    }
 	
@@ -120,5 +142,19 @@ namespace ell
 	return targetCount / (double)stateCount;
     }
 
+    // access survivalSum as fraction of total
+    double
+    SC_CountTarget::getSurvivalSumFraction() const  {
+	return survivalSum / (double)stateCount;
+    }
+
+    // Calculate the probability of surviving till now.
+    // (This function is protected)
+    double
+    SC_CountTarget::calculateSurvival() const {
+	double nonTargetCount = stateCount - targetCount;
+	return exp(-degradationRate * nonTargetCount);
+    }
+       
 
 }
