@@ -87,7 +87,8 @@ public:
                                     bool foundFinalStructure = false,
                                     double targetFraction = 0.0,
                                     double targetEnergy = 0.0,
-				    size_t stepsToTarget = 0);
+				    size_t stepsToTarget = 0,
+				    double survivalSumFraction = 0.0);
 
         // Delete the last used HDF5 group. The memory/space is freed
         //   so long as the file has not been closed since the group's

@@ -149,7 +149,7 @@ namespace ell
     }
 
     // Calculate the probability of surviving till now.
-    // (This function is protected)
+    // (This is a protected function)
     double
     SC_CountTarget::calculateSurvival() const {
 	double nonTargetCount = stateCount - targetCount;
