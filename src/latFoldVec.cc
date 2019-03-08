@@ -221,6 +221,10 @@ static const std::string finalInfo =
 static const std::string targetInfo =
 	"if present: count number of times folding simulation visits the given"
 	" (or symmetric) structure.";
+static const std::string targetDegradationInfo =
+       "if present: sets scale for number associated with cumulative survival of "
+       "structure. (probability of survival falls with the number of steps "
+       "that the structure is not native.)";
 static const std::string fullLengthStepsInfo =
 	"after full elongation, sim will run additional number of steps (or until final structure is reached if -final is present). By default, the number of steps run on the final structure is given by -maxSteps or last number in -elongationSchedule. If -ribosomeRelease is present, chain will be free.";
 static const std::string seedInfo =
@@ -287,7 +291,7 @@ int main(int argc, char** argv) {
 
 	options.push_back(biu::COption(	
 			"elementLength", optional, biu::COption::INT,
-			"the character length of a single alphabet element in the energy file",
+			"the character length of a single alphabet element in the energy file (not a tested feature)",
 			DEFAULT_ELEMENTLENGTH));
 
 	options.push_back(biu::COption(	
@@ -326,6 +330,9 @@ int main(int argc, char** argv) {
 	options.push_back(biu::COption(
 			"countTarget", optional, biu::COption::STRING, targetInfo));
 		
+	options.push_back(biu::COption(
+			"targetDegradationScale", optional, biu::COption::DOUBLE, targetDegradationInfo));
+
 	options.push_back(biu::COption(
 			"seed", optional, biu::COption::INT, seedInfo, 
 			DEFAULT_SEED));
@@ -387,6 +394,7 @@ int main(int argc, char** argv) {
 	std::string targetMoveStr;
 	std::string moves;
 	double kT;
+	double degradationScale;
 	std::vector<unsigned int> elongationSchedule;
 	bool sequenceDependentSimLength = false;
 	double minEnergy;
@@ -402,6 +410,7 @@ int main(int argc, char** argv) {
 	double targetCountFraction;
 	double targetConfEnergy;
 	size_t stepsToReachTarget;
+	double survivalSumFraction;
 	bool ribosome;
 	bool ribosomeRelease;
 	bool timing;
@@ -564,7 +573,7 @@ int main(int argc, char** argv) {
 				return PARSE_ERROR;
 			}
 			// makes elongationSchedule size seqStr.size()
-			elongationSchedule = std::vector<unsigned int>(seqStr.size(), (unsigned int)maxSteps);
+			elongationSchedule = std::vector<unsigned int>(seqStr.size()/alphElementLength, (unsigned int)maxSteps);
 		}
 
 		if (parser.argExist("elongationSchedule"))
@@ -587,9 +596,9 @@ int main(int argc, char** argv) {
 				}
 				schedule.push_back(value);
 			}
-			if (schedule.size() != seqStr.size() - 4) {
+			if (schedule.size() != seqStr.size()/alphElementLength - 4) {
 				std::cerr << "Error: -elongationSchedule requires sequence length - 4 (="
-					  << seqStr.size() - 4
+					  << seqStr.size()/alphElementLength - 4
 					  << ") ints"
 					  << std::endl;
 				return PARSE_ERROR;
@@ -611,7 +620,7 @@ int main(int argc, char** argv) {
 		if (parser.argExist("final"))
 		{
 			absMoveStrFinal = parser.getStrVal("final");
-			if (absMoveStrFinal.size() != seqStr.size() - 1) {
+			if (absMoveStrFinal.size() != seqStr.size()/alphElementLength - 1) {
 				std::cerr << "Warning: given '-final' move string, "
 					  << absMoveStrFinal
 					  << ", doesn't correspond to given protein: "
@@ -636,7 +645,7 @@ int main(int argc, char** argv) {
 		if (parser.argExist("countTarget")) {
 			targetMoveStr = parser.getStrVal("countTarget");
 
-			if (targetMoveStr.size() != seqStr.size() - 1) {
+			if (targetMoveStr.size() != seqStr.size()/alphElementLength - 1) {
 				std::cerr << "Warning: given '-countTarget' move string, "
 					  << targetMoveStr
 					  << ", doesn't correspond to given protein: "
@@ -658,6 +667,11 @@ int main(int argc, char** argv) {
 			}
 		}
 
+		if (parser.argExist("targetDegradationScale"))
+		{
+		        degradationScale = parser.getDoubleVal("targetDegradationScale");
+		}
+		
 		if (parser.argExist("fullLengthSteps")) {
 			unsigned int fullLengthSteps = parser.getIntVal("fullLengthSteps");
 			elongationSchedule.push_back(fullLengthSteps);
@@ -721,7 +735,7 @@ int main(int argc, char** argv) {
 			std::string filename = parser.getStrVal("outFile");
 			try {
 				hdf5writer = std::unique_ptr<HDF5TrajWriter>(new HDF5TrajWriter(filename.c_str(), simOutMode,
-												seqStr.size()-1));
+												seqStr.size()/alphElementLength - 1));
 				// seqStr.size()-1 is the size of the move string for the structure
 			}
 			catch (File_exists_error) {
@@ -801,7 +815,7 @@ int main(int argc, char** argv) {
 		if (parser.argExist("elongationSchedule")) {
 			*outstream << "\n  - Elongation  : ";
 			std::ostringstream schedule;
-			for (unsigned int i = 4; i < seqStr.size(); ++i) {
+			for (unsigned int i = 4; i < seqStr.size()/alphElementLength; ++i) {
 				schedule << elongationSchedule[i] << " ";
 			}
 			*outstream << schedule.str();
@@ -818,7 +832,11 @@ int main(int argc, char** argv) {
 		if (simOutMode != OUT_NO)
 		        *outstream << "\n  - Out freq.   : " << outFreq;
 		if (parser.argExist("countTarget"))
+		{
 			*outstream << "\n  - Target str. : " << targetMoveStr;
+			if (parser.argExist("targetDegradationScale"))
+			        *outstream << "\n  - Target deg. : " << degradationScale;
+		}
 		if (parser.argExist("final"))
 			*outstream << "\n  - Final str.  : " << absMoveStrFinal;
 		*outstream <<std::endl;
@@ -845,7 +863,7 @@ int main(int argc, char** argv) {
 		{
 			std::ostringstream schedule;
 			if (parser.argExist("elongationSchedule")) {
-				for (unsigned int i = 4; i < seqStr.size(); ++i)
+				for (unsigned int i = 4; i < seqStr.size()/alphElementLength; ++i)
 					schedule << elongationSchedule[i] << " ";
 			}
 			hdf5writer->write_attribute("Custom elongation schedule",
@@ -866,7 +884,11 @@ int main(int argc, char** argv) {
 		if (parser.argExist("final"))
 			hdf5writer->write_attribute("Final str", absMoveStrFinal);
 		if (parser.argExist("countTarget"))
+		{
 			hdf5writer->write_attribute("Count target str", targetMoveStr);
+			if (parser.argExist("targetDegradationScale"))
+			        hdf5writer->write_attribute("Degradation scale", (float)degradationScale);
+		}
 	}
 
 	if (verbosity > 0) {
@@ -1182,7 +1204,7 @@ int main(int argc, char** argv) {
 				return DATA_ERROR;
 			}
 
-			if (curLength == seqStr.size() && ribosomeRelease && ribosome) {
+			if (curLength == seqStr.size()/alphElementLength && ribosomeRelease && ribosome) {
 				// Release from ribosome if chain is complete.
 				latProt = biu::LatticeProtein_Ipnt(lattice,energy,&seq,seqShared,absMoveStr,isAbsMove,!ribosome);
 			}
@@ -1246,16 +1268,20 @@ int main(int argc, char** argv) {
 					break;
 				}
 				
-			if (((curLength+1) >= seqStr.size()) && parser.argExist("countTarget"))
+			if (((curLength+1) >= seqStr.size()/alphElementLength) && parser.argExist("countTarget"))
 			{
 				sc->defineTarget(targetMoveStr, *latticeDescriptor);
+				if (parser.argExist("targetDegradationScale"))
+				{
+				        sc->setDegradationRate(degradationScale);
+				}
 			}
 
 				
 			// perform simulation...
 			// if protein is full length, and last stage of simulation has a final
 			//   target structure
-			if ( ((curLength+1) >= seqStr.size()) && parser.argExist("final") ) {
+			if ( ((curLength+1) >= seqStr.size()/alphElementLength) && parser.argExist("final") ) {
 
 				// curWac: wac_signal or wac_energy or normal length or final structure
 				WAC_OR curWac(wac, *wac_final);
@@ -1296,6 +1322,7 @@ int main(int argc, char** argv) {
 			targetCountFraction = sc->getTargetCountFraction();
 			targetConfEnergy = sc->getTargetEnergy();
 			stepsToReachTarget = sc->getStepsToReachTarget();
+			survivalSumFraction = sc->getSurvivalSumFraction();
 
 			delete sc;
 			delete s;  // who is deleting this? --> get segfault for explicit deletion
@@ -1309,7 +1336,7 @@ int main(int argc, char** argv) {
 			hdf5writer->close_trajectory_group(
 				successfulRunMinE, successfulRunFinal,
 				targetCountFraction, targetConfEnergy,
-				stepsToReachTarget);
+				stepsToReachTarget, survivalSumFraction);
 
 		  // check if last run was successful or aborted
 		if (runWasAborted) {
@@ -1357,8 +1384,11 @@ int main(int argc, char** argv) {
 					<< "\n";
 
 		if (parser.argExist("countTarget"))
+		{
 			*outstream      << "  - target count fraction  : " << targetCountFraction <<"\n";
-		
+			if (parser.argExist("targetDegradationScale"))
+			    *outstream  << "  - survival sum fraction  : " << survivalSumFraction <<"\n";
+		}
 		  // print out local time used for current simulation
 		if (verbosity > 0 && timing)
 			*outstream	<< "  - computation time  : " 

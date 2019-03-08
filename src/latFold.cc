@@ -179,7 +179,7 @@ int main(int argc, char** argv) {
 			"elementLength", 
 			optional, 
 			biu::COption::INT,
-			"the character length of a single alphabet element in the energy file",
+			"the character length of a single alphabet element in the energy file (not a tested feature)",
 			DEFAULT_ELEMENTLENGTH));
 
 	options.push_back(biu::COption(	
@@ -229,6 +229,13 @@ int main(int argc, char** argv) {
 			"countTarget", optional, biu::COption::STRING,
 			"if present: count number of times folding simulation visits the given"
 			" (or symmetric) structure."
+			));
+		
+	options.push_back(biu::COption(
+			"targetDegradationScale", optional, biu::COption::DOUBLE,
+			"if present: sets scale for number associated with cumulative survival of "
+			"structure. (probability of survival falls with the number of steps "
+			"that the structure is not native.)"
 			));
 		
 	options.push_back(biu::COption(
@@ -332,6 +339,7 @@ int main(int argc, char** argv) {
 	std::string targetMoveStr;
 	std::string moves;
 	double kT;
+	double degradationScale;
 	size_t maxLength;
 	double minEnergy;
 	biu::LatticeDescriptor* latticeDescriptor = NULL;
@@ -557,6 +565,11 @@ int main(int argc, char** argv) {
 			targetMoveStr = parser.getStrVal("countTarget");
 		}
 		
+		if (parser.argExist("targetDegradationScale"))
+		{
+		        degradationScale = parser.getDoubleVal("targetDegradationScale");
+		}
+		
 		if (parser.argExist("seed")) 
 		{
 			seed = parser.getIntVal("seed");
@@ -614,7 +627,7 @@ int main(int argc, char** argv) {
 			std::string filename = parser.getStrVal("outFile");
 			try {
 				hdf5writer = std::unique_ptr<HDF5TrajWriter>(new HDF5TrajWriter(filename.c_str(), simOutMode,
-												seqStr.size()-1));
+												seqStr.size()/alphElementLength-1));
 				// seqStr.size()-1 is the size of the move string for the structure
 			}
 			catch (File_exists_error) {
@@ -756,7 +769,11 @@ int main(int argc, char** argv) {
 		if (simOutMode != OUT_NO)
 		        *outstream << "\n  - Out freq.   : " << outFreq;
 		if (parser.argExist("countTarget"))
+		{
 			*outstream << "\n  - Target str. : " << targetMoveStr;
+			if (parser.argExist("targetDegradationScale"))
+			        *outstream << "\n  - Target deg. : " << degradationScale;
+		}
 		if (parser.argExist("final"))
 			*outstream << "\n  - Final str.  : " << absMoveStrFinal;
 		*outstream <<std::endl;
@@ -786,7 +803,11 @@ int main(int argc, char** argv) {
 		if (parser.argExist("final"))
 			hdf5writer->write_attribute("Final str", absMoveStrFinal);
 		if (parser.argExist("countTarget"))
+		{
 			hdf5writer->write_attribute("Count target str", targetMoveStr);
+			if (parser.argExist("targetDegradationScale"))
+			        hdf5writer->write_attribute("Degradation scale", (float)degradationScale);
+		}
 	}
 	
 	if (verbosity > 0) {
@@ -831,6 +852,10 @@ int main(int argc, char** argv) {
 		if (parser.argExist("countTarget"))
 		{
 			sc->defineTarget(targetMoveStr, *latticeDescriptor);
+			if (parser.argExist("targetDegradationScale"))
+			{
+			        sc->setDegradationRate(degradationScale);
+			}
 		}
 		
 		if (verbosity > 0)
@@ -886,7 +911,11 @@ int main(int argc, char** argv) {
 						<<finalAbsMoveStr <<" " <<finalEnergy
 						<< "\n";
 			if (parser.argExist("countTarget"))
+			{
 				*outstream      << "  - target count fraction  : " << sc->getTargetCountFraction() <<"\n";
+				if (parser.argExist("targetDegradationScale"))
+				    *outstream  << "  - survival sum fraction  : " << sc->getSurvivalSumFraction() <<"\n";
+			}
 		}
 
 		  // print out local time used for current simulation
@@ -920,7 +949,8 @@ int main(int argc, char** argv) {
 				successfulRunMinE, successfulRunFinal,
 				sc->getTargetCountFraction(),
 				sc->getTargetEnergy(),
-				sc->getStepsToReachTarget());
+				sc->getStepsToReachTarget(),
+				sc->getSurvivalSumFraction());
 		
 		delete sc;
 	}
