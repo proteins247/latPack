@@ -12,7 +12,7 @@ HDF5TrajWriter::HDF5TrajWriter(const char* filepath,
         file_id = H5Fcreate(filepath, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
 
         if (is_invalid())
-                throw File_exists_error{};
+                throw File_opening_error{};
 
         if (max_structure_length > 0)
         {
@@ -57,6 +57,9 @@ HDF5TrajWriter::create_trajectory_group()
         std::string groupname = "traj" + std::to_string(group_ids.size() + 1);
         hid_t group = H5Gcreate(file_id, groupname.c_str(),
                                 H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+	if (group < 0)
+	    throw Group_creation_error{};
+
         group_ids.push_back(group);
         
         // (Re)set dims of dataspace to 0
@@ -304,11 +307,19 @@ HDF5TrajWriter::flush_buffers()
         // write!
         status = H5Dwrite(dataset_steps, H5T_NATIVE_ULLONG, memspace, filespace,
                           H5P_DEFAULT, steps.data());
+	if (status < 0)
+	    throw Data_write_error{};
+
         status = H5Dwrite(dataset_energies, H5T_NATIVE_FLOAT, memspace, filespace,
                           H5P_DEFAULT, energies.data());
+	if (status < 0)
+	    throw Data_write_error{};
+
         if (sim_out_mode == OUT_ES) {
                 status = H5Dwrite(dataset_structures, str_memtype, memspace, filespace,
                                   H5P_DEFAULT, structures);
+		if (status < 0)
+		    throw Data_write_error{};
         }
 
         // close resources
@@ -350,6 +361,9 @@ HDF5TrajAnalyzer::HDF5TrajAnalyzer(const char* filepath, std::vector<std::string
         // open file in read/write mode
         file_id = H5Fopen(filepath, H5F_ACC_RDWR, H5P_DEFAULT);
         
+        if (is_invalid())
+                throw File_opening_error{};
+
         // read relevant attributes
         H5G_info_t group_info;
         status = H5Gget_info(file_id, &group_info);
@@ -360,6 +374,16 @@ HDF5TrajAnalyzer::HDF5TrajAnalyzer(const char* filepath, std::vector<std::string
 HDF5TrajAnalyzer::~HDF5TrajAnalyzer()
 {
         close_file();
+}
+
+bool
+HDF5TrajAnalyzer::is_invalid()
+{
+        if (file_id < 0)
+        {
+                return true;
+        }
+        return false;
 }
 
 size_t
@@ -377,6 +401,9 @@ HDF5TrajAnalyzer::open_trajectory_group(size_t index)
         // open the group
         std::string groupname = "traj" + std::to_string(index);
         group_id = H5Gopen2(file_id, groupname.c_str(),  H5P_DEFAULT);
+	if (group_id < 0)
+	    throw Group_opening_error{};
+
         group_is_open = true;
         
         // open the structures dataspace
@@ -467,8 +494,10 @@ HDF5TrajAnalyzer::write_analysis(std::unordered_map<std::string, float> &data)
 
         // write to datasets
         for (auto &dataset : datasets) {
-                H5Dwrite(dataset.second, H5T_NATIVE_FLOAT, memspace, filespace,
+                status = H5Dwrite(dataset.second, H5T_NATIVE_FLOAT, memspace, filespace,
                          H5P_DEFAULT, &data[dataset.first]);
+		if (status < 0)
+		    throw Data_write_error{};
         }
         
         // return writing position, incrementing it for next write as well

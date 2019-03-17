@@ -179,6 +179,10 @@ public:
         HDF5TrajAnalyzer(const char* filepath, std::vector<std::string> * dataset_names, size_t chunk_size = 16384);
         ~HDF5TrajAnalyzer();
 
+        // true if HDF5TrajAnalyzer and underlying HDF5 objects are in invalid state
+        // This function could be further developed.
+        bool is_invalid();
+
         size_t get_group_count();
 
         // Open an HDF5 group corresponding to index. First traj is index = 1 (traj1).
@@ -227,10 +231,22 @@ protected:        // functions:
 
 };
 
-class File_exists_error {
+class File_opening_error {
 };
 
+// class File_exists_error {
+// };
+
 class Group_is_open_error {
+};
+
+class Group_creation_error {
+};
+
+class Group_opening_error {
+};
+
+class Data_write_error {
 };
 
 #endif // HDF5_SUPPORT_HH

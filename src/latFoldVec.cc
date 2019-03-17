@@ -738,7 +738,7 @@ int main(int argc, char** argv) {
 												seqStr.size()/alphElementLength - 1));
 				// seqStr.size()-1 is the size of the move string for the structure
 			}
-			catch (File_exists_error) {
+			catch (File_opening_error) {
 				std::cerr << "Could not create output file at "
 					  << filename << std::endl;
 				return IO_ERROR;

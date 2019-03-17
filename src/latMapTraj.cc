@@ -403,15 +403,26 @@ main( int argc, char** argv )
 		for (auto &name : names)
 			data.insert({name, 0.0});
 
-		HDF5TrajAnalyzer analyzer(trajFilename.c_str(), &names);
-		size_t groupCount = analyzer.get_group_count();
+		std::unique_ptr<HDF5TrajAnalyzer> analyzer;
+		try
+		{
+			analyzer = std::unique_ptr<HDF5TrajAnalyzer>(
+				new HDF5TrajAnalyzer(trajFilename.c_str(), &names));
+		}
+		catch (File_opening_error) {
+			std::cerr << "Failed to open hdf5 file: "
+				  << trajFilename << std::endl;
+			exit(1);
+		}
+
+		size_t groupCount = analyzer->get_group_count();
 
 		// go trajectory by trajectory
 		for (size_t trajNum = 1; trajNum <= groupCount; trajNum++) {
 
-			analyzer.open_trajectory_group(trajNum);
+			analyzer->open_trajectory_group(trajNum);
 
-			while ( analyzer.read_structure_traj(&currMoveStr) >= 0 && !stopFlag ) {
+			while ( analyzer->read_structure_traj(&currMoveStr) >= 0 && !stopFlag ) {
 				moveStrLength = currMoveStr.length();
 				if (moveStrLength > ref.length()) {
 					std::cerr << "Unexpected moveStrLength > ref length\n";
@@ -450,19 +461,19 @@ main( int argc, char** argv )
 												 , sideChain
 												 );
 				evaluateStructure( refPos, currPos, refIntPos, currIntPos, lattice, data);
-				analyzer.write_analysis(data);
+				analyzer->write_analysis(data);
 				
 			}
 
 			if (stopFlag) {
 				// explicitly call destructor because we're going to exit by SIGINT
-				analyzer.~HDF5TrajAnalyzer(); 
+				analyzer.reset(); 
 				sa.sa_handler = SIG_DFL;
 				sigaction(SIGINT, &sa, NULL);
 				raise(SIGINT);
 			}
 			
-			analyzer.close_trajectory_group();
+			analyzer->close_trajectory_group();
 		}
 	}
 	//////////////////////////////////////////////////////////////////////
