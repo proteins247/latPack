@@ -10,6 +10,9 @@ namespace ell
 
     /*! A StateCollector that counts the number of times that
      *! a target structure is added.
+     *!
+     *! The functions in this class help with calculating
+     *! biophysically relevant properties.
      * 
      * @author Victor Zhao
      */
@@ -73,13 +76,17 @@ namespace ell
 	//! access to steps to reach target
 	virtual size_t getStepsToReachTarget() const;
 
+	//! access to the energy of the target conformation
 	virtual double getTargetEnergy() const;
 
-	//! access to target count as fraction of count
+	//! access to target count as fraction of stateCount (pnat)
 	virtual double getTargetCountFraction() const;
 
 	//! access survivalSum as fraction of total
 	virtual double getSurvivalSumFraction() const;
+
+	//! Calculate an extrapolated protein output.
+	virtual double getExtrapolatedOutput() const;
 
     };
 

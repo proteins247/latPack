@@ -136,16 +136,38 @@ namespace ell
 	return targetEnergy;
     }
 
-    // access to target count as fraction
+    // Access to target count as fraction of stateCount
+    //   since the target was reached.
     double
     SC_CountTarget::getTargetCountFraction() const  {
-	return targetCount / (double)stateCount;
+	return targetCount / (double)(totalCount - stepsToReachTarget);
+	// If target not reached, targetCount = stepsToReachTarget = 0
+	// return value is 0.
     }
 
     // access survivalSum as fraction of total
     double
     SC_CountTarget::getSurvivalSumFraction() const  {
 	return survivalSum / (double)stateCount;
+    }
+
+    // Calculate an extrapolated protein output.
+    double
+    SC_CountTarget::getExtrapolatedOutput() const  {
+	if (stepsToReachTarget == 0)
+	    return 0;
+	double output = exp(
+	    -degradationRate
+	    * (stepsToReachTarget - (totalCount - stateCount)));
+	double pnat = getTargetCountFraction();
+	// In order to avoid divide by zero, pnat can't be 1
+	if (pnat == 1)
+	{
+	    pnat = 1 - 1e-10;
+	    // A double has ~15-16 digits of precision
+	}
+	output *= pnat / (degradationRate * (1 - pnat));
+	return output;
     }
 
     // Calculate the probability of surviving till now.
