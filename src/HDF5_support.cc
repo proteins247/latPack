@@ -193,7 +193,8 @@ HDF5TrajWriter::close_trajectory_group(bool successfulRunMinE,
                                        double targetFraction,
                                        double targetEnergy,
 				       size_t stepsToTarget,
-				       double survivalSumFraction)
+				       double survivalSumFraction,
+				       double proteinOutput)
         // Default values of false for both boolean args.
 {
         // Perform final writes to file if the buffers still contain stuff
@@ -235,6 +236,9 @@ HDF5TrajWriter::close_trajectory_group(bool successfulRunMinE,
                 hid_t attribute8 = H5Acreate2(group_ids.back(), "Survival sum fraction",
                                               H5T_NATIVE_DOUBLE, dataspace,
                                               H5P_DEFAULT, H5P_DEFAULT);
+                hid_t attribute9 = H5Acreate2(group_ids.back(), "Protein output",
+                                              H5T_NATIVE_DOUBLE, dataspace,
+                                              H5P_DEFAULT, H5P_DEFAULT);
 
                 // write attributes
                 unsigned truefalse = successfulRunMinE;
@@ -248,6 +252,7 @@ HDF5TrajWriter::close_trajectory_group(bool successfulRunMinE,
                 status = H5Awrite(attribute6, H5T_NATIVE_DOUBLE, &targetEnergy);
                 status = H5Awrite(attribute7, H5T_NATIVE_ULLONG, &stepsToTarget);
                 status = H5Awrite(attribute8, H5T_NATIVE_DOUBLE, &survivalSumFraction);
+                status = H5Awrite(attribute9, H5T_NATIVE_DOUBLE, &proteinOutput);
 		
                 // close resources
                 status = H5Aclose(attribute1);
@@ -258,6 +263,7 @@ HDF5TrajWriter::close_trajectory_group(bool successfulRunMinE,
                 status = H5Aclose(attribute6);
                 status = H5Aclose(attribute7);
                 status = H5Aclose(attribute8);
+                status = H5Aclose(attribute9);
                 status = H5Sclose(dataspace);
         } // end sim success attributes writing
 
