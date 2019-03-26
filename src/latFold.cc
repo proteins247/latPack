@@ -950,7 +950,8 @@ int main(int argc, char** argv) {
 				sc->getTargetCountFraction(),
 				sc->getTargetEnergy(),
 				sc->getStepsToReachTarget(),
-				sc->getSurvivalSumFraction());
+				sc->getSurvivalSumFraction(),
+				sc->getExtrapolatedOutput());
 		
 		delete sc;
 	}

@@ -411,6 +411,7 @@ int main(int argc, char** argv) {
 	double targetConfEnergy;
 	size_t stepsToReachTarget;
 	double survivalSumFraction;
+	double extrapolatedOutput;
 	bool ribosome;
 	bool ribosomeRelease;
 	bool timing;
@@ -1323,6 +1324,7 @@ int main(int argc, char** argv) {
 			targetConfEnergy = sc->getTargetEnergy();
 			stepsToReachTarget = sc->getStepsToReachTarget();
 			survivalSumFraction = sc->getSurvivalSumFraction();
+			extrapolatedOutput = sc->getExtrapolatedOutput();
 
 			delete sc;
 			delete s;  // who is deleting this? --> get segfault for explicit deletion
@@ -1336,7 +1338,8 @@ int main(int argc, char** argv) {
 			hdf5writer->close_trajectory_group(
 				successfulRunMinE, successfulRunFinal,
 				targetCountFraction, targetConfEnergy,
-				stepsToReachTarget, survivalSumFraction);
+				stepsToReachTarget, survivalSumFraction,
+				extrapolatedOutput);
 
 		  // check if last run was successful or aborted
 		if (runWasAborted) {
