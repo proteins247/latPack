@@ -102,7 +102,8 @@ namespace ell
 		// Record first passage time if this is first time at target
 		if (stepsToReachTarget == 0)
 		{
-		    stepsToReachTarget = totalCount;
+		    stepsToReachTarget = totalCount - 1;
+		    // We subtract 1 because totalCount - 1 is the step number
 		}
 
 		if (trackSurvival)
