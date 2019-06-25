@@ -397,28 +397,45 @@ namespace biu
 		return ribosomeBound;
 	}	
 
-		//! Tests the ribosome criterion
-	        //! The ribosome is an yz-plane neighboring the last residue.
-		//! If no residues in the structure have a larger x-coordinate than
-	        //! that of the last residue in the structure, then the structure
-	        //! is ribosome valid
+		//! Tests the ribosome criterion (git branch
+	        //! ribosome_variant) The ribosome in this version is
+	        //! a theoretical straight chain of beads extending
+	        //! from the C-terminus in the +x direction. For
+	        //! structure to be ribosome valid, there cannot be a
+	        //! protein residue in this path.
 	bool	
 	LatticeProtein_Ipnt::isRibosomeValid() const {
 		assertbiu(points != NULL, "no structure available");
+
 		// do the check
-		// old version had orientation-free plane. now the plane is fixed
-		// All points must have an x-coordinate less than or equal to that of the last point
-		IntPoint anchorPoint = points->back();
-		int max_x = anchorPoint.getX();
-		if (points->size() < 2)
-			return true;
-		for (biu::IPointVec::iterator it = points->begin(); it != points->end()-1; ++it) {
-			max_x = std::max(it->getX(), max_x);
+		IntPoint ctermPoint = points->back();
+		int cterm_x = ctermPoint.getX();
+		int cterm_y = ctermPoint.getY();
+		int cterm_z = ctermPoint.getZ();
+		for (auto it = points->begin(); it != points->end() - 1; ++it) {
+		    int point_x = it->getX();
+		    // Only need to check if the point has greater x
+		    // than that of C-term
+		    if (point_x > cterm_x) {
+			int point_y = it->getY();
+			int point_z = it->getZ();
+			if (point_y == cterm_y && point_z == cterm_z)
+			    return false;
+		    }
 		}
-		return max_x <= anchorPoint.getX();
-		// return  max_x <= anchorPoint.getX() || min_x >= anchorPoint.getX() ||
-		// 	max_y <= anchorPoint.getY() || min_y >= anchorPoint.getY() ||
-		// 	max_z <= anchorPoint.getZ() || min_z >= anchorPoint.getZ();
+		return true;
+
+		// // do the check
+		// // old version had orientation-free plane. now the plane is fixed
+		// // All points must have an x-coordinate less than or equal to that of the last point
+		// IntPoint anchorPoint = points->back();
+		// int max_x = anchorPoint.getX();
+		// if (points->size() < 2)
+		// 	return true;
+		// for (biu::IPointVec::iterator it = points->begin(); it != points->end()-1; ++it) {
+		// 	max_x = std::max(it->getX(), max_x);
+		// }
+		// return max_x <= anchorPoint.getX();
 	}	
 	
 	
