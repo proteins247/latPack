@@ -1086,6 +1086,10 @@ int main(int argc, char** argv) {
 	
 			///////////////////  ELONGATE CHAIN  ///////////////////////////
 
+			// In this version ribosome_variant, we only
+			// extend in the direction of the ribosome (+x
+			// direction)
+
 			if (curLength < seqStr.size() / alphElementLength)
 			{
 				  // the set of all valid elongations including Boltzmann weight
@@ -1111,9 +1115,8 @@ int main(int argc, char** argv) {
 					bool isSelfavoiding = true;
 					double energyGain = 0.0;
 
-					if (ribosome && (actNeigh->getX() < 0)) {
-						// Ribosome is a plane parallel to yz axes
-						// Disallow extension in -x.
+					if (ribosome && (actNeigh->getX() < 0 || actNeigh->getY() != 0 || actNeigh->getZ() != 0)) {
+						// Only allow extension in +x
 						continue;
 					}
 				
