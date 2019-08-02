@@ -100,7 +100,7 @@ namespace ell
 		}
 
 		// Record first passage time if this is first time at target
-		if (stepsToReachTarget == 0)
+		if (targetCount == 1)
 		{
 		    stepsToReachTarget = totalCount - 1;
 		    // We subtract 1 because totalCount - 1 is the step number
