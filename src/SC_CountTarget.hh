@@ -28,12 +28,11 @@ namespace ell
 	//! How many times the target has been encountered.
 	size_t targetCount;
 
-	//! First passage time to target
+	//! First passage time to target (based on totalCount)
 	size_t stepsToReachTarget = 0;
 
 	//! Energy of target conformation
 	double targetEnergy;
-	double targetEnergyFound = false;
 
 	// The following variables have been added to track protein degradation
 	bool trackSurvival = false;

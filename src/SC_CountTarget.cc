@@ -94,16 +94,15 @@ namespace ell
 	    {
 		++targetCount;
 
-		if (!targetEnergyFound)
-		{
-		    targetEnergy = s.getEnergy();
-		}
 
 		// Record first passage time if this is first time at target
 		if (targetCount == 1)
 		{
 		    stepsToReachTarget = totalCount - 1;
 		    // We subtract 1 because totalCount - 1 is the step number
+
+		    // Record energy too
+		    targetEnergy = s.getEnergy();
 		}
 
 		if (trackSurvival)
@@ -125,7 +124,7 @@ namespace ell
 	return targetCount;
     }
 
-    // access to steps to reach target count
+    // access to steps to reach target
     size_t
     SC_CountTarget::getStepsToReachTarget() const {
 	return stepsToReachTarget;
@@ -155,7 +154,7 @@ namespace ell
     // Calculate an extrapolated protein output.
     double
     SC_CountTarget::getExtrapolatedOutput() const  {
-	if (stepsToReachTarget == 0)
+	if (targetCount == 0)
 	    return 0;
 	double output = exp(
 	    -degradationRate
