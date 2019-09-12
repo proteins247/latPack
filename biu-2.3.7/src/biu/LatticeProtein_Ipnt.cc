@@ -414,11 +414,11 @@ namespace biu
 		int cterm_z = ctermPoint.getZ();
 		for (auto it = points->begin(); it != points->end() - 1; ++it) {
 		    int point_x = it->getX();
-		    // Only need to check if the point has greater x
-		    // than that of C-term
+		    // If the point has greater x than that of C-term...
 		    if (point_x > cterm_x) {
 			int point_y = it->getY();
 			int point_z = it->getZ();
+			// Then check if it's in the way of "nascent chain"
 			if (point_y == cterm_y && point_z == cterm_z)
 			    return false;
 		    }
