@@ -463,6 +463,7 @@ namespace biu
 
 		if ( currLen != ref.size() ) {
 			currLen = ref.size();
+			nativeContactsSet.clear();
 			// rebuild / add to nativeContactsSet
 			for (size_t i=0; i<currLen-3; i++) {
 				for (size_t j=i+3; j<currLen; j++) {
