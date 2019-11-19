@@ -398,11 +398,12 @@ namespace biu
 	}	
 
 		//! Tests the ribosome criterion (git branch
-	        //! ribosome_variant) The ribosome in this version is
+	        //! ribosome_variant2) The ribosome in this version is
 	        //! a theoretical straight chain of beads extending
-	        //! from the C-terminus in the +x direction. For
-	        //! structure to be ribosome valid, there cannot be a
-	        //! protein residue in this path.
+	        //! from the C-terminus. For structure to be ribosome
+	        //! valid, there cannot be a protein residue in this
+	        //! path. The path can be along any axis since the
+	        //! pull moveset does not have global rotations.
 	bool	
 	LatticeProtein_Ipnt::isRibosomeValid() const {
 		assertbiu(points != NULL, "no structure available");
@@ -412,18 +413,43 @@ namespace biu
 		int cterm_x = ctermPoint.getX();
 		int cterm_y = ctermPoint.getY();
 		int cterm_z = ctermPoint.getZ();
+		bool plus_x = true;
+		bool plus_y = true;
+		bool plus_z = true;
+		bool minus_x = true;
+		bool minus_y = true;
+		bool minus_z = true;
 		for (auto it = points->begin(); it != points->end() - 1; ++it) {
 		    int point_x = it->getX();
-		    // If the point has greater x than that of C-term...
-		    if (point_x > cterm_x) {
-			int point_y = it->getY();
-			int point_z = it->getZ();
-			// Then check if it's in the way of "nascent chain"
-			if (point_y == cterm_y && point_z == cterm_z)
-			    return false;
+		    int point_y = it->getY();
+		    int point_z = it->getZ();
+
+		    // If colinear with cterm along an axis
+		    //   is the point greater or less than the value of the 3rd coordinate?
+
+		    if ((plus_z || minus_z) && point_x == cterm_x && point_y == cterm_y)
+		    {
+			if (point_z > cterm_z)
+			    plus_z = false;
+			else if (point_z < cterm_z)
+			    minus_z = false;
+		    }
+		    else if ((plus_x || minus_x) && point_z == cterm_z && point_y == cterm_y)
+		    {
+			if (point_x > cterm_x)
+			    plus_x = false;
+			else if (point_x < cterm_x)
+			    minus_x = false;
+		    }
+		    else if ((plus_y || minus_y) && point_z == cterm_z && point_x == cterm_x)
+		    {
+			if (point_y > cterm_y)
+			    plus_y = false;
+			else if (point_y < cterm_y)
+			    minus_y = false;
 		    }
 		}
-		return true;
+		return plus_x || plus_y || plus_z || minus_x || minus_y || minus_z;
 
 		// // do the check
 		// // old version had orientation-free plane. now the plane is fixed

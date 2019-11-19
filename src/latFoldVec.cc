@@ -1115,11 +1115,11 @@ int main(int argc, char** argv) {
 					bool isSelfavoiding = true;
 					double energyGain = 0.0;
 
-					if (ribosome && (actNeigh->getX() < 0 || actNeigh->getY() != 0 || actNeigh->getZ() != 0)) {
-						// Only allow extension in +x
-						continue;
-					}
-				
+					// if (ribosome && (actNeigh->getX() < 0 || actNeigh->getY() != 0 || actNeigh->getZ() != 0)) {
+					// 	// Only allow extension in +x
+					// 	continue;
+					// }
+
 					  // get correct last position according to current neighbor vector
 					actStruct[curLength] = actStruct[curLength-1] + *actNeigh;
 					
@@ -1136,6 +1136,57 @@ int main(int argc, char** argv) {
 															actStruct[i],
 															actStruct[curLength]);
 					}
+
+					// Check whether the candidate structure is ribosome valid
+					// This not DRY. Code copied from LatticeProtein_Ipnt
+					if (ribosome)
+					{
+					    biu::IntPoint ctermPoint = actStruct.back();
+					    int cterm_x = ctermPoint.getX();
+					    int cterm_y = ctermPoint.getY();
+					    int cterm_z = ctermPoint.getZ();
+					    bool plus_x = true;
+					    bool plus_y = true;
+					    bool plus_z = true;
+					    bool minus_x = true;
+					    bool minus_y = true;
+					    bool minus_z = true;
+					    for (auto it = actStruct.begin(); it != actStruct.end() - 1; ++it) {
+						int point_x = it->getX();
+						int point_y = it->getY();
+						int point_z = it->getZ();
+
+						// If colinear with cterm along an axis
+						//   is the point greater or less than the value of the 3rd coordinate?
+
+						if (point_x == cterm_x && point_y == cterm_y)
+						{
+						    if (point_z > cterm_z)
+							plus_z = false;
+						    else if (point_z < cterm_z)
+							minus_z = false;
+						}
+						else if (point_z == cterm_z && point_y == cterm_y)
+						{
+						    if (point_x > cterm_x)
+							plus_x = false;
+						    else if (point_x < cterm_x)
+							minus_x = false;
+						}
+						else if (point_z == cterm_z && point_x == cterm_x)
+						{
+						    if (point_y > cterm_y)
+							plus_y = false;
+						    else if (point_y < cterm_y)
+							minus_y = false;
+						}
+					    }
+					    if (!(plus_x || plus_y || plus_z || minus_x || minus_y || minus_z))
+					    {
+						continue;
+					    }
+					}
+
 					  // store if necessary
 					if (isSelfavoiding 
 						&& (actStruct.size() == seqStr.size() || hasFreeNeighbor(actStruct,curLength,*lattice))) 
